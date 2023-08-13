@@ -1,0 +1,6 @@
+.page__container {
+  min-height: 100vh;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto auto 1fr;
+}

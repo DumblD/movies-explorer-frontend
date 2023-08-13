@@ -1,0 +1,17 @@
+.search-form__input {
+  color: #a0a0a0;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-size: 28px;
+  font-weight: 500;
+  outline: none;
+}
+
+@media screen and (max-width: 620px) {
+  .search-form__input {
+    font-size: 18px;
+  }
+}

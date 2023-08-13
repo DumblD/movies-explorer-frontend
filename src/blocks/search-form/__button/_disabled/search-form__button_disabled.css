@@ -1,0 +1,8 @@
+.search-form__button_disabled {
+  background-image: url(./../../../../images/search-form-search-button-disabled-icon.svg);
+  cursor: default;
+}
+
+.search-form__button_disabled:hover {
+  opacity: 1;
+}

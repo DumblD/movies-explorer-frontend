@@ -1,0 +1,11 @@
+.about-me__photo-img {
+  max-width: 100%;
+  aspect-ratio: .83;
+  width: 100%;
+}
+
+@media screen and (max-width: 520px) {
+  .about-me__photo-img {
+    width: 292px;
+  }
+}

@@ -1,0 +1,41 @@
+.portfolio__link {
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 50px;
+  letter-spacing: -1.2px;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  transition: opacity .4s;
+}
+
+.portfolio__link:hover {
+  opacity: .7;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .portfolio__link {
+    font-size: 28px;
+    letter-spacing: -1.12px;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 768px) {
+  .portfolio__link {
+    font-size: 22px;
+    line-height: 28px;
+    letter-spacing: -1px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .portfolio__link {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.72px;
+  }
+}

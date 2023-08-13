@@ -1,0 +1,16 @@
+.profile__input {
+  padding: 1px;
+  box-sizing: border-box;
+  border: 0;
+  text-align: right;
+  max-width: 122px;
+  width: 100%;
+  min-height: 14px;
+  font-size: 11px;
+  font-weight: 400;
+  justify-self: flex-end;
+}
+
+.profile__input:focus {
+  outline: 1px solid #2be080;
+}

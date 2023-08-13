@@ -1,0 +1,17 @@
+.about-project__description-item {
+  display: grid;
+  grid-template-rows: auto;
+  row-gap: 26px;
+}
+
+@media screen and (min-width: 520px) and (max-width: 768px) {
+  .about-project__description-item {
+    row-gap: 22px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .about-project__description-item {
+    row-gap: 16px;
+  }
+}

@@ -1,0 +1,8 @@
+.about-project__duration-time-item {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  min-height: 36px;
+  font-family: inherit;
+}

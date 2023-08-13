@@ -1,0 +1,22 @@
+.load-more__button {
+  width: 320px;
+  height: 36px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  border: 1px solid #e8e8e8;
+  cursor: pointer;
+  transition: opacity .4s;
+  padding: 0;
+  margin: 0;
+}
+
+.load-more__button:hover {
+  opacity: .8;
+}
+
+@media screen and (max-width: 420px) {
+  .load-more__button {
+    width: 240px;
+  }
+}

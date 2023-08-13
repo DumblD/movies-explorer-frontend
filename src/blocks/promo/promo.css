@@ -1,0 +1,24 @@
+.promo {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+  min-height: 524px;
+  background-color: #465dff;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  position: relative;
+  font-family: 'Inter', 'Arial', sans-serif;
+}
+
+@media screen and (min-width: 520px) and (max-width: 768px) {
+  .promo {
+    min-height: 680px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .promo {
+    min-height: 570px;
+  }
+}

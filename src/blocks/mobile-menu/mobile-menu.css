@@ -1,0 +1,23 @@
+.mobile-menu {
+  max-width: 520px;
+  width: 100%;
+  background-color: #fff;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: 159px 1fr;
+  justify-items: center;
+  text-align: center;
+  font-family: 'Inter', 'Arial', sans-serif;
+  color: #000;
+  z-index: 16;
+  padding-bottom: 90px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 620px) {
+  .mobile-menu {
+    max-width: 620px;
+    grid-template-rows: 144px 1fr;
+    padding-bottom: 46px;
+  }
+}

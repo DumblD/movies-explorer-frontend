@@ -1,0 +1,21 @@
+.movies-search__short-films {
+  display: grid;
+  grid-template-columns: max-content;
+  border-top: 1px solid #e8e8e8;
+  padding-top: 33px;
+  max-width: 1140px;
+}
+
+@media screen and (min-width: 620px) and (max-width: 768px) {
+  .movies-search__short-films {
+    justify-content: flex-end;
+    padding-top: 30px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .movies-search__short-films {
+    justify-content: center;
+    padding-top: 41px;
+  }
+}

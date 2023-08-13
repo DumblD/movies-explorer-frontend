@@ -1,0 +1,18 @@
+.header-unauthorized__register-button {
+  border: 0;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity .4s;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: #fff;
+  justify-self: flex-end;
+}
+
+.header-unauthorized__register-button:hover {
+  opacity: .7;
+}

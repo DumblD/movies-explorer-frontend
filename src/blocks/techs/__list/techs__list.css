@@ -1,0 +1,52 @@
+.techs__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  min-height: 57px;
+  grid-template-columns: repeat(7, 84px);
+  column-gap: 10px;
+  justify-self: center;
+}
+
+@media screen and (min-width: 560px) and (max-width: 768px) {
+  .techs__list {
+    grid-template-areas:
+      '. git . css .'
+      'html . js . react'
+      '. express . mongo .';
+    grid-template-rows: repeat(3, 57px);
+    grid-template-columns: repeat(5, 84px);
+    justify-content: center;
+    row-gap: 10px;
+  }
+}
+
+@media screen and (min-width: 372px) and (max-width: 560px) {
+  .techs__list {
+    grid-template-areas:
+      '. html .'
+      'css . git'
+      '. js .'
+      'mongo . express'
+      '. react .';
+    grid-template-rows: repeat(5, 57px);
+    grid-template-columns: repeat(3, 84px);
+    justify-content: center;
+    row-gap: 10px;
+  }
+}
+
+@media screen and (max-width: 372px) {
+  .techs__list {
+    grid-template-areas:
+      'html css'
+      'js react'
+      'git express'
+      'mongo .';
+    grid-template-rows: repeat(4, 57px);
+    grid-template-columns: repeat(2, 84px);
+    justify-content: center;
+    row-gap: 10px;
+  }
+}

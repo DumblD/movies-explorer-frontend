@@ -1,0 +1,11 @@
+.movies-search__filter-checkbox-label {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+@media screen and (max-width: 620px) {
+  .movies-search__filter-checkbox-label {
+    font-size: 11px;
+  }
+}

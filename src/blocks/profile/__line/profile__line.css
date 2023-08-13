@@ -1,0 +1,8 @@
+.profile__line {
+  height: 1px;
+  background-color: #e8e8e8;
+  width: 100%;
+  grid-column: 1/3;
+  grid-row: 3/4;
+  margin: 16px 0 17px;
+}

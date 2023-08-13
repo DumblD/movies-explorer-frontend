@@ -1,0 +1,24 @@
+.portfolio__link-icon {
+  width: 29px;
+  height: 60px;
+  justify-self: flex-end;
+  background-image: url(./../../../images/portfolio-link-icon.svg);
+  background-size: 29px 60px;
+  background-position: 0 -4px;
+  background-repeat: no-repeat;
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
+  .portfolio__link-icon {
+    width: 27px;
+    background-size: 27px 60px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .portfolio__link-icon {
+    width: 18px;
+    height: 28px;
+    background-size: 18px 28px;
+  }
+}

@@ -1,0 +1,32 @@
+.about-me__name {
+  margin: 0;
+  font-family: inherit;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  letter-spacing: -2px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .about-me__name {
+    font-size: 40px;
+    line-height: 40px;
+    letter-spacing: -1.6px;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 768px) {
+  .about-me__name {
+    font-size: 34px;
+    line-height: 34px;
+    letter-spacing: -1.4px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .about-me__name {
+    font-size: 30px;
+    line-height: 30px;
+    letter-spacing: -1.2px;
+  }
+}

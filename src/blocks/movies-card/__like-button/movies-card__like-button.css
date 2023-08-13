@@ -1,0 +1,22 @@
+.movies-card__like-button {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 36px;
+  background: #fff;
+  background-image: url(./../../../images/card-like-button-icon.svg);
+  background-size: 30px 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: opacity .4s;
+  padding: 0;
+  margin: 0;
+  grid-column: 2/3;
+  justify-self: flex-end;
+  margin-right: 14px;
+}
+
+.movies-card__like-button:hover {
+  opacity: .8;
+}
