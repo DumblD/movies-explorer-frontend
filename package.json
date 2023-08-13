@@ -1,6 +1,6 @@
 {
-  "name": "react-mesto-auth",
-  "homepage": "https://mesto-project.nomoreparties.sbs",
+  "name": "movies-explorer-frontend",
+  "homepage": "https://movies-search.nomoredomains.xyz",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
