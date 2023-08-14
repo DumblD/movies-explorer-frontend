@@ -62,6 +62,27 @@ export const moviesCardsData = [
     like: true,
     _id: 9,
   },
+  {
+    name: 'Книготорговцы',
+    link: 'https://i.ibb.co/K0hhTqJ/pic-COLOR-pic6.png',
+    duration: 85,
+    like: false,
+    _id: 10,
+  },
+  {
+    name: 'Книготорговцы',
+    link: 'https://i.ibb.co/K0hhTqJ/pic-COLOR-pic6.png',
+    duration: 85,
+    like: false,
+    _id: 11,
+  },
+  {
+    name: 'Книготорговцы',
+    link: 'https://i.ibb.co/K0hhTqJ/pic-COLOR-pic6.png',
+    duration: 85,
+    like: false,
+    _id: 12,
+  },
 ];
 
 /* export let savedMoviesCardsData = [

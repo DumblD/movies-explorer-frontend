@@ -22,7 +22,7 @@ function Movies({
   useEffect(() => {
     handleRequest(getMoviesCards);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cards]);
 
   return (
     <div className="page__container">
