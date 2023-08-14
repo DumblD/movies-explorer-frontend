@@ -13,6 +13,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [selectedCardToDelete, setSelectedCardToDelete] = useState({});
   const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isLoadMore, setIsLoadMore] = useState(false);
   const [isPreloaderActive, setIsPreloaderActive] = useState(false);
   const [savedMoviesCards, setSavedMoviesCards] = useState([]);
   const [moviesCards, setMoviesCards] = useState([]);
@@ -129,6 +131,7 @@ function App() {
             moviesCards={moviesCards}
             handleShortSavedMovies={handleShortSavedMovies}
             isShortFilms={isShortSavedMovies}
+            isLoadMore={isLoadMore}
           />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/signin" element={<Login />} />

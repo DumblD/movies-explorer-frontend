@@ -1,0 +1,4 @@
+.load-more__button_disabled {
+  height: 10px;
+  visibility: hidden;
+}

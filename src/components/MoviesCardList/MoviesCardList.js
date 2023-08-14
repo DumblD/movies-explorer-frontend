@@ -9,10 +9,13 @@ function MoviesCardList({
   onCardDelete,
   cardClassName,
   isMoviesPage,
+  additionalStyles,
 }) {
 
+  const extraStyles = typeof additionalStyles === "undefined" ? false : additionalStyles;
+
   return (
-    <section className="movies-cards">
+    <section className={`movies-cards ${additionalStyles && extraStyles}`}>
       {isPreloaderActive && <Preloader />}
       <ul className={`movies-cards__list ${isPreloaderActive && 'movies-cards__list_invisible'}`}>
         {cards.map((cardElement) => (

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Header from './../Header/Header';
 import SearchForm from './../SearchForm/SearchForm';
 import MoviesCardList from './../MoviesCardList/MoviesCardList';
+import LoadMoreButton from './../LoadMoreButton/LoadMoreButton';
 import Footer from './../Footer/Footer';
 
 function SavedMovies({
@@ -14,10 +15,11 @@ function SavedMovies({
   moviesCards,
   handleShortSavedMovies,
   isShortFilms,
+  isLoadMore,
 }) {
 
   const isMoviesPage = false;
-
+  const additionalMoviesCardsStyles = 'movies-cards_padding_changed';
   useEffect(() => {
     handleRequest(getSavedMoviesCards);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,7 +30,8 @@ function SavedMovies({
       <Header />
       <main>
         <SearchForm handleRequest={handleRequest} handleShortFilmsCheck={handleShortSavedMovies} isShortFilms={isShortFilms} onSearch={onSearch} />
-        <MoviesCardList isPreloaderActive={isPreloaderActive} cards={savedMoviesCards} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} />
+        <MoviesCardList isPreloaderActive={isPreloaderActive} cards={savedMoviesCards} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} additionalStyles={additionalMoviesCardsStyles} />
+        <LoadMoreButton isActive={isLoadMore} />
       </main>
       <Footer />
     </div>
