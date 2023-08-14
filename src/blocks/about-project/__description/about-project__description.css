@@ -5,7 +5,7 @@
   justify-content: space-between;
   column-gap: 40px;
   font-family: 'Inter', 'Arial', sans-serif;
-  padding: 70px 0 110px;
+  padding: 73px 0 110px;
 }
 
 @media screen and (min-width: 620px) and (max-width: 768px) {

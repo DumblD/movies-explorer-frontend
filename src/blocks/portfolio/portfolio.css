@@ -5,7 +5,7 @@
   font-family: 'Inter', 'Arial', sans-serif;
   display: grid;
   grid-template-rows: auto;
-  padding: 100px 0 125px;
+  padding-bottom: 105px;
 }
 
 @media screen and (min-width: 460px) and (max-width: 1280px) {
@@ -22,12 +22,12 @@
 
 @media screen and (max-width: 768px) {
   .portfolio {
-    padding: 90px 0 90px;
+    padding-bottom: 90px;
   }
 }
 
 @media screen and (max-width: 520px) {
   .portfolio {
-    padding: 70px 0 70px;
+    padding-bottom: 70px;
   }
 }
