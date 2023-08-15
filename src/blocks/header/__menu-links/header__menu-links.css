@@ -1,0 +1,17 @@
+.header__menu-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  padding-left: 44px;
+  grid-template-columns: repeat(2, max-content) 1fr;
+  column-gap: 16px;
+  align-items: center;
+  font-family: inherit;
+}
+
+@media screen and (max-width: 768px) {
+  .header__menu-links {
+    grid-template-columns: 1fr;
+  }
+}

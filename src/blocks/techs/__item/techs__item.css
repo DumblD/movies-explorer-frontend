@@ -1,0 +1,18 @@
+.techs__item {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  background-color: #e8e8e8;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.56px;
+}
+
+@media screen and (max-width:768px) {
+  .techs__item {
+    letter-spacing: -0.48px;
+  }
+}

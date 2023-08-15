@@ -1,0 +1,9 @@
+.login-register__button_type_login {
+  margin-top: 187px;
+}
+
+@media screen and (max-width: 620px) {
+  .login-register__button_type_login {
+    margin-top: 277px;
+  }
+}

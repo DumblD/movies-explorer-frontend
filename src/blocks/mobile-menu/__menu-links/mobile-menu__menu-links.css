@@ -1,0 +1,12 @@
+.mobile-menu__menu-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, auto) 1fr;
+  row-gap: 28px;
+  justify-items: center;
+  align-items: flex-end;
+  font-family: inherit;
+}

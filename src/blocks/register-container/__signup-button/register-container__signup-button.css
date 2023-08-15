@@ -1,0 +1,21 @@
+.register-container__signup-button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: #FF6838;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: opacity .4s;
+}
+
+.register-container__signup-button:hover {
+  opacity: .7;
+}
+
+@media screen and (max-width: 620px) {
+  .register-container__signup-button {
+    font-size: 12px;
+  }
+}

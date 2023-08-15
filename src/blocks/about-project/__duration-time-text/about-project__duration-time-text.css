@@ -1,0 +1,11 @@
+.about-project__duration-time-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 620px) {
+  .about-project__duration-time-text {
+    font-size: 11px;
+  }
+}
