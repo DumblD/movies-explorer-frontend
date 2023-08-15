@@ -29,11 +29,12 @@ function MoviesCard({
   }
 
   const movieDuration = minToHourMin(card.duration);
+  const imgCardLink = card.link;
   const isLiked = card.like;
 
   return (
     <li className={`card ${typeof cardClassName === "undefined" ? '' : cardClassName}`}>
-      <div className="card__img" style={{ backgroundImage: `url('${card.link}')` }} />
+      <img className="card__img" src={imgCardLink} alt={card.name} />
       <h3 className="card__title">{card.name}</h3>
       {isMoviesPage ? (
         <button aria-label="поставить лайк" type="button" onClick={handleCardLike} className={`movies-card__like-button ${isLiked && 'movies-card__like-button_active'}`} />
