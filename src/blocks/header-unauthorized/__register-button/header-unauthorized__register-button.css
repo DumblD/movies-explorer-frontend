@@ -16,3 +16,9 @@
 .header-unauthorized__register-button:hover {
   opacity: .7;
 }
+
+@media screen and (max-width: 520px) {
+  .header-unauthorized__register-button {
+    font-size: 10px;
+  }
+}

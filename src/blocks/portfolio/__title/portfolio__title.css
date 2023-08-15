@@ -8,9 +8,15 @@
   padding-bottom: 23px;
 }
 
+@media screen and (min-width: 748px) and (max-width: 1024px) {
+  .portfolio__title {
+    padding-bottom: 33px;
+  }
+}
+
 @media screen and (max-width: 520px) {
   .portfolio__title {
     font-size: 14px;
-    padding-bottom: 20px;
+    padding-bottom: 24px;
   }
 }

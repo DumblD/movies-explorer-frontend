@@ -10,7 +10,13 @@
   background-repeat: no-repeat;
 }
 
-@media screen and (min-width: 520px) and (max-width: 768px) {
+@media screen and (min-width: 748px) and (max-width: 1024px) {
+  .promo__landing-logo {
+    transform: translate(-50%, -53%);
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 748px) {
   .promo__landing-logo {
     width: 280px;
     background-size: 280px 280px;

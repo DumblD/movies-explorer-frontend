@@ -22,12 +22,12 @@
 
 @media screen and (max-width: 768px) {
   .portfolio {
-    padding-bottom: 90px;
+    padding-bottom: 75px;
   }
 }
 
 @media screen and (max-width: 520px) {
   .portfolio {
-    padding-bottom: 70px;
+    padding-bottom: 48px;
   }
 }

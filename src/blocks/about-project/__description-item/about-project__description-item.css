@@ -4,7 +4,15 @@
   row-gap: 26px;
 }
 
-@media screen and (min-width: 520px) and (max-width: 768px) {
+@media screen and (min-width: 748px) and (max-width: 1024px) {
+  .about-project__description-item {
+    row-gap: 24px;
+    max-width: 319px;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 748px) {
   .about-project__description-item {
     row-gap: 22px;
   }

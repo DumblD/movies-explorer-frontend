@@ -5,11 +5,13 @@
   display: grid;
   min-height: 57px;
   grid-template-columns: repeat(7, 84px);
+  grid-template-areas:
+      'html css js react git express mongo';
   column-gap: 10px;
   justify-self: center;
 }
 
-@media screen and (min-width: 560px) and (max-width: 768px) {
+@media screen and (min-width: 560px) and (max-width: 748px) {
   .techs__list {
     grid-template-areas:
       '. git . css .'

@@ -9,6 +9,12 @@
   padding-top: 74px;
 }
 
+@media screen and (min-width: 620px) and (max-width: 1024px) {
+  .profile__form {
+    padding-top: 236px;
+  }
+}
+
 @media screen and (max-width: 620px) {
   .profile__form {
     max-width: 260px;

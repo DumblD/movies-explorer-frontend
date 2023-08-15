@@ -1,17 +1,15 @@
 .about-me__content {
   display: grid;
-  grid-template-columns: minmax(364px, 600px) minmax(255px, 1fr);
+  grid-template-columns: minmax(344px, 600px) minmax(255px, 1fr);
   column-gap: 49px;
   grid-template-rows: 1fr;
   padding-top: 66px;
 }
 
-
-
-@media screen and (min-width: 520px) and (max-width: 768px) {
+@media screen and (min-width: 520px) and (max-width: 748px) {
   .about-me__content {
     min-height: 306px;
-    grid-template-columns: minmax(259px, 364px) minmax(145px, 255px);
+    grid-template-columns: minmax(259px, 344px) minmax(145px, 255px);
     column-gap: 25px;
   }
 }

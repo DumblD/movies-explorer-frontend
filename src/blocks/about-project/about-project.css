@@ -22,12 +22,12 @@
 
 @media screen and (max-width: 768px) {
   .about-project {
-    padding: 90px 0 90px;
+    padding: 92px 0 90px;
   }
 }
 
 @media screen and (max-width: 520px) {
   .about-project {
-    padding: 70px 0 70px;
+    padding: 72px 0 70px;
   }
 }

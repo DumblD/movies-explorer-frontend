@@ -10,6 +10,7 @@ function FilterCheckbox({
 }) {
 
   return (
+    <>
     <label htmlFor="filterCheckbox" className={`${labelClassName} filter-checkbox`}>
       <input
         type="checkbox"
@@ -19,8 +20,9 @@ function FilterCheckbox({
         onChange={onChange}
       />
       <span className={`${inputClassName} filter-checkbox__pseudo-item`}></span>
-      <span className={labelTextClassName}>{labelName}</span>
     </label>
+    <span className={labelTextClassName}>{labelName}</span>
+    </>
   );
 }
 

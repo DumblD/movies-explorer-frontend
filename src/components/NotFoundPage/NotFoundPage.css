@@ -6,6 +6,18 @@
   padding-top: 250px;
 }
 
+@media screen and (min-width: 620px) and (max-width: 1024px) {
+  .not-found-page__header {
+    padding-top: 412px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .not-found-page__header {
+    padding-top: 333px;
+  }
+}
+
 .not-found-page__title {
   font-family: 'Inter', 'Arial', sans-serif;
   font-size: 140px;

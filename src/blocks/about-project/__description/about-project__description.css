@@ -12,7 +12,7 @@
   .about-project__description {
     column-gap: 30px;
     grid-template-columns: repeat(2, minmax(245px, 319px));
-    padding-bottom: 93px;
+    padding: 70px 0 100px;
   }
 }
 
@@ -22,7 +22,7 @@
     grid-template-columns: 1fr;
     grid-template-rows: max-content;
     row-gap: 56px;
-    padding: 60px 0;
+    padding: 63px 0 61px;
   }
 }
 

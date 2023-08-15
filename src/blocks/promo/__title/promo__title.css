@@ -13,7 +13,13 @@
   top: -20px;
 }
 
-@media screen and (min-width: 520px) and (max-width: 768px) {
+@media screen and (min-width: 748px) and (max-width: 1024px) {
+  .promo__title {
+    top: -9px;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 748px) {
   .promo__title {
     max-width: 520px;
     font-size: 34px;

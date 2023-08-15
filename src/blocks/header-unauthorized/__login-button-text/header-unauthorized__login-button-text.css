@@ -5,3 +5,9 @@
   font-weight: 500;
   line-height: 16px;
 }
+
+@media screen and (max-width: 520px) {
+  .header-unauthorized__login-button-text {
+    font-size: 10px;
+  }
+}

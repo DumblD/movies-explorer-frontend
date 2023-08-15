@@ -8,21 +8,9 @@
   align-content: center;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   .about-project__duration {
-    grid-template-columns: 220px 1fr;
-  }
-}
-
-@media screen and (min-width: 640px) and (max-width: 768px) {
-  .about-project__duration {
-    grid-template-columns: 180px 1fr;
-  }
-}
-
-@media screen and (min-width: 550px) and (max-width: 640px) {
-  .about-project__duration {
-    grid-template-columns: 145px 1fr;
+    grid-template-columns: 140px 1fr;
   }
 }
 

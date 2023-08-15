@@ -7,6 +7,12 @@
   padding-bottom: 123px;
 }
 
+@media screen and (min-width: 620px) and (max-width: 1024px) {
+  .profile__title {
+    padding-bottom: 98px;
+  }
+}
+
 @media screen and (max-width: 620px) {
   .profile__title {
     padding-bottom: 80px;

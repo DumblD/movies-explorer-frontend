@@ -4,6 +4,12 @@
   text-underline-offset: 4px;
 }
 
+@media screen and (min-width: 620px) and (max-width: 1024px) {
+  .mobile-menu__list-item {
+    text-underline-offset: 10px;
+  }
+}
+
 @media screen and (max-width: 620px) {
   .mobile-menu__list-item {
     text-underline-offset: 7px;

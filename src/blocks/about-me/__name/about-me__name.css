@@ -7,7 +7,7 @@
   letter-spacing: -2px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media screen and (min-width: 748px) and (max-width: 1024px) {
   .about-me__name {
     font-size: 40px;
     line-height: 40px;
@@ -15,7 +15,7 @@
   }
 }
 
-@media screen and (min-width: 520px) and (max-width: 768px) {
+@media screen and (min-width: 520px) and (max-width: 748px) {
   .about-me__name {
     font-size: 34px;
     line-height: 34px;

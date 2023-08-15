@@ -11,7 +11,13 @@
   font-family: 'Inter', 'Arial', sans-serif;
 }
 
-@media screen and (min-width: 520px) and (max-width: 768px) {
+@media screen and (min-width: 748px) and (max-width: 1024px) {
+  .promo {
+    min-height: 784px;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 748px) {
   .promo {
     min-height: 680px;
   }

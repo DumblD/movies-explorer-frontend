@@ -1,6 +1,7 @@
 .movies-search__short-films {
   display: grid;
   grid-template-columns: max-content;
+  grid-auto-flow: column;
   border-top: 1px solid #e8e8e8;
   padding-top: 33px;
   max-width: 1140px;
@@ -16,6 +17,6 @@
 @media screen and (max-width: 620px) {
   .movies-search__short-films {
     justify-content: center;
-    padding-top: 41px;
+    padding-top: 40px;
   }
 }

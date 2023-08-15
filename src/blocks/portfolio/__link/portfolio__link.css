@@ -17,14 +17,14 @@
   opacity: .7;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media screen and (min-width: 748px) and (max-width: 1024px) {
   .portfolio__link {
     font-size: 28px;
     letter-spacing: -1.12px;
   }
 }
 
-@media screen and (min-width: 520px) and (max-width: 768px) {
+@media screen and (min-width: 520px) and (max-width: 748px) {
   .portfolio__link {
     font-size: 22px;
     line-height: 28px;

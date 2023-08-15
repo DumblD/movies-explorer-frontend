@@ -1,3 +1,15 @@
 .portfolio__item {
   padding: 18px 0 14px;
 }
+
+@media screen and (min-width: 748px) and (max-width: 1024px) {
+  .portfolio__item {
+    padding: 19px 0 18px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .portfolio__item {
+    padding: 19px 0 21px;
+  }
+}

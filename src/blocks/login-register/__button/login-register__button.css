@@ -24,5 +24,6 @@
   .login-register__button {
     max-width: 260px;
     margin-top: 216px;
+    font-size: 12px;
   }
 }

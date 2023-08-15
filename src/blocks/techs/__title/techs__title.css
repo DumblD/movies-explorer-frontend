@@ -9,16 +9,21 @@
   padding: 90px 0 28px;
 }
 
-@media screen and (min-width: 620px) and (max-width: 768px) {
+@media screen and (min-width: 748px) and (max-width: 1024px) {
   .techs__title {
     padding: 80px 0 22px;
+  }
+}
+
+@media screen and (min-width: 620px) and (max-width: 748px) {
+  .techs__title {
     font-size: 40px;
   }
 }
 
 @media screen and (max-width: 620px) {
   .techs__title {
-    padding: 60px 0 24px;
+    padding: 49px 0 14px;
     font-size: 36px;
   }
 }

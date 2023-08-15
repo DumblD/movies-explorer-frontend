@@ -21,5 +21,6 @@
 @media screen and (max-width: 460px) {
   .header-unauthorized__menu {
     width: calc(100vw - 14px*2);
+    column-gap: 14px;
   }
 }
