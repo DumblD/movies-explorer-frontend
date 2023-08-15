@@ -11,13 +11,17 @@ function NotFoundPage() {
   }
 
   return (
-    <div className='not-found-page'>
-      <div className='not-found-page__content'>
+    <>
+      <header className="not-found-page__header">
         <h1 className='not-found-page__title'>404</h1>
+      </header>
+      <main className="not-found-page__content">
         <h2 className='not-found-page__description'>Страница не найдена</h2>
+      </main>
+      <footer className="not-found-page__footer">
         <button aria-label="назад" type="button" onClick={handlePreview} className='not-found-page__prev-button'>Назад</button>
-      </div>
-    </div>
+      </footer>
+    </>
   );
 }
 

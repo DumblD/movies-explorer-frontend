@@ -1,8 +1,9 @@
 .register-container {
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(2, max-content);
   column-gap: 6px;
   padding: 16px 0 70px;
+  justify-content: center;
 }
 
 @media screen and (max-width: 620px) {

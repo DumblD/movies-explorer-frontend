@@ -101,6 +101,7 @@
 @import url(./blocks/profile/__save-button/profile__save-button.css);
 @import url(./blocks/profile/__save-button/_disabled/profile__save-button_disabled.css);
 @import url(./blocks/profile/__logout-button/profile__logout-button.css);
+@import url(./blocks/profile/__footer/profile__footer.css);
 
 @import url(./blocks/portfolio/portfolio.css);
 @import url(./blocks/portfolio/__title/portfolio__title.css);
@@ -132,7 +133,7 @@
 @import url(./blocks/popup/_opened/popup_opened.css);
 
 @import url(./blocks/login-register/login-register.css);
-@import url(./blocks/login-register/__img-container/login-register__img-container.css);
+@import url(./blocks/login-register/__header/login-register__header.css);
 @import url(./blocks/login-register/__header-logo-button/login-register__header-logo-button.css);
 @import url(./blocks/login-register/__form/login-register__form.css);
 @import url(./blocks/login-register/__label/login-register__label.css);
@@ -144,6 +145,7 @@
 @import url(./blocks/login-register/__button/_type/login-register__button_type_login.css);
 @import url(./blocks/login-register/__button/_type/login-register__button_type_register.css);
 @import url(./blocks/login-register/__button/_disabled/login-register__button_disabled.css);
+@import url(./blocks/login-register/__footer/login-register__footer.css);
 
 @import url(./blocks/register-container/register-container.css);
 @import url(./blocks/register-container/__signup-text/register-container__signup-text.css);

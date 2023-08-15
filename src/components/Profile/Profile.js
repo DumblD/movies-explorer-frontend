@@ -137,35 +137,39 @@ function Profile({
   return (
     <>
       <Header />
-      <section className='profile'>
-        <form name="profileEditForm" className='profile__form' onSubmit={onSaveSubmit}>
-          <h2 className="profile__title">Привет, {currentUser.profileName}!</h2>
-          <span className='profile__line'></span>
-          {
-            inputElements.map((input, index) => (
-              <FormInput key={input.id}
-                {...input}
-                sectionClassName={sectionClassName}
-                labelForAttribute={input.name}
-                labelName={inputLabels[index].name}
-                inputId={input.name}
-                value={values[input.name] || ""}
-                inputElement={input}
-                isInputValid={isInputValid[input.name]}
-                errorMessageText={errors[input.name]}
-                onChange={handleChange}
-                inputRef={inputRefs[input.name]}
-                labelClassName={labelClassName}
-                isNoSpanErrors={true}
-              />
-            ))
-          }
-          <span className="profile__input-span-error">{inputErrorMessageText}</span>
-          {!isProfileChanged && <button aria-label="редактировать" type="button" onClick={onEdit} className="profile__edit-button">Редактировать</button>}
-          {isProfileChanged && <button aria-label="сохранить" type="submit" disabled={!isSubmitButtonActive} className={`profile__save-button ${isSubmitButtonActive ? '' : 'profile__save-button_disabled'}`}>Сохранить</button>}
-        </form>
+      <main>
+        <section className='profile'>
+          <form name="profileEditForm" className='profile__form' onSubmit={onSaveSubmit}>
+            <h2 className="profile__title">Привет, {currentUser.profileName}!</h2>
+            <span className='profile__line'></span>
+            {
+              inputElements.map((input, index) => (
+                <FormInput key={input.id}
+                  {...input}
+                  sectionClassName={sectionClassName}
+                  labelForAttribute={input.name}
+                  labelName={inputLabels[index].name}
+                  inputId={input.name}
+                  value={values[input.name] || ""}
+                  inputElement={input}
+                  isInputValid={isInputValid[input.name]}
+                  errorMessageText={errors[input.name]}
+                  onChange={handleChange}
+                  inputRef={inputRefs[input.name]}
+                  labelClassName={labelClassName}
+                  isNoSpanErrors={true}
+                />
+              ))
+            }
+            <span className="profile__input-span-error">{inputErrorMessageText}</span>
+            {!isProfileChanged && <button aria-label="редактировать" type="button" onClick={onEdit} className="profile__edit-button">Редактировать</button>}
+            {isProfileChanged && <button aria-label="сохранить" type="submit" disabled={!isSubmitButtonActive} className={`profile__save-button ${isSubmitButtonActive ? '' : 'profile__save-button_disabled'}`}>Сохранить</button>}
+          </form>
+        </section>
+      </main>
+      <footer className="profile__footer">
         {!isProfileChanged && <button aria-label="выйти из аккаунта" type="button" onClick={handleLogout} className="profile__logout-button">Выйти из аккаунта</button>}
-      </section>
+      </footer>
     </>
   );
 }

@@ -1,14 +1,6 @@
 .profile {
   display: grid;
   grid-template-rows: max-content;
-  row-gap: 16px;
   justify-items: center;
   font-family: 'Inter', 'Arial', sans-serif;
-  padding-bottom: 70px;
-}
-
-@media screen and (max-width: 620px) {
-  .profile {
-    padding-bottom: 40px;
-  }
 }
