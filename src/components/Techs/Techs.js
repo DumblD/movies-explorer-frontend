@@ -1,12 +1,12 @@
 import React from 'react';
-import AboutProjectSectionHeading from './../../components/AboutProjectSectionHeading/AboutProjectSectionHeading';
+import ProjectSectionHeading from './../../components/ProjectSectionHeading/ProjectSectionHeading';
 
 function Techs() {
 
   return (
     <section id="techs" className="techs">
       <div className="techs__content">
-        <AboutProjectSectionHeading headingTitle={"Технологии"} />
+        <ProjectSectionHeading sectionClassName={"techs"} headingTitle={"Технологии"} />
         <h3 className="techs__title">7 технологий</h3>
         <p className="techs__description">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
         <ul className="techs__list">

@@ -8,7 +8,7 @@ function LoadMoreButton({
 
   return (
     <section className="load-more">
-      <button aria-label="загрузить ещё" type="button" className={`load-more__button ${!isLoadMoreActive && 'load-more__button_disabled'}`}>
+      <button aria-label="загрузить ещё" type="button" className={`load-more__button ${!isLoadMoreActive ? 'load-more__button_disabled' : ''}`}>
         <span className="load-more__button-text">Ещё</span>
       </button>
     </section>

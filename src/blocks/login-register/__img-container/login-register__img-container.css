@@ -1,0 +1,14 @@
+.login-register__img-container {
+  display: flex;
+  width: 100%;
+  max-width: 396px;
+  padding: 70px 0 40px;
+}
+
+@media screen and (max-width: 620px) {
+  .login-register__img-container {
+    max-width: 260px;
+    justify-content: center;
+    padding: 56px 0 50px;
+  }
+}

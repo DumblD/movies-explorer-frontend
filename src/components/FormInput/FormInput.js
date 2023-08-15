@@ -1,9 +1,9 @@
 import React from 'react';
-import './FormInput.css';
 
 function FormInput({
   type,
   name,
+  sectionClassName,
   className,
   required,
   minLength,
@@ -21,7 +21,7 @@ function FormInput({
   labelName,
   inputRef,
   isNoSpanErrors,
-  labelsClassName,
+  labelClassName,
 }) {
 
   function handleCheckValidity(ev) {
@@ -30,12 +30,12 @@ function FormInput({
 
   return (
     <>
-      <label className={labelsClassName ? labelsClassName : 'input_labeles'} htmlFor={labelForAttribute}>{labelName}</label>
+      <label className={labelClassName} htmlFor={labelForAttribute}>{labelName}</label>
       <input
         id={inputId}
         type={type}
         name={name}
-        className={typeof isInputValid === "undefined" ? `${className}` : isInputValid ? `${className}` : `input_type_error ${className}`}
+        className={typeof isInputValid === "undefined" ? `${className}` : isInputValid ? `${className}` : `${className} ${className}_type_error`}
         required={required}
         minLength={minLength}
         maxLength={maxLength}
@@ -46,7 +46,7 @@ function FormInput({
         title={name === "registerPassword" ? '' : title ? `${title}` : ''}
         ref={typeof inputRef === "undefined" ? null : inputRef ? inputRef : null}
       />
-      {isNoSpanErrors ? '' : <span className={`input_span_error ${name}-error`}>{name === "registerPassword" && errorMessageText ? title : errorMessageText}</span>}
+      {isNoSpanErrors ? '' : <span className={`${sectionClassName}__input-span-error ${name}-error`}>{name === "registerPassword" && errorMessageText ? title : errorMessageText}</span>}
     </>
   );
 }

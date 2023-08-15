@@ -39,14 +39,14 @@ function Header({
   return (
     <>
       {logged ? (
-        <header className={`header ${isMainPageOpened && 'header_bg_blue'}`}>
+        <header className={`header ${isMainPageOpened ? 'header_bg_blue' : ''}`}>
           <div className="header__menu">
             <button aria-label="лого-переход на: о проекте" type="button" onClick={onLogoClick} className="header__logo-button" />
             <nav>
               <ul className="header__menu-links">
                 <Navigation isMobileMenu={isMobileMenu} isMainPage={isMainPage} />
                 <li className="header__account-menu">
-                  <button aria-label="аккаунт" type='button' onClick={onAccountClick} className={`header__account-button ${isMainPageOpened && 'header__account-button_bg_green'}`}>
+                  <button aria-label="аккаунт" type='button' onClick={onAccountClick} className={`header__account-button ${isMainPageOpened ? 'header__account-button_bg_green' : ''}`}>
                     <img className='header__account-button-icon' src={headerAccountIcon} alt='аккаунт-лого' />
                     <span className='header__account-button-text'>Аккаунт</span>
                   </button>

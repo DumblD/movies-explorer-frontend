@@ -13,7 +13,7 @@ function SearchForm({
   const [isFocused, setIsFocused] = useState(false);
 
   const filterLabelClassName = 'movies-search__filter-checkbox-label';
-  const filterInputClassName = `movies-search__filter-checkbox-tumb-button ${!isShortFilms && 'movies-search__filter-checkbox-tumb-button_disabled'}`;
+  const filterInputClassName = `movies-search__filter-checkbox-tumb-button ${!isShortFilms ? 'movies-search__filter-checkbox-tumb-button_disabled' : ''}`;
   const filterLabelTextClassName = 'movies-search__filter-checkbox-label-text';
   const filterLabelName = 'Короткометражки';
 
@@ -50,7 +50,7 @@ function SearchForm({
         />
         <button aria-label="найти" type="submit" disabled={!searchMovie} className={`search-form__button ${searchMovie ? '' : 'search-form__button_disabled'}`} />
       </form>
-      <div className={`movies-search__short-films ${isFocused && 'input-focused'}`}>
+      <div className={`movies-search__short-films ${isFocused ? 'input-focused' : ''}`}>
         <FilterCheckbox
           isChecked={isShortFilms}
           onChange={handleShortFilmsCheck}

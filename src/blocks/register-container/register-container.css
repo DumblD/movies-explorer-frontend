@@ -1,0 +1,13 @@
+.register-container {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: 6px;
+  padding: 16px 0 70px;
+}
+
+@media screen and (max-width: 620px) {
+  .register-container {
+    column-gap: 7px;
+    padding: 14px 0 30px;
+  }
+}

@@ -1,12 +1,12 @@
 import React from 'react';
-import AboutProjectSectionHeading from './../AboutProjectSectionHeading/AboutProjectSectionHeading';
+import ProjectSectionHeading from './../ProjectSectionHeading/ProjectSectionHeading';
 import aboutMePhoto from './../../images/about-me-photo.png';
 
 function AboutMe() {
 
   return (
     <section id="about-me" className="about-me">
-      <AboutProjectSectionHeading headingTitle={"Студент"} />
+      <ProjectSectionHeading sectionClassName={"about-me"} headingTitle={"Студент"} />
       <div className="about-me__content">
         <div className="about-me__info">
           <h3 className="about-me__name">Виталий</h3>

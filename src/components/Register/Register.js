@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Register.css';
 import { useFormAndValidation } from './../../utils/customHooks/useFormAndValidation';
 import FormInput from './../FormInput/FormInput';
 import LoginRegisterPage from './../LoginRegisterPage/LoginRegisterPage';
@@ -26,7 +25,7 @@ function Register() {
       id: 1,
       type: "text",
       name: "registerName",
-      className: "register__input register__input_el_register-name",
+      className: "login-register__input login-register__input_el_register-name",
       required: true,
       placeholder: "",
       minLength: "2",
@@ -36,7 +35,7 @@ function Register() {
       id: 2,
       type: "email",
       name: "registerEmail",
-      className: "register__input register__input_el_register-email",
+      className: "login-register__input login-register__input_el_register-email",
       required: true,
       placeholder: ""
     },
@@ -44,7 +43,7 @@ function Register() {
       id: 3,
       type: "password",
       name: "registerPassword",
-      className: "register__input register__input_el_register-password",
+      className: "login-register__input login-register__input_el_register-password",
       required: true,
       placeholder: "",
       pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,}$",
@@ -53,8 +52,10 @@ function Register() {
   ];
   const nameInputs = getInputNames(inputElements);
   const navigate = useNavigate();
+  const sectionClassName = "login-register";
   const formName = 'register';
   const formTitle = 'Добро пожаловать!';
+  const labelClassName = 'login-register__label';
   const formButtonText = 'Зарегистрироваться';
   const loginRegisterButtonText = "Войти";
   const registerContainerSignupText = 'Уже зарегистрированы?';
@@ -102,8 +103,10 @@ function Register() {
         inputElements.map((input, index) => (
           <FormInput key={input.id}
             {...input}
+            sectionClassName={sectionClassName}
             labelForAttribute={input.name}
             labelName={inputLabels[index].name}
+            labelClassName={labelClassName}
             inputId={input.name}
             value={values[input.name] || ""}
             inputElement={input}

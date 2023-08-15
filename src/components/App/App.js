@@ -7,6 +7,7 @@ import SavedMovies from './../../components/SavedMovies/SavedMovies';
 import Register from './../../components/Register/Register';
 import Login from './../../components/Login/Login';
 import Profile from './../../components/Profile/Profile';
+import NotFoundPage from './../../components/NotFoundPage/NotFoundPage';
 import ConfirmDelCardPopup from './../../components/ConfirmDelCardPopup/ConfirmDelCardPopup';
 
 function App() {
@@ -135,6 +136,7 @@ function App() {
           />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/signin" element={<Login />} />
+        <Route path="/404" element={<NotFoundPage />} />
         <Route path="/profile" element={<Profile onLogout={handleProfileLogout} />} />
       </Routes>
       <ConfirmDelCardPopup

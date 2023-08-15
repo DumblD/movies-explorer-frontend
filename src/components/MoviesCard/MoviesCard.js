@@ -32,7 +32,7 @@ function MoviesCard({
   const isLiked = card.like;
 
   return (
-    <li className={`card ${typeof cardClassName === "undefined" ? '' : cardClassName ? `${cardClassName}` : ''}`}>
+    <li className={`card ${typeof cardClassName === "undefined" ? '' : cardClassName}`}>
       <div className="card__img" style={{ backgroundImage: `url('${card.link}')` }} />
       <h3 className="card__title">{card.name}</h3>
       {isMoviesPage ? (

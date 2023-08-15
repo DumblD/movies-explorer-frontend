@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
 import { useFormAndValidation } from './../../utils/customHooks/useFormAndValidation';
 import FormInput from './../FormInput/FormInput';
 import LoginRegisterPage from './../LoginRegisterPage/LoginRegisterPage';
@@ -24,7 +23,7 @@ function Login() {
       id: 1,
       type: "email",
       name: "loginEmail",
-      className: "login__input login__input_el_login-email",
+      className: "login-register__input login-register__input_el_login-email",
       required: true,
       placeholder: ""
     },
@@ -32,7 +31,7 @@ function Login() {
       id: 2,
       type: "password",
       name: "loginPassword",
-      className: "login__input login__input_el_login-password",
+      className: "login-register__input login-register__input_el_login-password",
       required: true,
       placeholder: "",
       minLength: "7",
@@ -40,8 +39,10 @@ function Login() {
   ];
   const nameInputs = getInputNames(inputElements);
   const navigate = useNavigate();
+  const sectionClassName = "login-register";
   const formName = 'login';
   const formTitle = 'Рады видеть!';
+  const labelClassName = 'login-register__label';
   const formButtonText = 'Войти';
   const loginRegisterButtonText = 'Регистрация';
   const registerContainerSignupText = 'Ещё не зарегистрированы?';
@@ -89,8 +90,10 @@ function Login() {
         inputElements.map((input, index) => (
           <FormInput key={input.id}
             {...input}
+            sectionClassName={sectionClassName}
             labelForAttribute={input.name}
             labelName={inputLabels[index].name}
+            labelClassName={labelClassName}
             inputId={input.name}
             value={values[input.name] || ""}
             inputElement={input}

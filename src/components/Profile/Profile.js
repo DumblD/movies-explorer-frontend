@@ -50,6 +50,9 @@ function Profile({
     },
   ];
 
+  const sectionClassName = "profile";
+  const labelClassName = "profile__label";
+
   const nameInputRef = useRef(null);
   const emailInputRef = useRef(null);
 
@@ -142,6 +145,7 @@ function Profile({
             inputElements.map((input, index) => (
               <FormInput key={input.id}
                 {...input}
+                sectionClassName={sectionClassName}
                 labelForAttribute={input.name}
                 labelName={inputLabels[index].name}
                 inputId={input.name}
@@ -151,7 +155,7 @@ function Profile({
                 errorMessageText={errors[input.name]}
                 onChange={handleChange}
                 inputRef={inputRefs[input.name]}
-                labelsClassName={'profile__label'}
+                labelClassName={labelClassName}
                 isNoSpanErrors={true}
               />
             ))

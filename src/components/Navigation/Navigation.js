@@ -25,10 +25,10 @@ function Navigation({
       ) : (
         <>
           <li className="header__movies-link header__list-item">
-            <NavLink className={({ isActive }) => `header__link ${isMainPageOpened && 'header__link_color_white'} ${isActive ? "header__link_active" : ""}`} to='/movies'>Фильмы</NavLink>
+            <NavLink className={({ isActive }) => `header__link ${isMainPageOpened ? 'header__link_color_white' : ''} ${isActive ? "header__link_active" : ""}`} to='/movies'>Фильмы</NavLink>
           </li>
           <li className="header__saved-movies-link header__list-item">
-            <NavLink className={({ isActive }) => `header__link ${isMainPageOpened && 'header__link_color_white'} ${isActive ? "header__link_active" : ""}`} to='/saved-movies'>Сохранённые фильмы</NavLink>
+            <NavLink className={({ isActive }) => `header__link ${isMainPageOpened ? 'header__link_color_white' : ''} ${isActive ? "header__link_active" : ""}`} to='/saved-movies'>Сохранённые фильмы</NavLink>
           </li>
         </>
       )}

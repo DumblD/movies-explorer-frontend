@@ -1,19 +1,4 @@
-.register__form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 396px;
-  align-items: center;
-  font-family: inherit;
-}
-
-@media screen and (max-width: 620px) {
-  .register__form {
-    max-width: 260px;
-  }
-}
-
-.register__input {
+.login-register__input {
   border: 0;
   width: 100%;
   padding: 0;
@@ -27,6 +12,6 @@
   line-height: 17px;
 }
 
-.register__input:focus {
+.login-register__input:focus {
   outline: none;
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import AboutProjectSectionHeading from './../../components/AboutProjectSectionHeading/AboutProjectSectionHeading';
+import ProjectSectionHeading from './../../components/ProjectSectionHeading/ProjectSectionHeading';
 
 function AboutProject() {
 
   return (
     <section id="about-project" className="about-project">
-      <AboutProjectSectionHeading headingTitle={"О проекте"} />
+      <ProjectSectionHeading sectionClassName={"about-project"} headingTitle={"О проекте"} />
       <div className="about-project__description">
         <div className="about-project__description-item">
           <h3 className="about-project__description-title">Дипломный проект включал 5 этапов</h3>

@@ -1,17 +1,21 @@
 .not-found-page {
   font-family: 'Inter', 'Arial', sans-serif;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr repeat(2, min-content) 1fr;
+  display: flex;
   max-width: 1280px;
   width: 100%;
-  height: 100vh;
+  justify-content: center;
+  position: relative;
+  top: 250px;
+}
+
+.not-found-page__content {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   justify-items: center;
 }
 
 .not-found-page__title {
-  grid-row: 2 / 3;
   font-family: inherit;
   font-size: 140px;
   font-weight: 400;
@@ -29,7 +33,6 @@
 }
 
 .not-found-page__description {
-  grid-row: 3 / 4;
   font-family: inherit;
   font-size: 16px;
   font-weight: 400;
@@ -37,7 +40,7 @@
   width: 100%;
   text-align: center;
   margin: 0;
-  padding-top: 5px;
+  padding-top: 8px;
 }
 
 @media screen and (max-width: 620px) {
@@ -49,9 +52,6 @@
 }
 
 .not-found-page__prev-button {
-  grid-row: 4 / 5;
-  align-self: end;
-  align-content: space-between;
   margin: 0;
   border: 0;
   background-color: transparent;
@@ -59,11 +59,5 @@
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
-  margin-bottom: 60px;
-}
-
-@media screen and (max-width: 620px) {
-  .not-found-page__prev-button {
-    margin-bottom: 30px;
-  }
+  margin: 184px 0 30px;
 }
