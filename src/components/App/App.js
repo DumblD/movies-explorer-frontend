@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { moviesCardsData } from '../../utils/constants/constants';
 import Main from './../../components/Main/Main';
@@ -20,6 +20,16 @@ function App() {
   const [moviesCards, setMoviesCards] = useState([]);
   const [isShortMovies, setIsShortMovies] = useState(true);
   const [isShortSavedMovies, setIsShortSavedMovies] = useState(true);
+  // текст запроса
+
+  // копия карточек для отрисовки (рендера)
+  const [moviesCardsToRender, setMoviesCardsToRender] = useState([]);
+    // количество карточек для отрисовки (рендера)
+  const [moviesCardsNumToRender, setMoviesCardsNumToRender] = useState(0);
+  const [cardsNumInRow, setCardsNumInRow] = useState(0);
+  const [cardsNumOfRows, setCardsNumOfRows] = useState(0);
+  const[numOfExtraCards, setNumOfExtraCards] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   function getMoviesCards() {
     // Api request for movies cards
@@ -94,8 +104,10 @@ function App() {
     setIsShortSavedMovies(!isShortSavedMovies);
   };
 
-  function handleSearchMovies() {
+  function handleSearchMovies(moviesCards) {
     // Api request
+    getMoviesCards();
+    getMoviesCardsToRender(moviesCards);
     // ...
   }
 
@@ -104,6 +116,66 @@ function App() {
     // ...
   }
 
+/*   function getNumOfCardsToRender() {
+    const numToRender = cardsNumInRow * cardsNumOfRows;
+    console.log(numToRender);
+    setMoviesCardsNumToRender(numToRender);
+} */
+
+function getMoviesCardsToRender(moviesCards) {
+  const moviesToRender = moviesCards.filter((cardElement, index) => {
+    return index < moviesCardsNumToRender;
+  });
+  console.log(moviesToRender);
+  setMoviesCardsToRender(moviesToRender);
+}
+
+  function getNumbersOfCards() {
+    setScreenWidth(window.innerWidth);
+    if (screenWidth > 1280) {
+      setCardsNumInRow(3);
+      setCardsNumOfRows(4);
+      setNumOfExtraCards(3);
+      setMoviesCardsNumToRender(12);
+      console.log(cardsNumInRow);
+      console.log(cardsNumOfRows);
+      console.log(numOfExtraCards);
+      console.log(moviesCardsNumToRender);
+    }
+    if (screenWidth < 1280 && screenWidth > 620) {
+      setCardsNumInRow(2);
+      setCardsNumOfRows(4);
+      setNumOfExtraCards(2);
+      setMoviesCardsNumToRender(8);
+      console.log(cardsNumInRow);
+      console.log(cardsNumOfRows);
+      console.log(numOfExtraCards);
+      console.log(moviesCardsNumToRender);
+    }
+    if (screenWidth <= 620) {
+      setCardsNumInRow(1);
+      setCardsNumOfRows(5);
+      setNumOfExtraCards(2);
+      setMoviesCardsNumToRender(5);
+      console.log(cardsNumInRow);
+      console.log(cardsNumOfRows);
+      console.log(numOfExtraCards);
+      console.log(moviesCardsNumToRender);
+    }
+  }
+
+  useEffect(() => {
+    getNumbersOfCards();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', getNumbersOfCards);
+    window.addEventListener('orientationchange', getNumbersOfCards);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screenWidth]);
+
   return (
     <>
       <Routes>
@@ -111,10 +183,11 @@ function App() {
         <Route path="/" element={<Main loggedIn={loggedIn} />} />
         <Route path="/movies" element={
           <Movies
+            moviesCards={moviesCards}
             getMoviesCards={getMoviesCards}
             isPreloaderActive={isPreloaderActive}
             handleRequest={handleRequest}
-            cards={moviesCards}
+            cards={moviesCardsToRender}
             handleCardLike={handleCardLike}
             onSearch={handleSearchMovies}
             handleShortMovies={handleShortMovies}

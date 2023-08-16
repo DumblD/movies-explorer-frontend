@@ -3,7 +3,6 @@ import FilterCheckbox from './../../components/FilterCheckbox/FilterCheckbox';
 import './SearchForm.css';
 
 function SearchForm({
-  handleRequest,
   onSearch,
   isShortFilms,
   handleShortFilmsCheck,
@@ -31,7 +30,7 @@ function SearchForm({
 
   function handleSearch(ev) {
     ev.preventDefault();
-    handleRequest(onSearch);
+    onSearch();
   }
 
   return (

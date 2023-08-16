@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header from './../Header/Header';
 import SearchForm from './../SearchForm/SearchForm';
 import MoviesCardList from './../MoviesCardList/MoviesCardList';
@@ -6,9 +6,8 @@ import LoadMoreButton from './../LoadMoreButton/LoadMoreButton';
 import Footer from './../Footer/Footer';
 
 function Movies({
-  getMoviesCards,
+  moviesCards,
   isPreloaderActive,
-  handleRequest,
   cards,
   handleCardLike,
   onSearch,
@@ -19,16 +18,11 @@ function Movies({
   const cardClassName = "movies-card"
   const isMoviesPage = true;
 
-  useEffect(() => {
-    handleRequest(getMoviesCards);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards]);
-
   return (
     <div className="page__container">
       <Header />
       <main>
-        <SearchForm handleRequest={handleRequest} handleShortFilmsCheck={handleShortMovies} isShortFilms={isShortFilms} onSearch={onSearch} />
+        <SearchForm handleShortFilmsCheck={handleShortMovies} isShortFilms={isShortFilms} onSearch={onSearch} />
         <MoviesCardList isPreloaderActive={isPreloaderActive} cards={cards} onCardLike={handleCardLike} cardClassName={cardClassName} isMoviesPage={isMoviesPage} />
         <LoadMoreButton />
       </main>
