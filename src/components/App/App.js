@@ -104,7 +104,7 @@ function App() {
     setIsShortSavedMovies(!isShortSavedMovies);
   };
 
-  function handleSearchMovies(moviesCards) {
+  function handleSearchMovies() {
     // Api request
     getMoviesCards();
     getMoviesCardsToRender(moviesCards);
