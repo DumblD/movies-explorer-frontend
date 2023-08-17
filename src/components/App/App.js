@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { moviesCardsData } from '../../utils/constants/constants';
+import { api } from '../../utils/api';
 import Main from './../../components/Main/Main';
 import Movies from './../../components/Movies/Movies';
 import SavedMovies from './../../components/SavedMovies/SavedMovies';
@@ -14,7 +14,7 @@ function App() {
   const [selectedCardToDelete, setSelectedCardToDelete] = useState({});
   const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
   // eslint-disable-next-line no-unused-vars
-  const [isLoadMore, setIsLoadMore] = useState(false);
+  const [isLoadMore, setIsLoadMore] = useState(true);
   const [isPreloaderActive, setIsPreloaderActive] = useState(false);
   const [savedMoviesCards, setSavedMoviesCards] = useState([]);
   const [moviesCards, setMoviesCards] = useState([]);
@@ -31,14 +31,27 @@ function App() {
   const[numOfExtraCards, setNumOfExtraCards] = useState(0);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+  function handleRequest(request) {
+    togglePreloader(true);
+    request()
+      .catch(console.error)
+      .finally(() => togglePreloader(false));
+  }
+
+  // eslint-disable-next-line no-unused-vars
   function getMoviesCards() {
-    // Api request for movies cards
-    setMoviesCards(moviesCardsData);
+    function makeRequest() {
+      return api.getMoviesCards()
+      .then((data) => {
+        setMoviesCards(data);
+      })
+    }
+    handleRequest(makeRequest);
   }
 
   function getSavedMoviesCards() {
     if (!moviesCards.length) {
-      getMoviesCards();
+      // getMoviesCards();
     }
     // Api request for saved movies cards
     const likedMovies = moviesCards.filter((cardElement) => {
@@ -63,12 +76,13 @@ function App() {
     });
     newMoviesCard.like = !card.like;
     // movies cards update (with card with updated like status)
+    // eslint-disable-next-line no-unused-vars
     const updatedMoviesCards = moviesCards.map((cardElement) => {
       return cardElement._id === card._id ? newMoviesCard : cardElement;
     });
-    setMoviesCards(
+    /* setMoviesCards(
       updatedMoviesCards,
-    );
+    ); */
   }
 
   function handleCardDelete(card) {
@@ -86,14 +100,6 @@ function App() {
 
   function togglePreloader(isActive) {
     setIsPreloaderActive(isActive);
-  }
-
-  function handleRequest(request) {
-    togglePreloader(true);
-    request();
-    setTimeout(() => {
-      togglePreloader(false);
-    }, 1000);
   }
 
   function handleShortMovies() {
@@ -122,10 +128,25 @@ function App() {
     setMoviesCardsNumToRender(numToRender);
 } */
 
+function toggleLoadMore() {
+  setIsLoadMore(!isLoadMore);
+}
+
+function loadMoreCards() {
+  if (moviesCardsToRender.length < moviesCards.length) {
+    setMoviesCardsNumToRender((currentNumOfCards) => currentNumOfCards + 2);
+    console.log(333);
+  } else {
+    console.log(444);
+    toggleLoadMore();
+  }
+}
+
 function getMoviesCardsToRender(moviesCards) {
   const moviesToRender = moviesCards.filter((cardElement, index) => {
     return index < moviesCardsNumToRender;
   });
+  console.log(moviesCards);
   console.log(moviesToRender);
   setMoviesCardsToRender(moviesToRender);
 }
@@ -136,7 +157,9 @@ function getMoviesCardsToRender(moviesCards) {
       setCardsNumInRow(3);
       setCardsNumOfRows(4);
       setNumOfExtraCards(3);
-      setMoviesCardsNumToRender(12);
+      if (moviesCardsToRender.length <= 12) {
+        setMoviesCardsNumToRender(12);
+      }
       console.log(cardsNumInRow);
       console.log(cardsNumOfRows);
       console.log(numOfExtraCards);
@@ -146,7 +169,9 @@ function getMoviesCardsToRender(moviesCards) {
       setCardsNumInRow(2);
       setCardsNumOfRows(4);
       setNumOfExtraCards(2);
-      setMoviesCardsNumToRender(8);
+      if (moviesCardsToRender.length <= 8) {
+        setMoviesCardsNumToRender(8);
+      }
       console.log(cardsNumInRow);
       console.log(cardsNumOfRows);
       console.log(numOfExtraCards);
@@ -156,7 +181,11 @@ function getMoviesCardsToRender(moviesCards) {
       setCardsNumInRow(1);
       setCardsNumOfRows(5);
       setNumOfExtraCards(2);
-      setMoviesCardsNumToRender(5);
+      if (moviesCardsToRender.length <= 5) {
+        setMoviesCardsNumToRender(5);
+      } else {
+        setMoviesCardsNumToRender(moviesCardsToRender.length);
+      }
       console.log(cardsNumInRow);
       console.log(cardsNumOfRows);
       console.log(numOfExtraCards);
@@ -168,6 +197,13 @@ function getMoviesCardsToRender(moviesCards) {
     getNumbersOfCards();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (moviesCards.length) {
+      getMoviesCardsToRender(moviesCards);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moviesCardsNumToRender]);
 
   useEffect(() => {
     setScreenWidth(window.innerWidth);
@@ -185,6 +221,7 @@ function getMoviesCardsToRender(moviesCards) {
           <Movies
             moviesCards={moviesCards}
             getMoviesCards={getMoviesCards}
+            moviesCardsToRender={moviesCardsToRender}
             isPreloaderActive={isPreloaderActive}
             handleRequest={handleRequest}
             cards={moviesCardsToRender}
@@ -192,6 +229,8 @@ function getMoviesCardsToRender(moviesCards) {
             onSearch={handleSearchMovies}
             handleShortMovies={handleShortMovies}
             isShortFilms={isShortMovies}
+            onLoadMore={loadMoreCards}
+            isLoadMore={isLoadMore}
           />} />
         <Route path="/saved-movies" element={
           <SavedMovies

@@ -19,7 +19,7 @@ function MoviesCardList({
       {isPreloaderActive && <Preloader />}
       <ul className={`movies-cards__list ${isPreloaderActive ? 'movies-cards__list_invisible' : ''}`}>
         {cards.map((cardElement) => (
-          <MoviesCard key={cardElement._id} card={cardElement} cardClassName={cardClassName} onCardLike={onCardLike} onCardDelete={onCardDelete} isMoviesPage={isMoviesPage} />
+          <MoviesCard key={cardElement.id} card={cardElement} cardClassName={cardClassName} onCardLike={onCardLike} onCardDelete={onCardDelete} isMoviesPage={isMoviesPage} />
         ))}
       </ul>
     </section>

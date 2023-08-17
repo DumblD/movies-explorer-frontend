@@ -29,13 +29,13 @@ function MoviesCard({
   }
 
   const movieDuration = minToHourMin(card.duration);
-  const imgCardLink = card.link;
-  const isLiked = card.like;
+  const imgCardLink = `https://api.nomoreparties.co/${card.image.url}`;
+  const isLiked = typeof card.owner === "undefined" ? false : true;
 
   return (
     <li className={`card ${typeof cardClassName === "undefined" ? '' : cardClassName}`}>
-      <img className="card__img" src={imgCardLink} alt={card.name} />
-      <h3 className="card__title">{card.name}</h3>
+      <img className="card__img" src={imgCardLink} alt={card.nameRU} />
+      <h3 className="card__title">{card.nameRU}</h3>
       {isMoviesPage ? (
         <button aria-label="поставить лайк" type="button" onClick={handleCardLike} className={`movies-card__like-button ${isLiked && 'movies-card__like-button_active'}`} />
       ) : (
