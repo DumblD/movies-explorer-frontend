@@ -1,3 +1,7 @@
+export const mobileWidthMediaQuery = window.matchMedia('(max-width: 620px)');
+export const tabletWidthMediaQuery = window.matchMedia('(min-width: 620px) and (max-width: 1280px)');
+export const desktopWidthMediaQuery = window.matchMedia('(min-width: 1280px)');
+
 export const moviesCardsData = [
   {
     name: '33 слова о дизайне',

@@ -8,6 +8,7 @@ import Register from './../../components/Register/Register';
 import Login from './../../components/Login/Login';
 import Profile from './../../components/Profile/Profile';
 import ConfirmDelCardPopup from './../../components/ConfirmDelCardPopup/ConfirmDelCardPopup';
+import { mobileWidthMediaQuery, tabletWidthMediaQuery, desktopWidthMediaQuery } from '../../utils/constants/constants';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -17,19 +18,46 @@ function App() {
   const [isLoadMore, setIsLoadMore] = useState(true);
   const [isPreloaderActive, setIsPreloaderActive] = useState(false);
   const [savedMoviesCards, setSavedMoviesCards] = useState([]);
-  const [moviesCards, setMoviesCards] = useState([]);
+
   const [isShortMovies, setIsShortMovies] = useState(true);
   const [isShortSavedMovies, setIsShortSavedMovies] = useState(true);
-  // текст запроса
 
-  // копия карточек для отрисовки (рендера)
-  const [moviesCardsToRender, setMoviesCardsToRender] = useState([]);
-    // количество карточек для отрисовки (рендера)
-  const [moviesCardsNumToRender, setMoviesCardsNumToRender] = useState(0);
-  const [cardsNumInRow, setCardsNumInRow] = useState(0);
-  const [cardsNumOfRows, setCardsNumOfRows] = useState(0);
-  const[numOfExtraCards, setNumOfExtraCards] = useState(0);
+
+  // eslint-disable-next-line no-unused-vars
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [moviesCardsNumToRender, setMoviesCardsNumToRender] = useState(0);
+  // eslint-disable-next-line no-unused-vars
+  const [cardsNumInRow, setCardsNumInRow] = useState(0);
+  // eslint-disable-next-line no-unused-vars
+  const [cardsNumOfRows, setCardsNumOfRows] = useState(0);
+  const [numOfExtraCards, setNumOfExtraCards] = useState(0);
+  const [moviesCards, setMoviesCards] = useState([]);
+  const [moviesCardsToRender, setMoviesCardsToRender] = useState([]);
+
+  const checkWidth = () => {
+    if (mobileWidthMediaQuery.matches && !tabletWidthMediaQuery.matches) {
+      setCardsNumInRow(1);
+      setCardsNumOfRows(5);
+      setNumOfExtraCards(2);
+      if (!moviesCardsNumToRender) {
+        setMoviesCardsNumToRender(5);
+      }
+    } else if (!mobileWidthMediaQuery.matches && tabletWidthMediaQuery && !desktopWidthMediaQuery.matches) {
+      setCardsNumInRow(2);
+      setCardsNumOfRows(4);
+      setNumOfExtraCards(2);
+      if (!moviesCardsNumToRender) {
+        setMoviesCardsNumToRender(8);
+      }
+    } else if (desktopWidthMediaQuery.matches) {
+      setCardsNumInRow(3);
+      setCardsNumOfRows(4);
+      setNumOfExtraCards(3);
+      if (!moviesCardsNumToRender) {
+        setMoviesCardsNumToRender(12);
+      }
+    }
+  };
 
   function handleRequest(request) {
     togglePreloader(true);
@@ -113,7 +141,6 @@ function App() {
   function handleSearchMovies() {
     // Api request
     getMoviesCards();
-    getMoviesCardsToRender(moviesCards);
     // ...
   }
 
@@ -134,10 +161,8 @@ function toggleLoadMore() {
 
 function loadMoreCards() {
   if (moviesCardsToRender.length < moviesCards.length) {
-    setMoviesCardsNumToRender((currentNumOfCards) => currentNumOfCards + 2);
-    console.log(333);
+    setMoviesCardsNumToRender((currentNumOfCards) => currentNumOfCards + numOfExtraCards);
   } else {
-    console.log(444);
     toggleLoadMore();
   }
 }
@@ -146,71 +171,25 @@ function getMoviesCardsToRender(moviesCards) {
   const moviesToRender = moviesCards.filter((cardElement, index) => {
     return index < moviesCardsNumToRender;
   });
-  console.log(moviesCards);
-  console.log(moviesToRender);
   setMoviesCardsToRender(moviesToRender);
 }
 
-  function getNumbersOfCards() {
-    setScreenWidth(window.innerWidth);
-    if (screenWidth > 1280) {
-      setCardsNumInRow(3);
-      setCardsNumOfRows(4);
-      setNumOfExtraCards(3);
-      if (moviesCardsToRender.length <= 12) {
-        setMoviesCardsNumToRender(12);
-      }
-      console.log(cardsNumInRow);
-      console.log(cardsNumOfRows);
-      console.log(numOfExtraCards);
-      console.log(moviesCardsNumToRender);
-    }
-    if (screenWidth < 1280 && screenWidth > 620) {
-      setCardsNumInRow(2);
-      setCardsNumOfRows(4);
-      setNumOfExtraCards(2);
-      if (moviesCardsToRender.length <= 8) {
-        setMoviesCardsNumToRender(8);
-      }
-      console.log(cardsNumInRow);
-      console.log(cardsNumOfRows);
-      console.log(numOfExtraCards);
-      console.log(moviesCardsNumToRender);
-    }
-    if (screenWidth <= 620) {
-      setCardsNumInRow(1);
-      setCardsNumOfRows(5);
-      setNumOfExtraCards(2);
-      if (moviesCardsToRender.length <= 5) {
-        setMoviesCardsNumToRender(5);
-      } else {
-        setMoviesCardsNumToRender(moviesCardsToRender.length);
-      }
-      console.log(cardsNumInRow);
-      console.log(cardsNumOfRows);
-      console.log(numOfExtraCards);
-      console.log(moviesCardsNumToRender);
-    }
-  }
+useEffect(() => {
+  checkWidth();
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   useEffect(() => {
-    getNumbersOfCards();
+    window.addEventListener('resize', checkWidth);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [screenWidth]);
 
   useEffect(() => {
     if (moviesCards.length) {
       getMoviesCardsToRender(moviesCards);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [moviesCardsNumToRender]);
-
-  useEffect(() => {
-    setScreenWidth(window.innerWidth);
-    window.addEventListener('resize', getNumbersOfCards);
-    window.addEventListener('orientationchange', getNumbersOfCards);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [screenWidth]);
+  }, [moviesCards, moviesCardsNumToRender]);
 
   return (
     <>
