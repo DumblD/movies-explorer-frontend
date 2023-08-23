@@ -9,13 +9,14 @@ function SavedMovies({
   getSavedMoviesCards,
   isPreloaderActive,
   handleRequest,
-  savedMoviesCards,
+  cards,
   handleConfirmDelCardClick,
   onSearch,
-  moviesCards,
   handleShortSavedMovies,
   isShortFilms,
   isLoadMore,
+  onLoadMore,
+  isInfoMessage,
 }) {
 
   const isMoviesPage = false;
@@ -23,15 +24,15 @@ function SavedMovies({
   useEffect(() => {
     handleRequest(getSavedMoviesCards);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [moviesCards]);
+  }, []);
 
   return (
     <div className="page__container">
       <Header />
       <main>
         <SearchForm handleRequest={handleRequest} handleShortFilmsCheck={handleShortSavedMovies} isShortFilms={isShortFilms} onSearch={onSearch} />
-        <MoviesCardList isPreloaderActive={isPreloaderActive} cards={savedMoviesCards} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} additionalStyles={additionalMoviesCardsStyles} />
-        <LoadMoreButton isActive={isLoadMore} />
+        <MoviesCardList isPreloaderActive={isPreloaderActive} cards={cards} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} additionalStyles={additionalMoviesCardsStyles} />
+        <LoadMoreButton isInfoMessage={isInfoMessage} isActive={isLoadMore} onLoadMore={onLoadMore} />
       </main>
       <Footer />
     </div>

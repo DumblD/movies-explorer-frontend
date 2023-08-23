@@ -1,0 +1,33 @@
+.page__info-tool-tip {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 12px 0 50px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  width: calc(100vw - 70px*2);
+}
+
+@media screen and (min-width: 460px) and (max-width: 1280px) {
+  .page__info-tool-tip {
+    width: calc(100vw - 30px*2);
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .page__info-tool-tip {
+    width: calc(100vw - 14px*2);
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .page__info-tool-tip {
+    padding-right: 12px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .page__info-tool-tip {
+    padding-top: 0;
+  }
+}

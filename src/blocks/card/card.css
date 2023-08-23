@@ -1,6 +1,5 @@
 .card {
   font-family: 'Inter', 'Arial', sans-serif;
-  cursor: pointer;
   list-style: none;
   display: grid;
   grid-template-columns: max-content 1fr;

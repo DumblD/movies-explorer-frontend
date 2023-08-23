@@ -1,16 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useFormAndValidation } from './../../utils/customHooks/useFormAndValidation';
 import Header from './../../components/Header/Header';
 import FormInput from './../FormInput/FormInput';
+import InfoToolTip from './../../components/InfoToolTip/InfoToolTip';
+import { useContext } from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { useLocalStorage } from '../../utils/customHooks/useLocalStorage';
 
 function Profile({
+  getUserInfo,
+  isUpdateUserSuccess,
+  onUpdateUserinfo,
   onLogout,
+  errorRequestMessage,
+  infoRequestMessage,
+  isInfoMessageActive,
+  hideErrorMessages,
+  resetSearchMoviesResults,
 }) {
-  const navigate = useNavigate();
+  const infoToolTipStyle = "profile__info-tool-tip";
+  const infoToolTipTextStyle = "profile__info-tool-tip-text";
+  const [infoToolTipMessage, setInfoToolTipMessage] = useState('');
+  const [isInfoToolTipTextColorGreen, setIsInfoToolTipTextColorGreen] = useState(false);
+  const currentUserInfo = useContext(CurrentUserContext);
   const [currentUser, setCurrentUser] = useState({
-    profileName: 'Виталий',
-    profileEmail: 'pochta@yandex.ru',
+    profileName: '',
+    profileEmail: '',
   });
   const [isEditing, setIsEditing] = useState('nameField');
   const [profileName, setProfileName] = useState('');
@@ -18,10 +33,10 @@ function Profile({
   const [inputErrorMessageText, setInputErrorMessageText] = useState('');
 
   const [isProfileChanged, setIsProfileChanged] = useState(false);
-  // resetForm will be used later
-  // eslint-disable-next-line no-unused-vars
-  const { values, handleChange, errors, isInputValid, setValues, resetForm, isSubmitButtonActive, setIsSubmitButtonActive, getInputNames } = useFormAndValidation();
-
+  const { values, handleChange, errors, isInputValid, setValues, isSubmitButtonActive, getInputNames } = useFormAndValidation();
+  const {
+    clearLocalStorage,
+  } = useLocalStorage();
   const inputLabels = [
     {
       name: "Имя",
@@ -42,11 +57,14 @@ function Profile({
     },
     {
       id: 2,
-      type: "email",
+      type: "text",
       name: "profileEmail",
       className: "profile__input profile__input_el_profileEmail",
       required: true,
-      placeholder: ""
+      placeholder: "",
+      // eslint-disable-next-line no-useless-escape
+      pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}[a-z]{2,4}$",
+      title: "email@example.ru",
     },
   ];
 
@@ -66,9 +84,15 @@ function Profile({
   }
 
   useEffect(() => {
-    setIsSubmitButtonActive(true);
+    hideErrorMessages();
+    getUserInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setCurrentUser({ ...currentUser, profileName: currentUserInfo.name, profileEmail: currentUserInfo.email });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserInfo]);
 
   useEffect(() => {
     const inputError = getInputError();
@@ -82,7 +106,7 @@ function Profile({
     setValuesToInputs();
     setIsProfileChanged(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileName, profileEmail, currentUser]);
+  }, [currentUser]);
 
   useEffect(() => {
     if (values.profileName !== profileName ||
@@ -94,11 +118,53 @@ function Profile({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.profileName, values.profileEmail]);
 
+/*   useEffect(() => {
+    console.log(errorRequestMessage);
+    console.log(infoRequestMessage);
+    if (errorRequestMessage || infoRequestMessage) {
+      console.log('hiding');
+      hideErrorMessages();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.profileName, values.profileEmail]); */
+
+  useEffect(() => {
+    if (isUpdateUserSuccess && infoRequestMessage) {
+      console.log(`updated ${isUpdateUserSuccess}`);
+      setCurrentUser({ ...currentUser, profileName: values.profileName, profileEmail: values.profileEmail });
+      setProfileName(values.profileName);
+      setProfileEmail(values.profileEmail);
+    } else if (!isUpdateUserSuccess && errorRequestMessage) {
+      setValuesToInputs();
+      setIsProfileChanged(false);
+      console.log('not updated');
+      console.log(isProfileChanged);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateUserSuccess, errorRequestMessage, infoRequestMessage]);
+
+  useEffect(() => {
+    if (errorRequestMessage) {
+      setInfoToolTipMessage(errorRequestMessage);
+      setIsInfoToolTipTextColorGreen(false);
+    } else if (infoRequestMessage) {
+      setInfoToolTipMessage(infoRequestMessage);
+      setIsInfoToolTipTextColorGreen(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorRequestMessage, infoRequestMessage]);
+
+/*   function toggleSaveButton() {
+      setIsProfileChanged(false);
+  } */
+
   function onSaveSubmit(ev) {
     ev.preventDefault();
-    setCurrentUser({ ...currentUser, profileName: values.profileName, profileEmail: values.profileEmail })
-    setProfileName(values.profileName);
-    setProfileEmail(values.profileEmail);
+    hideErrorMessages();
+    onUpdateUserinfo({
+      name: values.profileName,
+      email: values.profileEmail
+    });
   }
 
   function onEdit(ev) {
@@ -115,8 +181,9 @@ function Profile({
 
   function handleLogout(ev) {
     ev.preventDefault();
+    clearLocalStorage();
+    resetSearchMoviesResults();
     onLogout();
-    navigate('/', { replace: true });
   }
 
   function getInputError() {
@@ -162,6 +229,13 @@ function Profile({
               ))
             }
             <span className="profile__input-span-error">{inputErrorMessageText}</span>
+            <InfoToolTip
+              isActive={isInfoMessageActive}
+              infoMessage={infoToolTipMessage}
+              additionalInfoClassStyles={infoToolTipStyle}
+              additionalInfotextStyles={infoToolTipTextStyle}
+              isTextColorGreen={isInfoToolTipTextColorGreen}
+            />
             {!isProfileChanged && <button aria-label="редактировать" type="button" onClick={onEdit} className="profile__edit-button">Редактировать</button>}
             {isProfileChanged && <button aria-label="сохранить" type="submit" disabled={!isSubmitButtonActive} className={`profile__save-button ${isSubmitButtonActive ? '' : 'profile__save-button_disabled'}`}>Сохранить</button>}
           </form>

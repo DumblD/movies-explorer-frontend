@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './../Header/Header';
 import Promo from './../Promo/Promo';
 import NavTab from './../NavTab/NavTab';
@@ -10,7 +10,13 @@ import Footer from './../Footer/Footer';
 
 function Main({
   loggedIn,
+  hideErrorMessages,
 }) {
+
+  useEffect(() => {
+    hideErrorMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="page__container">

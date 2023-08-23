@@ -1,23 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FilterCheckbox from './../../components/FilterCheckbox/FilterCheckbox';
+
 import './SearchForm.css';
 
 function SearchForm({
+  findMovieText,
+  setFindMovieText,
+  isShortMovies,
+  setIsShortMovies,
   onSearch,
-  isShortFilms,
-  handleShortFilmsCheck,
+  textFilteredMovies,
+  moviesCardsNumToRender,
+  setIsSearchTextSame,
 }) {
 
-  const [searchMovie, setSearchMovie] = useState('');
+  const [previousFindMovieText, setPreviousFindMovieText] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const searchFormInput = useRef(null);
 
   const filterLabelClassName = 'movies-search__filter-checkbox-label';
-  const filterInputClassName = `movies-search__filter-checkbox-tumb-button ${!isShortFilms ? 'movies-search__filter-checkbox-tumb-button_disabled' : ''}`;
+  const filterInputClassName = `movies-search__filter-checkbox-tumb-button ${!isShortMovies ? 'movies-search__filter-checkbox-tumb-button_disabled' : ''}`;
   const filterLabelTextClassName = 'movies-search__filter-checkbox-label-text';
   const filterLabelName = 'Короткометражки';
 
+  function savePreviousFindMovieText() {// вместо moviesCards -> filtered cards
+    if (textFilteredMovies.length && findMovieText) {
+      setPreviousFindMovieText(searchFormInput.current.value);
+    }
+  }
+
+  function renderSameNumOfCardsOnSameSearch() {
+    setIsSearchTextSame(previousFindMovieText === searchFormInput.current.value);
+  }
+
   function handleChange(ev) {
-    setSearchMovie(ev.target.value);
+    setFindMovieText(ev.target.value);
   }
 
   function handleFocus(ev) {
@@ -28,10 +45,21 @@ function SearchForm({
     setIsFocused(false);
   }
 
+  function toggleIsShort() {
+    setIsShortMovies(!isShortMovies);
+  }
+
   function handleSearch(ev) {
     ev.preventDefault();
+    savePreviousFindMovieText();
+    renderSameNumOfCardsOnSameSearch();
     onSearch();
   }
+
+  useEffect(() => { // сохраняем предыдущее значение поиска
+    savePreviousFindMovieText();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [previousFindMovieText]);
 
   return (
     <section className='movies-search'>
@@ -42,17 +70,18 @@ function SearchForm({
           id="searchForm"
           className="search-form__input search-form__input_el_search-movie"
           placeholder="Фильм"
-          value={searchMovie}
+          value={findMovieText}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          ref={searchFormInput}
         />
-        <button aria-label="найти" type="submit" disabled={!searchMovie} className={`search-form__button ${searchMovie ? '' : 'search-form__button_disabled'}`} />
+        <button aria-label="найти" type="submit" disabled={!findMovieText} className={`search-form__button ${findMovieText ? '' : 'search-form__button_disabled'}`} />
       </form>
       <div className={`movies-search__short-films ${isFocused ? 'input-focused' : ''}`}>
         <FilterCheckbox
-          isChecked={isShortFilms}
-          onChange={handleShortFilmsCheck}
+          isChecked={isShortMovies}
+          onChange={toggleIsShort}
           labelClassName={filterLabelClassName}
           inputClassName={filterInputClassName}
           labelTextClassName={filterLabelTextClassName}

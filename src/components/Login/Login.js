@@ -4,8 +4,13 @@ import { useFormAndValidation } from './../../utils/customHooks/useFormAndValida
 import FormInput from './../FormInput/FormInput';
 import LoginRegisterPage from './../LoginRegisterPage/LoginRegisterPage';
 
-function Login() {
-
+function Login({
+  onLogin,
+  errorRequestMessage,
+  isInfoMessageActive,
+  hideErrorMessages,
+}) {
+  const infoToolTipStyles = "login-register__info-tool-tip login-register__info-tool-tip_type_login";
   const inputLabels = [
     {
       name: "E-mail",
@@ -15,17 +20,18 @@ function Login() {
     },
   ]
 
-  // resetForm will be used later
-  // eslint-disable-next-line no-unused-vars
   const { values, handleChange, errors, isInputValid, resetForm, isSubmitButtonActive, getInputNames } = useFormAndValidation();
   const inputElements = [
     {
       id: 1,
-      type: "email",
+      type: "text",
       name: "loginEmail",
       className: "login-register__input login-register__input_el_login-email",
       required: true,
-      placeholder: ""
+      placeholder: "",
+      // eslint-disable-next-line no-useless-escape
+      pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}[a-z]{2,4}$",
+      title: "email@example.ru",
     },
     {
       id: 2,
@@ -39,6 +45,9 @@ function Login() {
   ];
   const nameInputs = getInputNames(inputElements);
   const navigate = useNavigate();
+  const clearInputs = () => {
+    resetForm();
+  }
   const sectionClassName = "login-register";
   const formName = 'login';
   const formTitle = 'Рады видеть!';
@@ -65,10 +74,9 @@ function Login() {
 
   function handleSubmit(ev) {
     ev.preventDefault();
-    // loginData will be used later
-    // eslint-disable-next-line no-unused-vars
+    hideErrorMessages();
     const loginData = gatherLoginData();
-    // ...
+    onLogin(loginData, clearInputs);
   }
 
   function handleSignUp() {
@@ -85,6 +93,10 @@ function Login() {
       registerContainerSignupText={registerContainerSignupText}
       onRegisterContainerSubmit={handleSignUp}
       loginRegisterButtonText={loginRegisterButtonText}
+      errorRequestMessage={errorRequestMessage}
+      isInfoMessageActive={isInfoMessageActive}
+      hideErrorMessages={hideErrorMessages}
+      infoToolTipStyles={infoToolTipStyles}
     >
       {
         inputElements.map((input, index) => (

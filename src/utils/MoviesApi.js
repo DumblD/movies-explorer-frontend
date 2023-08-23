@@ -1,4 +1,4 @@
-class Api {
+class MoviesApi {
   constructor(options) {
     this._url = options.baseUrl;
     this._headers = options.headers;
@@ -24,7 +24,7 @@ class Api {
   }
 }
 
-export const api = new Api({
+export const moviesApi = new MoviesApi({
   baseUrl: 'https://api.nomoreparties.co/beatfilm-movies',
   headers: {
     'Content-Type': 'application/json'

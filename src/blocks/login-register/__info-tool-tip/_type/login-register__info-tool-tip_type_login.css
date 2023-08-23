@@ -1,0 +1,15 @@
+.login-register__info-tool-tip_type_login {
+  margin-top: 123px;
+}
+
+@media screen and (min-width: 620px) and (max-width: 1024px) {
+  .login-register__info-tool-tip_type_login {
+    margin-top: 123px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .login-register__info-tool-tip_type_login {
+    margin-top: 212px;
+  }
+}

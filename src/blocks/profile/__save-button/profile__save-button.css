@@ -15,15 +15,8 @@
   font-weight: 500;
   font-size: 14px;
   text-align: center;
-  margin-top: 220px;
 }
 
 .profile__save-button:hover {
   opacity: .8;
-}
-
-@media screen and (max-width: 620px) {
-  .profile__save-button {
-    margin-top: 379px;
-  }
 }

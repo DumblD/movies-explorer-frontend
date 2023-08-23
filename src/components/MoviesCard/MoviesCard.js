@@ -34,7 +34,9 @@ function MoviesCard({
 
   return (
     <li className={`card ${typeof cardClassName === "undefined" ? '' : cardClassName}`}>
-      <img className="card__img" src={imgCardLink} alt={card.nameRU} />
+      <a href={card.trailerLink} className="card__img-link" target="_blank" rel="noreferrer">
+        <img className="card__img" src={imgCardLink} alt={card.nameRU} />
+      </a>
       <h3 className="card__title">{card.nameRU}</h3>
       {isMoviesPage ? (
         <button aria-label="поставить лайк" type="button" onClick={handleCardLike} className={`movies-card__like-button ${isLiked && 'movies-card__like-button_active'}`} />
