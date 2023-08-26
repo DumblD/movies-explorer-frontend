@@ -19,6 +19,7 @@ import {
   shortMovieDuration,
   errorGetMoviesRequestMessageText,
   errorNotFoundMessageText,
+  errorNotFoundOrEmpty,
   errorSearchTextInValidMessage,
   errorUpdateInfoRequestMessageText,
   infoUpdateInfoRequestMessageText,
@@ -50,14 +51,17 @@ function App() {
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [isPreloaderActive, setIsPreloaderActive] = useState(false);
   const [findMovieText, setFindMovieText] = useState('');
+  const [findSavedMovieText, setFindSavedMovieText] = useState('');
   const [isFetching, setIsFetching] = useState(false);
 
   const [moviesCards, setMoviesCards] = useState([]);
   const [savedMoviesCards, setSavedMoviesCards] = useState([]);
   const [moviesCardsNumToRender, setMoviesCardsNumToRender] = useState(5);
+  const [savedMoviesCardsNumToRender, setSavedMoviesCardsNumToRender] = useState(0);
   const [numOfExtraCards, setNumOfExtraCards] = useState(0);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [isShortMovies, setIsShortMovies] = useState(false);
+  const [isShortSavedMovies, setIsShortSavedMovies] = useState(false);
   const [isPreviousShortMovies, setIsPreviousShortMovies] = useState(false);
 
   const [isSearchTextSame, setIsSearchTextSame] = useState('');
@@ -66,6 +70,8 @@ function App() {
 
   const [textFilteredMovies, setTextFilteredMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [textFilteredSavedMovies, setTextFilteredSavedMovies] = useState([]);
+  const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
   const [isMoviesPageOpen, setIsMoviesPageOpen] = useState(false);
   const { localStorageData, configureLastNumShowedMovieslocalStorage, configureMovieslocalStorageData, getLocalStorageForMovies, clearLocalStorage, setLikedMovieLocalStorage, deleteLikedMovieLocalStorage } = useLocalStorage();
 
@@ -76,8 +82,8 @@ function App() {
     togglePreloader(true);
     request()
       .catch((err) => {
+        getErrorRequestMessage(errorNotFoundOrEmpty);
         console.log(err);
-        getErrorRequestMessage(errorGetMoviesRequestMessageText);
       })
       .finally(() => {
         togglePreloader(false);
@@ -100,7 +106,12 @@ function App() {
     function makeRequest() {
       return mainApi.getSavedMoviesCards()
         .then((data) => {
-          setSavedMoviesCards(data.data);
+          console.log(data.data);
+          if (data) {
+            setSavedMoviesCards(data.data);
+          } else {
+            return;
+          }
         })
     }
     handleRequest(makeRequest);
@@ -268,7 +279,7 @@ function App() {
     }
   };
 
-  function filterMoviesBySearchText(cardsList) {
+  function filterMoviesBySearchText(cardsList, numCardsToRender, isShort, setTextFiltered, setFiltered) {
     const textFilteredMoviesList = cardsList.map((cardElement) => {
       const isInclude = searchFilterParams.some((param) => {
         return cardElement[param].toLowerCase().includes(findMovieText);
@@ -277,30 +288,30 @@ function App() {
     }).filter((el) => {
       return el !== null;
     });
-    setTextFilteredMovies(textFilteredMoviesList);
-    filterMoviesByShort(textFilteredMoviesList);
+    setTextFiltered(textFilteredMoviesList);
+    filterMoviesByShort(numCardsToRender, isShort, setFiltered);
   }
 
-  function filterMoviesByShort() {
-    if (isShortMovies) {
+  function filterMoviesByShort(numCardsToRender, isShort, setFiltered) {
+    if (isShort) {
       const shortFiltered = textFilteredMovies.filter((cardElement) => {
         return cardElement.duration <= shortMovieDuration;
       });
-      getFilteredMovies(shortFiltered);
+      getFilteredMovies(shortFiltered, numCardsToRender, setFiltered);
       setShortFilteredMoviesLength(shortFiltered.length);
       checkLoadMoreButtonActivity(shortFiltered.length);
     } else {
-      getFilteredMovies(textFilteredMovies);
+      getFilteredMovies(textFilteredMovies, numCardsToRender, setFiltered);
       setShortFilteredMoviesLength(textFilteredMovies.length);
       checkLoadMoreButtonActivity(textFilteredMovies.length);
     }
   }
 
-  function getFilteredMovies(moviesList) {
+  function getFilteredMovies(moviesList, numCardsToRender, setFiltered) {
     const filteredMovies = moviesList.filter((card, index) => {
-      return index < moviesCardsNumToRender;
+      return index < numCardsToRender;
     });
-    setFilteredMovies(filteredMovies);
+    setFiltered(filteredMovies);
   }
 
   function checkLoadMoreButtonActivity(filteredMoviesLength) {
@@ -365,7 +376,8 @@ function App() {
         const selectedCard = savedMoviesCards.filter((savedMovie) => {
           return savedMovie.nameEN === card.nameEN;
         });
-        handleCardDelete(selectedCard);
+        setSelectedCardToDelete(selectedCard);
+        handleConfirmDelCard();
       } else {
         handleCardLike(card);
       }
@@ -477,6 +489,7 @@ function App() {
   function handleSearchMovies() {
     // Api request
     hideErrorMessages();
+    setPreviousFindMovieText(findMovieText);
     if (!isSearchTextValid(findMovieText)){
       getErrorRequestMessage(errorSearchTextInValidMessage);
       return;
@@ -495,7 +508,7 @@ function App() {
       getMoviesCards();
     }
     if (moviesCards) {
-      filterMoviesBySearchText(moviesCards);
+      filterMoviesBySearchText(moviesCards, moviesCardsNumToRender, isShortMovies, setTextFilteredMovies, setFilteredMovies);
     }
 /*     if (!moviesCards.length && findMovieText) {
       getMoviesCards();
@@ -507,7 +520,18 @@ function App() {
 
   function handleSearchSavedMovies() {
     // function filters movies on front
-    // ...
+    // Api request
+    hideErrorMessages();
+    if (!isSearchTextValid(findMovieText)){
+      getErrorRequestMessage(errorSearchTextInValidMessage);
+      return;
+    }
+    if (typeof savedMoviesCards === 'undefined' || !savedMoviesCards.length) {
+      getSavedMoviesCards();
+    }
+    if (savedMoviesCards.length) {
+      filterMoviesBySearchText(savedMoviesCards, savedMoviesCardsNumToRender, isShortSavedMovies, setTextFilteredSavedMovies, setFilteredSavedMovies); // ------------------------------------поправить - второй аргумент
+    }
   }
 
   function toggleLoadMore(isActive) {
@@ -571,7 +595,7 @@ function App() {
     if (textFilteredMovies.length && findMovieText) {
       console.log(findMovieText);
       hideErrorMessages();
-      filterMoviesByShort();
+      filterMoviesByShort(moviesCardsNumToRender, isShortMovies, setFilteredMovies);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textFilteredMovies]);
@@ -590,7 +614,7 @@ function App() {
       if (textFilteredMovies.length && findMovieText) {
         console.log('it IS');
         console.log(moviesCardsNumToRender);
-        filterMoviesByShort();
+        filterMoviesByShort(moviesCardsNumToRender, isShortMovies, setFilteredMovies);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [moviesCardsNumToRender]);
@@ -656,6 +680,7 @@ function App() {
             moviesCardsNumToRender={moviesCardsNumToRender}
             setMoviesCardsNumToRender={setMoviesCardsNumToRender}
             filteredMovies={filteredMovies}
+            setTextFilteredMovies={setTextFilteredMovies}
             setFilteredMovies={setFilteredMovies}
             textFilteredMovies={textFilteredMovies}
             isPreloaderActive={isPreloaderActive}
@@ -672,29 +697,36 @@ function App() {
             onLoadMore={loadMoreCards}
             isSearchTextSame={isSearchTextSame}
             setIsSearchTextSame={setIsSearchTextSame}
-            filterByShort={filterMoviesByShort}
             toggleShortMovies={toggleShortMovies}
           />} />
           <Route path="/saved-movies" element={<ProtectedRouteElement
             element={SavedMovies}
             loggedIn={loggedIn}
             cards={savedMoviesCards}
-            filteredMovies={filteredMovies}
-            setFilteredMovies={setFilteredMovies}
-            setMoviesCardsNumToRender={setMoviesCardsNumToRender}
+            savedMoviesCardsNumToRender={savedMoviesCardsNumToRender}
+            setSavedMoviesCardsNumToRender={setSavedMoviesCardsNumToRender}
+            previousFindMovieText={previousFindMovieText}
+            setPreviousFindMovieText={setPreviousFindMovieText}
+            textFilteredSavedMovies={textFilteredSavedMovies}
+            setTextFilteredMovies={setTextFilteredSavedMovies}
+            filteredMovies={filteredSavedMovies}
+            setFilteredSavedMovies={setFilteredSavedMovies}
+            filterMoviesByShort={filterMoviesByShort}
             getSavedMoviesCards={getSavedMoviesCards}
             isPreloaderActive={isPreloaderActive}
-            findMovieText={findMovieText}
-            setFindMovieText={setFindMovieText}
+            findSavedMovieText={findSavedMovieText}
+            setFindSavedMovieText={setFindSavedMovieText}
             handleConfirmDelCardClick={handleConfirmDelCardClick}
             onSearch={handleSearchSavedMovies}
-            isShortMovies={isShortMovies}
-            setIsShortMovies={setIsShortMovies}
+            isShortMovies={isShortSavedMovies}
+            setIsShortMovies={setIsShortSavedMovies}
             isLoadMore={isLoadMore}
             onLoadMore={loadMoreSavedCards}
+            isSearchTextSame={isSearchTextSame}
             setIsSearchTextSame={setIsSearchTextSame}
             isInfoMessage={isInfoMessageActive}
             errorMessageText={errorRequestMessage}
+            hideErrorMessages={hideErrorMessages}
             toggleShortMovies={toggleShortMovies}
           />} />
           <Route path="/signup" element={<Register

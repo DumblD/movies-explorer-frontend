@@ -4,6 +4,7 @@ export const desktopWidthMediaQuery = window.matchMedia('(min-width: 1280px)');
 /* export const desktopWidthMediaQuery = window.matchMedia('(min-width: 1280px)'); */
 export const errorGetMoviesRequestMessageText = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз';
 export const errorNotFoundMessageText = 'Ничего не найдено';
+export const errorNotFoundOrEmpty = 'Пока нет сохраненных фильмов или во время запроса произошла ошибка.';
 export const errorSearchTextInValidMessage = 'Корректное название фильма может содержать кириллицу или латинские символы, или цифры, пробелы, а также следующие спец. символы: %.,?!:()-';
 export const errorUpdateInfoRequestMessageText = 'При обновлении данных аккаунта возникла ошибка'
 export const errorLoginInfoRequestMessageText = 'При входе возникла ошибка'

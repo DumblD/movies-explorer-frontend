@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './../Header/Header';
 import SearchForm from './../SearchForm/SearchForm';
 import MoviesCardList from './../MoviesCardList/MoviesCardList';
@@ -9,14 +9,18 @@ import { useLocalStorage } from './../../utils/customHooks/useLocalStorage';
 
 function SavedMovies({
   cards,
+  savedMoviesCardsNumToRender,
+  setSavedMoviesCardsNumToRender,
   getSavedMoviesCards,
   isPreloaderActive,
-  filteredMovies,
-  setFilteredMovies,
-  setMoviesCardsNumToRender,
-  findMovieText,
-  setFindMovieText,
+  textFilteredSavedMovies,
+  filteredSavedMovies,
+  setFilteredSavedMovies,
+  filterMoviesByShort,
+  findSavedMovieText,
+  setFindSavedMovieText,
   handleConfirmDelCardClick,
+  isSearchTextSame,
   onSearch,
   isShortMovies,
   setIsShortMovies,
@@ -25,6 +29,7 @@ function SavedMovies({
   setIsSearchTextSame,
   isInfoMessage,
   errorMessageText,
+  hideErrorMessages,
   toggleShortMovies,
 }) {
   const { getLikedMoviesId } = useLocalStorage();
@@ -32,17 +37,27 @@ function SavedMovies({
   const additionalMoviesCardsStyles = 'movies-cards_padding_changed';
 
   const infoToolTipStyle = "page__info-tool-tip";
-  const infoToolTipTextStyle = "page__info-tool-tip-text";
+  const infoToolTipTextStyle = errorMessageText.includes('нет сохраненных фильмов') ? 'page__info-tool-tip-text info-tool-tip__text_color_black' : 'page__info-tool-tip-text';
   const cardClassName = "movies-card";
 
   function toggleShort() {
-    toggleShortMovies(onSearch);
+    onSearch();
+    console.log(textFilteredSavedMovies);
+  }
+
+  function filterByShort() {
+    filterMoviesByShort(savedMoviesCardsNumToRender, isShortMovies, setFilteredSavedMovies);
+  }
+
+  function checkFilteredMoviesLength() {
+    console.log(textFilteredSavedMovies.length);
+    setSavedMoviesCardsNumToRender(textFilteredSavedMovies.length);
   }
 
   useEffect(() => {
-    setFilteredMovies([]);
+    hideErrorMessages();
     setIsShortMovies(false);
-    setFindMovieText('');
+    setFindSavedMovieText('');
     getSavedMoviesCards();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -53,6 +68,28 @@ function SavedMovies({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards]);
+
+  useEffect(() => {
+    if (textFilteredSavedMovies.length && findSavedMovieText) {
+      console.log('it IS');
+      console.log(savedMoviesCardsNumToRender);
+      filterMoviesByShort(savedMoviesCardsNumToRender, isShortMovies, setFilteredSavedMovies);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textFilteredSavedMovies]);
+
+  useEffect(() => {
+    if (textFilteredSavedMovies.length) {
+      checkFilteredMoviesLength();
+      console.log(savedMoviesCardsNumToRender);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textFilteredSavedMovies]);
+
+  useEffect(() => {
+    filterMoviesByShort(savedMoviesCardsNumToRender, isShortMovies, setFilteredSavedMovies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedMoviesCardsNumToRender]);
 
 /*   useEffect(() => {
     if (filteredMovies.length) {
@@ -67,13 +104,17 @@ function SavedMovies({
       <Header />
       <main>
         <SearchForm
-          findMovieText={findMovieText}
-          setFindMovieText={setFindMovieText}
+          findMovieText={findSavedMovieText}
+          setFindMovieText={setFindSavedMovieText}
           isShortMovies={isShortMovies}
           setIsShortMovies={setIsShortMovies}
           onSearch={onSearch}
+          textFilteredMovies={textFilteredSavedMovies}
           setIsSearchTextSame={setIsSearchTextSame}
-          toggleShortMovies={toggleShort}
+          filteredMovies={filteredSavedMovies}
+          isSearchTextSame={isSearchTextSame}
+          filterByShort={filterByShort}
+          toggleShortFilms={toggleShort}
         />
         {isInfoMessage &&
           <InfoToolTip

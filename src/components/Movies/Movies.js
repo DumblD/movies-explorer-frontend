@@ -28,6 +28,8 @@ function Movies({
   textFilteredMovies,
   isPreloaderActive,
   findMovieText,
+  setTextFilteredMovies,
+  setFilteredMovies,
   setFindMovieText,
   isShortMovies,
   setIsShortMovies,
@@ -40,7 +42,6 @@ function Movies({
   onLoadMore,
   isSearchTextSame,
   setIsSearchTextSame,
-  filterByShort,
   toggleShortMovies,
 }) {
   const infoToolTipStyle = "page__info-tool-tip";
@@ -50,6 +51,10 @@ function Movies({
 
   function toggleShort() {
     toggleShortMovies(onSearch);
+  }
+
+  function filterByShort() {
+    filterMoviesByShort(moviesCardsNumToRender, isShortMovies, setFilteredMovies);
   }
 
   useEffect(() => {
@@ -152,7 +157,7 @@ function Movies({
   }, [screenWidth]);
 
   useEffect(() => {
-    filterMoviesByShort();
+    filterMoviesByShort(moviesCardsNumToRender, isShortMovies, setFilteredMovies);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moviesCardsNumToRender]);
 
@@ -170,25 +175,27 @@ function Movies({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [findMovieText]);
 
+  useEffect(() => {
+    setIsSearchTextSame(previousFindMovieText === findMovieText);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [findMovieText]);
+
   return (
     <div className="page__container">
       <Header />
       <main>
         <SearchForm
           findMovieText={findMovieText}
-          previousFindMovieText={previousFindMovieText}
-          setPreviousFindMovieText={setPreviousFindMovieText}
           setFindMovieText={setFindMovieText}
           isShortMovies={isShortMovies}
           setIsShortMovies={setIsShortMovies}
           onSearch={onSearch}
           textFilteredMovies={textFilteredMovies}
-          moviesCardsNumToRender={moviesCardsNumToRender}
           setIsSearchTextSame={setIsSearchTextSame}
           filteredMovies={filteredMovies}
           isSearchTextSame={isSearchTextSame}
           filterByShort={filterByShort}
-          toggleShortMovies={toggleShort}
+          toggleShortFilms={toggleShort}
         />
         {isInfoMessage &&
           <InfoToolTip

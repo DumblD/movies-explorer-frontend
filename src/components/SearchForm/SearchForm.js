@@ -1,23 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import FilterCheckbox from './../../components/FilterCheckbox/FilterCheckbox';
 
 import './SearchForm.css';
 
 function SearchForm({
   findMovieText,
-  previousFindMovieText,
-  setPreviousFindMovieText,
   setFindMovieText,
   isShortMovies,
   setIsShortMovies,
   onSearch,
   textFilteredMovies,
-  moviesCardsNumToRender,
   setIsSearchTextSame,
   filteredMovies,
   isSearchTextSame,
   filterByShort,
-  toggleShortMovies,
+  toggleShortFilms,
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const searchFormInput = useRef(null);
@@ -45,16 +42,8 @@ function SearchForm({
 
   function handleSearch(ev) {
     ev.preventDefault();
-    setPreviousFindMovieText(findMovieText);
-    console.log(previousFindMovieText);
-    console.log(findMovieText);
     onSearch();
   }
-
-  useEffect(() => {
-    setIsSearchTextSame(previousFindMovieText === findMovieText);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [findMovieText]);
 
 /*   useEffect(() => {
     const lastSearchMovies = localStorage.getItem('lastSearchMovies');
@@ -100,7 +89,7 @@ function SearchForm({
           labelTextClassName={filterLabelTextClassName}
           labelName={filterLabelName}
           filterByShort={filterByShort}
-          toggleShortMovies={toggleShortMovies}
+          toggleShortFilms={toggleShortFilms}
           isSearchTextSame={isSearchTextSame}
           setIsSearchTextSame={setIsSearchTextSame}
           textFilteredMovies={textFilteredMovies}

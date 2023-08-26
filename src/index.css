@@ -118,6 +118,7 @@
 
 @import url(./blocks/info-tool-tip/__text/info-tool-tip__text.css);
 @import url(./blocks/info-tool-tip/__text/_color/info-tool-tip__text_color_green.css);
+@import url(./blocks/info-tool-tip/__text/_color/info-tool-tip__text_color_black.css);
 @import url(./blocks/info-tool-tip/_disabled/info-tool-tip__disabled.css);
 
 @import url(./blocks/movies-search/movies-search.css);

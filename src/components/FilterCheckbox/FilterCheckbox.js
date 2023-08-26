@@ -8,7 +8,7 @@ function FilterCheckbox({
   labelTextClassName,
   labelName,
   filterByShort,
-  toggleShortMovies,
+  toggleShortFilms,
   isSearchTextSame,
   setIsSearchTextSame,
   textFilteredMovies,
@@ -20,7 +20,7 @@ function FilterCheckbox({
     filterByShort();
     console.log('фильтруем результат');
   } else if (!isSearchTextSame && findMovieText) {
-    toggleShortMovies();
+    toggleShortFilms();
     console.log('поиск по новым');
   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
