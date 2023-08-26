@@ -5,6 +5,8 @@ import './SearchForm.css';
 
 function SearchForm({
   findMovieText,
+  previousFindMovieText,
+  setPreviousFindMovieText,
   setFindMovieText,
   isShortMovies,
   setIsShortMovies,
@@ -12,9 +14,11 @@ function SearchForm({
   textFilteredMovies,
   moviesCardsNumToRender,
   setIsSearchTextSame,
+  filteredMovies,
+  isSearchTextSame,
+  filterByShort,
+  toggleShortMovies,
 }) {
-
-  const [previousFindMovieText, setPreviousFindMovieText] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const searchFormInput = useRef(null);
 
@@ -22,16 +26,6 @@ function SearchForm({
   const filterInputClassName = `movies-search__filter-checkbox-tumb-button ${!isShortMovies ? 'movies-search__filter-checkbox-tumb-button_disabled' : ''}`;
   const filterLabelTextClassName = 'movies-search__filter-checkbox-label-text';
   const filterLabelName = 'Короткометражки';
-
-  function savePreviousFindMovieText() {// вместо moviesCards -> filtered cards
-    if (textFilteredMovies.length && findMovieText) {
-      setPreviousFindMovieText(searchFormInput.current.value);
-    }
-  }
-
-  function renderSameNumOfCardsOnSameSearch() {
-    setIsSearchTextSame(previousFindMovieText === searchFormInput.current.value);
-  }
 
   function handleChange(ev) {
     setFindMovieText(ev.target.value);
@@ -51,15 +45,34 @@ function SearchForm({
 
   function handleSearch(ev) {
     ev.preventDefault();
-    savePreviousFindMovieText();
-    renderSameNumOfCardsOnSameSearch();
+    setPreviousFindMovieText(findMovieText);
+    console.log(previousFindMovieText);
+    console.log(findMovieText);
     onSearch();
   }
 
-  useEffect(() => { // сохраняем предыдущее значение поиска
-    savePreviousFindMovieText();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [previousFindMovieText]);
+  useEffect(() => {
+    setIsSearchTextSame(previousFindMovieText === findMovieText);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [findMovieText]);
+
+/*   useEffect(() => {
+    const lastSearchMovies = localStorage.getItem('lastSearchMovies');
+    const lastSearchSavedMovies = localStorage.getItem('lastSearchSavedMovies');
+    if (lastSearchMovies) {
+      setPreviousFindMovieText(lastSearchMovies);
+    } else if (lastSearchSavedMovies) {
+      setPreviousFindMovieText(lastSearchSavedMovies);
+    }
+    console.log(findMovieText);
+    console.log(123);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); */
+
+/*   useEffect(() => { ------------------------------------------------раскоммитить
+    setIsSearchTextSame(previousFindMovieText === findMovieText);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [previousFindMovieText]); */
 
   return (
     <section className='movies-search'>
@@ -86,6 +99,12 @@ function SearchForm({
           inputClassName={filterInputClassName}
           labelTextClassName={filterLabelTextClassName}
           labelName={filterLabelName}
+          filterByShort={filterByShort}
+          toggleShortMovies={toggleShortMovies}
+          isSearchTextSame={isSearchTextSame}
+          setIsSearchTextSame={setIsSearchTextSame}
+          textFilteredMovies={textFilteredMovies}
+          findMovieText={findMovieText}
         />
       </div>
     </section>

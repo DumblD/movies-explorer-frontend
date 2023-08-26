@@ -1,4 +1,5 @@
 import React from 'react';
+import { useContext } from 'react';
 
 function MoviesCard({
   card,
@@ -29,8 +30,19 @@ function MoviesCard({
   }
 
   const movieDuration = minToHourMin(card.duration);
-  const imgCardLink = `https://api.nomoreparties.co/${card.image.url}`;
-  const isLiked = typeof card.owner === "undefined" ? false : true;
+  const imgCardLink = isMoviesPage? `https://api.nomoreparties.co/${card.image.url}` : `${card.image}`; // убрать после -------------------
+  const isLikedMovie = checkLike();
+  const isLiked = isLikedMovie ? true : false;
+
+  function checkLike() {
+    if (localStorage.getItem('likedMovies')) {
+      const likedId = JSON.parse(localStorage.getItem('likedMovies'));
+      const isLiked = likedId.some((id) => {
+        return card.id === parseInt(id, 10);
+      })
+      return isLiked;
+    }
+  }
 
   return (
     <li className={`card ${typeof cardClassName === "undefined" ? '' : cardClassName}`}>
@@ -39,7 +51,7 @@ function MoviesCard({
       </a>
       <h3 className="card__title">{card.nameRU}</h3>
       {isMoviesPage ? (
-        <button aria-label="поставить лайк" type="button" onClick={handleCardLike} className={`movies-card__like-button ${isLiked && 'movies-card__like-button_active'}`} />
+        <button aria-label="поставить лайк" type="button" onClick={handleCardLike} className={`movies-card__like-button ${isLiked ? 'movies-card__like-button_active' : ''}`} />
       ) : (
         <button aria-label="удалить карточку" type="button" className="card__del-button" onClick={handleCardDelete} />
       )}

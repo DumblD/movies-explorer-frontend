@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 
 function FilterCheckbox({
   isChecked,
@@ -7,7 +7,43 @@ function FilterCheckbox({
   inputClassName,
   labelTextClassName,
   labelName,
+  filterByShort,
+  toggleShortMovies,
+  isSearchTextSame,
+  setIsSearchTextSame,
+  textFilteredMovies,
+  findMovieText,
 }) {
+
+  useEffect(() => {
+  if (isSearchTextSame && findMovieText) {
+    filterByShort();
+    console.log('фильтруем результат');
+  } else if (!isSearchTextSame && findMovieText) {
+    toggleShortMovies();
+    console.log('поиск по новым');
+  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isChecked]);
+
+/*   useEffect(() => {
+    if (findMovieText) {
+      setIsSearchTextSame(true);
+    }
+    if (isSearchTextSame && textFilteredMovies.length && findMovieText) {
+      filterByShort();
+      console.log('фильтруем результат');
+    } else if (!isSearchTextSame && findMovieText) {
+      toggleShortMovies();
+      console.log('поиск по новым');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isChecked]); */
+
+/*   useEffect(() => {
+    toggleShortMovies();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isChecked]); */
 
   return (
     <>

@@ -5,12 +5,25 @@ import MoviesCardList from './../MoviesCardList/MoviesCardList';
 import LoadMoreButton from './../LoadMoreButton/LoadMoreButton';
 import Footer from './../Footer/Footer';
 import InfoToolTip from './../../components/InfoToolTip/InfoToolTip';
-import { useLocalStorage } from './../../utils/customHooks/useLocalStorage';
 
 function Movies({
+  localStorageData,
+  previousFindMovieText,
+  setPreviousFindMovieText,
+  saveCurrentSearchTextValue,
+  configureMovieslocalStorageData,
+  getLocalStorageForMovies,
+  isMoviesPageOpen,
+  toggleIsOpenPage,
   moviesCards,
-  moviesCardsNumToRender,
+  setMoviesCardsFirstsLoad,
+  isFetching,
+  screenWidth,
+  setScreenWidth,
   filterMoviesByShort,
+  checkWidth,
+  moviesCardsNumToRender,
+  setMoviesCardsNumToRender,
   filteredMovies,
   textFilteredMovies,
   isPreloaderActive,
@@ -27,33 +40,89 @@ function Movies({
   onLoadMore,
   isSearchTextSame,
   setIsSearchTextSame,
+  filterByShort,
+  toggleShortMovies,
 }) {
   const infoToolTipStyle = "page__info-tool-tip";
   const infoToolTipTextStyle = "page__info-tool-tip-text";
   const cardClassName = "movies-card";
   const isMoviesPage = true;
-  const { localStorageData, configureMovieslocalStorageData, getLocalStorageForMovies } = useLocalStorage();
+
+  function toggleShort() {
+    toggleShortMovies(onSearch);
+  }
+
+  useEffect(() => {
+    return () => {
+      toggleIsOpenPage();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMoviesPageOpen]);
 
   // получаем данные из localStorage и записываем в переменную localStorage
   useEffect(() => {
+    toggleIsOpenPage();
     hideErrorMessages();
     getLocalStorageForMovies();
+    console.log(filteredMovies.length);
+    console.log(textFilteredMovies.length);
+    console.log(isSearchTextSame);
+    console.log(localStorageData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // сохраняем данные в localStorage
   useEffect(() => {
-    setFindMovieText(localStorageData.lastSearchMovies);
-    setIsShortMovies(localStorageData.isShortMovies);
-    console.log(moviesCards.length);
-    if (!moviesCards.length) {
-      console.log(moviesCards.length);
+    if (localStorageData.lastSearchMovies) {
       onSearch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localStorageData]);
 
+  // сохраняем данные на страницу
+  useEffect(() => {
+    console.log(localStorageData);
+    if (localStorageData.lastSearchMovies) {
+      setFindMovieText(localStorageData.lastSearchMovies);
+      saveCurrentSearchTextValue();
+      console.log(isShortMovies);
+      console.log(localStorageData.isShortMovies);
+      console.log(typeof localStorageData.isShortMovies);
+      setIsShortMovies(localStorageData.isShortMovies);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localStorageData, isFetching]);
+
+/*   useEffect(() => {
+    if (moviesCardsFirstsLoad) {
+      setMoviesLiked(moviesCards);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moviesCardsFirstsLoad]); */
+
+  useEffect(() => {
+    if (findMovieText && !isFetching) {
+      onSearch();
+    }
+    console.log(moviesCards);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching, moviesCards]);
+
+  useEffect(() => {
+    if (findMovieText && moviesCards.length) {
+      onSearch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [previousFindMovieText]);
+
+/*   useEffect(() => {
+    if (findMovieText) {
+      filterMoviesByShort();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textFilteredMovies]); */
+
 // записываем в localStorage состояние переключателя и актуальный поиска
+// именно тогда, когда происходит запрос
   useEffect(() => {
     if (findMovieText) {
       configureMovieslocalStorageData(findMovieText, isShortMovies);
@@ -61,14 +130,45 @@ function Movies({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textFilteredMovies, isShortMovies]);
 
-// фильтруем по клику на переключатель короткометражек
+  // -----------------------------------
+
   useEffect(() => {
-    if (textFilteredMovies.length && findMovieText && moviesCards.length) {
-      hideErrorMessages();
-      filterMoviesByShort();
+    if (filteredMovies.length && findMovieText) {
+      checkWidth();
+    }
+    console.log(textFilteredMovies);
+    console.log(textFilteredMovies.length);
+    console.log(filteredMovies.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textFilteredMovies, filteredMovies, moviesCards]); // moviesCards было
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setScreenWidth(window.innerWidth);
+    });
+    checkWidth();
+    console.log(moviesCardsNumToRender);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screenWidth]);
+
+  useEffect(() => {
+    filterMoviesByShort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moviesCardsNumToRender]);
+
+  useEffect(() => {
+    checkWidth();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moviesCardsNumToRender]);
+
+  useEffect(() => {
+    if (findMovieText) {
+      if (!isSearchTextSame) {
+        localStorage.setItem('lastNumShowedMovies', 'noSearch');
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [textFilteredMovies, isShortMovies, moviesCards]);
+  }, [findMovieText]);
 
   return (
     <div className="page__container">
@@ -76,6 +176,8 @@ function Movies({
       <main>
         <SearchForm
           findMovieText={findMovieText}
+          previousFindMovieText={previousFindMovieText}
+          setPreviousFindMovieText={setPreviousFindMovieText}
           setFindMovieText={setFindMovieText}
           isShortMovies={isShortMovies}
           setIsShortMovies={setIsShortMovies}
@@ -83,6 +185,10 @@ function Movies({
           textFilteredMovies={textFilteredMovies}
           moviesCardsNumToRender={moviesCardsNumToRender}
           setIsSearchTextSame={setIsSearchTextSame}
+          filteredMovies={filteredMovies}
+          isSearchTextSame={isSearchTextSame}
+          filterByShort={filterByShort}
+          toggleShortMovies={toggleShort}
         />
         {isInfoMessage &&
           <InfoToolTip

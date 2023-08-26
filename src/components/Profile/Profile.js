@@ -5,7 +5,6 @@ import FormInput from './../FormInput/FormInput';
 import InfoToolTip from './../../components/InfoToolTip/InfoToolTip';
 import { useContext } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { useLocalStorage } from '../../utils/customHooks/useLocalStorage';
 
 function Profile({
   getUserInfo,
@@ -34,9 +33,6 @@ function Profile({
 
   const [isProfileChanged, setIsProfileChanged] = useState(false);
   const { values, handleChange, errors, isInputValid, setValues, isSubmitButtonActive, getInputNames } = useFormAndValidation();
-  const {
-    clearLocalStorage,
-  } = useLocalStorage();
   const inputLabels = [
     {
       name: "Имя",
@@ -181,7 +177,6 @@ function Profile({
 
   function handleLogout(ev) {
     ev.preventDefault();
-    clearLocalStorage();
     resetSearchMoviesResults();
     onLogout();
   }

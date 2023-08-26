@@ -43,6 +43,23 @@ class MainApi {
       })
     })
   }
+
+  addNewSavedMovie(data) {
+    return this._request(this._url + "/movies", {
+      method: 'POST',
+      credentials: 'include',
+      headers: this._headers,
+      body: JSON.stringify(data),
+    });
+  }
+
+  deleteSavedMovie(cardId) {
+    return this._request(this._url + `/movies/${cardId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: this._headers,
+    });
+  }
 }
 
 export const mainApi = new MainApi({
