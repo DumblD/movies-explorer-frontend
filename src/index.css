@@ -188,6 +188,7 @@
 @import url(./blocks/load-more/__button-text/load-more__button-text.css);
 
 @import url(./blocks/footer/footer.css);
+@import url(./blocks/footer/_padding/footer_padding_changed.css);
 @import url(./blocks/footer/__study-project-text/footer__study-project-text.css);
 @import url(./blocks/footer/__list-items/footer__list-items.css);
 @import url(./blocks/footer/__copyright/footer__copyright.css);

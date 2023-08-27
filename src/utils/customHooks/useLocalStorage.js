@@ -7,32 +7,39 @@ export function useLocalStorage() {
     lastNumShowedMovies: '',
     lastSearchSavedMovies: '',
     isShortSavedMovies: '',
-    likedMovies: [],
+    likedMovies: '[]',
+    savedMovies: '[]',
+    isFirstLogged: '',
   });
+
+  const getSavedMoviesLocalStorage = () => {
+    if (localStorage.getItem('savedMovies')) {
+      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      return savedMovies;
+    }
+  }
+
+  const checkIsFirstSignInLocalStorage = () => {
+    if (!localStorage.getItem('isFirstLogged')) {
+      return true;
+    }
+    return false;
+  }
 
   const setLikedMovieLocalStorage = (cardId) => {
     const movieId = String(cardId);
-    let likedMoviesId;
     if (localStorage.getItem('likedMovies')) {
       const liked = JSON.parse(localStorage.getItem('likedMovies'));
       liked.push(movieId);
       localStorage.setItem('likedMovies', JSON.stringify(liked));
-      likedMoviesId = liked.map((el) => {
-        return el;
-      });
     } else {
       const liked = [];
       liked.push(movieId);
       localStorage.setItem('likedMovies', JSON.stringify(liked));
-      likedMoviesId = liked.map((el) => {
-        return el;
-      });
     }
-    setLocalStorageData(likedMoviesId);
   }
 
   const deleteLikedMovieLocalStorage = (card) => {
-    let likedMoviesId;
     if (localStorage.getItem('likedMovies')) {
       const liked = JSON.parse(localStorage.getItem('likedMovies'));
       const filmId = typeof card.id === 'number' ? card.id : card.movieId;
@@ -40,14 +47,10 @@ export function useLocalStorage() {
         return parseInt(el, 10) !== filmId;
       });
       localStorage.setItem('likedMovies', JSON.stringify(likedUpdated));
-      likedMoviesId = liked.map((el) => {
-        return el;
-      });
-      setLocalStorageData(likedMoviesId);
     }
   }
 
-  function getLikedMoviesId(savedMovies) {
+  const getLikedMoviesId = (savedMovies) => {
     if (savedMovies.length && (!localStorage.getItem('likedMovies') || !localStorage.getItem('likedMovies').length)) {
       let liked = [];
       savedMovies.forEach((movie) => {
@@ -58,28 +61,6 @@ export function useLocalStorage() {
       return;
     }
   }
-
-/*   const setMoviesLiked = (movies) => {
-    if (localStorage.getItem('likedMovies')) {
-      const liked = JSON.parse(localStorage.getItem('likedMovies'));
-      liked.forEach(likeItem => {
-        const filter = movies.map((movie) => {
-          if (movie.movieId === likeItem) {
-            movie.like = true;
-            return movie;
-          }
-          return movie;
-        });
-        return filter;
-      });
-    } else {
-      return;
-    }
-  } */
-
-/*   const setMoviesLiked = (movies) => {
-    console.log(movies);
-  } */
 
   const configureMovieslocalStorageData = (searchText, isShort) => {
     localStorage.setItem('lastSearchMovies', searchText);
@@ -142,7 +123,6 @@ export function useLocalStorage() {
   }
 
   const clearLocalStorage = () => {
-    setLocalStorageData([]);
     for (const key in localStorageData) {
       localStorage.removeItem(`${localStorageData[key]}`);
     }
@@ -159,6 +139,8 @@ export function useLocalStorage() {
     clearLocalStorage,
     setLikedMovieLocalStorage,
     deleteLikedMovieLocalStorage,
+    checkIsFirstSignInLocalStorage,
+    getSavedMoviesLocalStorage,
     getLikedMoviesId,
   };
 }

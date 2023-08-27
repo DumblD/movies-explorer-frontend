@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'https://api.movies-search.nomoredomains.xyz';
 
 function checkServerResponseState(res) {
   if (res.ok) {
@@ -33,11 +33,12 @@ export const authorize = (loginData) => {
     },
     body: JSON.stringify(loginData)
   })
-  .then((data) => {
-    if (data.message === 'Аутентификация прошла успешна') {
-      localStorage.setItem('isAuthorized', true);
-    }
-  })
+    .then((data) => {
+      if (data.message === 'Аутентификация прошла успешна') {
+        localStorage.setItem('isAuthorized', true);
+        localStorage.setItem('isFirstLogged', 'false');
+      }
+    })
 };
 
 export const logout = () => {
@@ -48,11 +49,11 @@ export const logout = () => {
       "Content-Type": "application/json"
     }
   })
-  .then((data) => {
-    if (data.message === 'Выход выполнен успешно') {
-      localStorage.removeItem('isAuthorized');
-    }
-  })
+    .then((data) => {
+      if (data.message === 'Выход выполнен успешно') {
+        localStorage.removeItem('isAuthorized');
+      }
+    })
 }
 
 export const checkToken = () => {

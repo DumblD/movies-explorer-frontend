@@ -1,103 +1,96 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from './../Header/Header';
 import SearchForm from './../SearchForm/SearchForm';
 import MoviesCardList from './../MoviesCardList/MoviesCardList';
-import LoadMoreButton from './../LoadMoreButton/LoadMoreButton';
 import Footer from './../Footer/Footer';
 import InfoToolTip from './../../components/InfoToolTip/InfoToolTip';
-import { useLocalStorage } from './../../utils/customHooks/useLocalStorage';
+import {
+  isSearchTextValid,
+  errorSearchTextInValidMessage,
+  filterMovies,
+ } from '../../utils/constants/constants';
 
 function SavedMovies({
-  cards,
-  savedMoviesCardsNumToRender,
-  setSavedMoviesCardsNumToRender,
-  getSavedMoviesCards,
+  savedMoviesCards,
+  checkSavedMovies,
+  savedMovies,
+  setSavedMovies,
   isPreloaderActive,
-  textFilteredSavedMovies,
   filteredSavedMovies,
   setFilteredSavedMovies,
-  filterMoviesByShort,
   findSavedMovieText,
   setFindSavedMovieText,
   handleConfirmDelCardClick,
-  isSearchTextSame,
-  onSearch,
   isShortMovies,
   setIsShortMovies,
-  isLoadMore,
-  onLoadMore,
-  setIsSearchTextSame,
   isInfoMessage,
+  getErrorRequestMessage,
   errorMessageText,
   hideErrorMessages,
-  toggleShortMovies,
 }) {
-  const { getLikedMoviesId } = useLocalStorage();
   const isMoviesPage = false;
   const additionalMoviesCardsStyles = 'movies-cards_padding_changed';
-
+  const additionalFooterStyles = 'footer_padding_changed';
   const infoToolTipStyle = "page__info-tool-tip";
   const infoToolTipTextStyle = errorMessageText.includes('нет сохраненных фильмов') ? 'page__info-tool-tip-text info-tool-tip__text_color_black' : 'page__info-tool-tip-text';
   const cardClassName = "movies-card";
 
-  function toggleShort() {
-    onSearch();
-    console.log(textFilteredSavedMovies);
-  }
-
-  function filterByShort() {
-    filterMoviesByShort(savedMoviesCardsNumToRender, isShortMovies, setFilteredSavedMovies);
-  }
-
-  function checkFilteredMoviesLength() {
-    console.log(textFilteredSavedMovies.length);
-    setSavedMoviesCardsNumToRender(textFilteredSavedMovies.length);
+  function handleSearch(isShort) {
+    if (!isSearchTextValid(findSavedMovieText)) {
+      getErrorRequestMessage(errorSearchTextInValidMessage);
+    } else {
+      hideErrorMessages();
+    }
+    filterMovies(savedMovies, findSavedMovieText, isShort, setFilteredSavedMovies)
   }
 
   useEffect(() => {
+    checkSavedMovies();
     hideErrorMessages();
     setIsShortMovies(false);
     setFindSavedMovieText('');
-    getSavedMoviesCards();
+    if (savedMovies.length) {
+      setFilteredSavedMovies(savedMovies);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (cards.length) {
-      getLikedMoviesId(cards);
+    setSavedMovies(savedMoviesCards);
+    if (!savedMoviesCards.length) {
+      setSavedMovies([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards]);
+  }, [savedMoviesCards.length]);
 
   useEffect(() => {
-    if (textFilteredSavedMovies.length && findSavedMovieText) {
-      console.log('it IS');
-      console.log(savedMoviesCardsNumToRender);
-      filterMoviesByShort(savedMoviesCardsNumToRender, isShortMovies, setFilteredSavedMovies);
+    handleSearch(isShortMovies);
+    if (!savedMovies.length) {
+      setFilteredSavedMovies([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [textFilteredSavedMovies]);
+  }, [savedMovies, savedMoviesCards]);
 
   useEffect(() => {
-    if (textFilteredSavedMovies.length) {
-      checkFilteredMoviesLength();
-      console.log(savedMoviesCardsNumToRender);
+    if (savedMovies.length) {
+      handleSearch(isShortMovies);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [textFilteredSavedMovies]);
+  }, [findSavedMovieText]);
 
   useEffect(() => {
-    filterMoviesByShort(savedMoviesCardsNumToRender, isShortMovies, setFilteredSavedMovies);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [savedMoviesCardsNumToRender]);
-
-/*   useEffect(() => {
-    if (filteredMovies.length) {
-      setMoviesCardsNumToRender(filteredMovies.length);
+    if (findSavedMovieText) {
+      handleSearch(isShortMovies);
     }
-    console.log(filteredMovies.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredMovies]); // moviesCards было */
+  }, [savedMoviesCards.length]);
+
+  useEffect(() => {
+    if (findSavedMovieText) {
+      handleSearch(isShortMovies);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isShortMovies]);
 
   return (
     <div className="page__container">
@@ -108,13 +101,7 @@ function SavedMovies({
           setFindMovieText={setFindSavedMovieText}
           isShortMovies={isShortMovies}
           setIsShortMovies={setIsShortMovies}
-          onSearch={onSearch}
-          textFilteredMovies={textFilteredSavedMovies}
-          setIsSearchTextSame={setIsSearchTextSame}
-          filteredMovies={filteredSavedMovies}
-          isSearchTextSame={isSearchTextSame}
-          filterByShort={filterByShort}
-          toggleShortFilms={toggleShort}
+          onSearch={handleSearch}
         />
         {isInfoMessage &&
           <InfoToolTip
@@ -122,10 +109,9 @@ function SavedMovies({
             additionalInfotextStyles={infoToolTipTextStyle}
             infoMessage={errorMessageText}
           />}
-        {!isInfoMessage && <MoviesCardList isPreloaderActive={isPreloaderActive} cards={cards} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} cardClassName={cardClassName} additionalStyles={additionalMoviesCardsStyles} />}
-        <LoadMoreButton isInfoMessage={isInfoMessage} isActive={false} onLoadMore={onLoadMore} />
+        {!isInfoMessage && <MoviesCardList isPreloaderActive={isPreloaderActive} cards={filteredSavedMovies} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} cardClassName={cardClassName} additionalStyles={additionalMoviesCardsStyles} />}
       </main>
-      <Footer />
+      <Footer additionalFooterStyles={additionalFooterStyles} />
     </div>
   );
 }

@@ -114,27 +114,14 @@ function Profile({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.profileName, values.profileEmail]);
 
-/*   useEffect(() => {
-    console.log(errorRequestMessage);
-    console.log(infoRequestMessage);
-    if (errorRequestMessage || infoRequestMessage) {
-      console.log('hiding');
-      hideErrorMessages();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.profileName, values.profileEmail]); */
-
   useEffect(() => {
     if (isUpdateUserSuccess && infoRequestMessage) {
-      console.log(`updated ${isUpdateUserSuccess}`);
       setCurrentUser({ ...currentUser, profileName: values.profileName, profileEmail: values.profileEmail });
       setProfileName(values.profileName);
       setProfileEmail(values.profileEmail);
     } else if (!isUpdateUserSuccess && errorRequestMessage) {
       setValuesToInputs();
       setIsProfileChanged(false);
-      console.log('not updated');
-      console.log(isProfileChanged);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdateUserSuccess, errorRequestMessage, infoRequestMessage]);
@@ -149,10 +136,6 @@ function Profile({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorRequestMessage, infoRequestMessage]);
-
-/*   function toggleSaveButton() {
-      setIsProfileChanged(false);
-  } */
 
   function onSaveSubmit(ev) {
     ev.preventDefault();

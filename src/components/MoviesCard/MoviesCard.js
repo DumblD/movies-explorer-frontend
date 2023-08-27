@@ -1,5 +1,5 @@
 import React from 'react';
-import { useContext } from 'react';
+import { minToHourMin } from '../../utils/constants/constants';
 
 function MoviesCard({
   card,
@@ -17,20 +17,8 @@ function MoviesCard({
     onCardDelete(card);
   }
 
-  function minToHourMin(min) {
-    let res;
-    if (min % 60 === min) {
-      res = `0ч ${min}м`;
-    } else if (min % 60 === 0) {
-      res = `${min / 60}ч ${0}м`;
-    } else {
-      res = `${Math.trunc(min / 60)}ч ${min % 60}м`;
-    }
-    return res;
-  }
-
   const movieDuration = minToHourMin(card.duration);
-  const imgCardLink = isMoviesPage? `https://api.nomoreparties.co/${card.image.url}` : `${card.image}`; // убрать после -------------------
+  const imgCardLink = isMoviesPage? `https://api.nomoreparties.co/${card.image.url}` : `${card.image}`;
   const isLikedMovie = checkLike();
   const isLiked = isLikedMovie ? true : false;
 

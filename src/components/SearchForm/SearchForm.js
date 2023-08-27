@@ -9,12 +9,6 @@ function SearchForm({
   isShortMovies,
   setIsShortMovies,
   onSearch,
-  textFilteredMovies,
-  setIsSearchTextSame,
-  filteredMovies,
-  isSearchTextSame,
-  filterByShort,
-  toggleShortFilms,
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const searchFormInput = useRef(null);
@@ -45,24 +39,6 @@ function SearchForm({
     onSearch();
   }
 
-/*   useEffect(() => {
-    const lastSearchMovies = localStorage.getItem('lastSearchMovies');
-    const lastSearchSavedMovies = localStorage.getItem('lastSearchSavedMovies');
-    if (lastSearchMovies) {
-      setPreviousFindMovieText(lastSearchMovies);
-    } else if (lastSearchSavedMovies) {
-      setPreviousFindMovieText(lastSearchSavedMovies);
-    }
-    console.log(findMovieText);
-    console.log(123);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); */
-
-/*   useEffect(() => { ------------------------------------------------раскоммитить
-    setIsSearchTextSame(previousFindMovieText === findMovieText);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [previousFindMovieText]); */
-
   return (
     <section className='movies-search'>
       <form onSubmit={handleSearch} name='searchForm' className='movies-search__search-form search-form' noValidate>
@@ -88,12 +64,6 @@ function SearchForm({
           inputClassName={filterInputClassName}
           labelTextClassName={filterLabelTextClassName}
           labelName={filterLabelName}
-          filterByShort={filterByShort}
-          toggleShortFilms={toggleShortFilms}
-          isSearchTextSame={isSearchTextSame}
-          setIsSearchTextSame={setIsSearchTextSame}
-          textFilteredMovies={textFilteredMovies}
-          findMovieText={findMovieText}
         />
       </div>
     </section>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormAndValidation } from './../../utils/customHooks/useFormAndValidation';
 import FormInput from './../FormInput/FormInput';
@@ -82,6 +82,11 @@ function Login({
   function handleSignUp() {
     navigate('/signup', { replace: true });
   }
+
+  useEffect(() => {
+    hideErrorMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <LoginRegisterPage
