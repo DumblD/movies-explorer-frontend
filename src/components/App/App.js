@@ -391,8 +391,7 @@ function App() {
         const selectedCard = savedMoviesCards.filter((savedMovie) => {
           return savedMovie.nameEN === card.nameEN;
         });
-        setSelectedCardToDelete(selectedCard);
-        handleConfirmDelCard();
+        handleCardDelete(selectedCard);
       } else {
         handleCardLike(card);
       }
