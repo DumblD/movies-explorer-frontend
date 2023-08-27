@@ -279,8 +279,8 @@ function App() {
     }
   };
 
-  function filterMoviesBySearchText(cardsList, numCardsToRender, isShort, setTextFiltered, setFiltered) {
-    const textFilteredMoviesList = cardsList.map((cardElement) => {
+  function filterByText(moviesList) {
+    const textFilteredMoviesList = moviesList.map((cardElement) => {
       const isInclude = searchFilterParams.some((param) => {
         return cardElement[param].toLowerCase().includes(findMovieText);
       });
@@ -288,15 +288,32 @@ function App() {
     }).filter((el) => {
       return el !== null;
     });
+    return textFilteredMoviesList;
+  }
+
+  function filterByDuration(moviesList) {
+    const shortFiltered = moviesList.filter((cardElement) => {
+      return cardElement.duration <= shortMovieDuration;
+    });
+    return shortFiltered;
+  }
+
+  function getFilteredItems(moviesList, numCardsToRender) {
+    const filteredMovies = moviesList.filter((card, index) => {
+      return index < numCardsToRender;
+    });
+    return filteredMovies;
+  }
+
+  function filterMoviesBySearchText(cardsList, numCardsToRender, isShort, setTextFiltered, setFiltered) {
+    const textFilteredMoviesList = filterByText(cardsList);
     setTextFiltered(textFilteredMoviesList);
     filterMoviesByShort(numCardsToRender, isShort, setFiltered);
   }
 
   function filterMoviesByShort(numCardsToRender, isShort, setFiltered) {
     if (isShort) {
-      const shortFiltered = textFilteredMovies.filter((cardElement) => {
-        return cardElement.duration <= shortMovieDuration;
-      });
+      const shortFiltered = filterByDuration(textFilteredMovies);
       getFilteredMovies(shortFiltered, numCardsToRender, setFiltered);
       setShortFilteredMoviesLength(shortFiltered.length);
       checkLoadMoreButtonActivity(shortFiltered.length);
@@ -308,9 +325,7 @@ function App() {
   }
 
   function getFilteredMovies(moviesList, numCardsToRender, setFiltered) {
-    const filteredMovies = moviesList.filter((card, index) => {
-      return index < numCardsToRender;
-    });
+    const filteredMovies = getFilteredItems(moviesList, numCardsToRender);
     setFiltered(filteredMovies);
   }
 
