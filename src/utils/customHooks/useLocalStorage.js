@@ -51,7 +51,7 @@ export function useLocalStorage() {
   }
 
   const getLikedMoviesId = (savedMovies) => {
-    if (savedMovies.length && (!localStorage.getItem('likedMovies') || !localStorage.getItem('likedMovies').length)) {
+    if (savedMovies.length) {
       let liked = [];
       savedMovies.forEach((movie) => {
         liked.push(movie.movieId);

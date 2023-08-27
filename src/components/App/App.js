@@ -48,9 +48,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [currentUserEmail, setCurrentUserEmail] = useState('');
   const [isUpdateUserSuccess, setIsUpdateUserSuccess] = useState(false);
-  const [errorRequestMessage, setErrorRequestMessage] = useState('');
-  const [infoRequestMessage, setInfoRequestMessage] = useState('');
-  const [isInfoMessageActive, setIsInfoMessageActive] = useState(false);
   const [selectedCardToDelete, setSelectedCardToDelete] = useState('');
   const [isConfirmDelCardPopupOpen, setIsConfirmDelCardPopupOpen] = useState(false);
   const [isLoadMore, setIsLoadMore] = useState(false);
@@ -73,6 +70,16 @@ function App() {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
   const [isMoviesPageOpen, setIsMoviesPageOpen] = useState(false);
+  const [moviesErrorRequestMessage, setMoviesErrorRequestMessage] = useState('');
+  const [savedMoviesErrorRequestMessage, setSavedMoviesErrorRequestMessage] = useState('');
+  const [authErrorRequestMessage, setAuthErrorRequestMessage] = useState('');
+  const [errorRequestMessage, setErrorRequestMessage] = useState('');
+  const [infoRequestMessage, setInfoRequestMessage] = useState('');
+  const [isMoviesInfoMessageActive, setIsMoviesInfoMessageActive] = useState(false);
+  const [isSavedMoviesInfoMessageActive, setIsSavedMoviesInfoMessageActive] = useState(false);
+  const [isAuthInfoMessageActive, setIsAuthInfoMessageActive] = useState(false);
+  const [isInfoMessageActive, setIsInfoMessageActive] = useState(false);
+
   const {
     localStorageData,
     configureLastNumShowedMovieslocalStorage,
@@ -103,7 +110,7 @@ function App() {
           setMoviesCards(data);
         })
         .catch((err) => {
-          getErrorRequestMessage(errorNotFoundOrEmpty);
+          getErrorMoviesRequestMessage(errorNotFoundOrEmpty);
           console.log(err);
         })
     }
@@ -111,13 +118,18 @@ function App() {
   }
 
   function getSavedMoviesCards() {
+    setIsFetching(true);
     mainApi.getSavedMoviesCards()
       .then((data) => {
         setSavedMoviesCards(data.data);
+        localStorage.setItem('savedMovies', JSON.stringify(data.data));
       })
       .catch((err) => {
         console.log(err);
-        getErrorRequestMessage(errorGetMoviesRequestMessageText);
+        getErrorSavedMoviesRequestMessage(errorGetMoviesRequestMessageText);
+      })
+      .finally(() => {
+        setIsFetching(false);
       })
   }
 
@@ -133,7 +145,7 @@ function App() {
         return;
       })
       .catch(err => {
-        getErrorRequestMessage(errorLoginInfoRequestMessageText);
+        getErrorAuthRequestMessage(errorLoginInfoRequestMessageText);
         console.log(err);
       })
   }
@@ -145,7 +157,7 @@ function App() {
           onLogin(loginData, clearInputs);
         }
       }).catch((err) => {
-        getErrorRequestMessage(errorRegisterInfoRequestMessageText);
+        getErrorAuthRequestMessage(errorRegisterInfoRequestMessageText);
         console.log(err);
       });
   }
@@ -213,7 +225,7 @@ function App() {
       })
       .catch(err => {
         toggleIsUpdateUser(false);
-        getErrorRequestMessage(errorUpdateInfoRequestMessageText);
+        getInfoRequestMessage(errorUpdateInfoRequestMessageText);
         console.log(err);
       })
   }
@@ -332,9 +344,19 @@ function App() {
     setIsMoviesPageOpen(!isMoviesPageOpen);
   }
 
-  function getErrorRequestMessage(message) {
-    setErrorRequestMessage(message);
-    setIsInfoMessageActive(true);
+  function getErrorMoviesRequestMessage(message) {
+    setMoviesErrorRequestMessage(message);
+    setIsMoviesInfoMessageActive(true);
+  }
+
+  function getErrorSavedMoviesRequestMessage(message) {
+    setSavedMoviesErrorRequestMessage(message);
+    setIsSavedMoviesInfoMessageActive(true);
+  }
+
+  function getErrorAuthRequestMessage(message) {
+    setAuthErrorRequestMessage(message);
+    setIsAuthInfoMessageActive(true);
   }
 
   function getInfoRequestMessage(message) {
@@ -356,8 +378,14 @@ function App() {
   }
 
   function hideErrorMessages() {
+    setMoviesErrorRequestMessage('');
+    setSavedMoviesErrorRequestMessage('');
+    setAuthErrorRequestMessage('');
     setErrorRequestMessage('');
     setInfoRequestMessage('');
+    setIsMoviesInfoMessageActive(false);
+    setIsSavedMoviesInfoMessageActive(false);
+    setIsAuthInfoMessageActive(false);
     setIsInfoMessageActive(false);
   }
 
@@ -383,7 +411,7 @@ function App() {
     hideErrorMessages();
     setPreviousFindMovieText(findMovieText);
     if (!isSearchTextValid(findMovieText)) {
-      getErrorRequestMessage(errorSearchTextInValidMessage);
+      getErrorMoviesRequestMessage(errorSearchTextInValidMessage);
       return;
     }
     if (!isSearchTextSame) {
@@ -437,15 +465,12 @@ function App() {
     }
     handleTokenCheck();
     hideErrorMessages();
-    const isAuthorized = localStorage.getItem('isAuthorized');
-    if (isAuthorized) {
-      getSavedMoviesCards();
-    }
+    getSavedMoviesCards();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (savedMoviesCards.length) {
+    if (savedMoviesCards.length && !isFetching) {
       localStorage.setItem('savedMovies', JSON.stringify(savedMoviesCards));
     } else {
       localStorage.setItem('savedMovies', JSON.stringify([]));
@@ -483,7 +508,7 @@ function App() {
 
   useEffect(() => {
     if (moviesCards && moviesCards.length && !textFilteredMovies.length) {
-      getErrorRequestMessage(errorNotFoundMessageText);
+      getErrorMoviesRequestMessage(errorNotFoundMessageText);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredMovies]);
@@ -535,8 +560,8 @@ function App() {
             setIsShortMovies={setIsShortMovies}
             onSearch={handleSearchMovies}
             handleCardLike={handleToggleLike}
-            isInfoMessage={isInfoMessageActive}
-            errorMessageText={errorRequestMessage}
+            isInfoMessage={isMoviesInfoMessageActive}
+            errorMessageText={moviesErrorRequestMessage}
             hideErrorMessages={hideErrorMessages}
             isLoadMore={isLoadMore}
             onLoadMore={loadMoreCards}
@@ -559,21 +584,21 @@ function App() {
             handleConfirmDelCardClick={handleConfirmDelCardClick}
             isShortMovies={isShortSavedMovies}
             setIsShortMovies={setIsShortSavedMovies}
-            isInfoMessage={isInfoMessageActive}
-            getErrorRequestMessage={getErrorRequestMessage}
-            errorMessageText={errorRequestMessage}
+            isInfoMessage={isSavedMoviesInfoMessageActive}
+            getErrorRequestMessage={getErrorSavedMoviesRequestMessage}
+            errorMessageText={savedMoviesErrorRequestMessage}
             hideErrorMessages={hideErrorMessages}
           />} />
           <Route path="/signup" element={<Register
             onRegister={onRegister}
-            errorRequestMessage={errorRequestMessage}
-            isInfoMessageActive={isInfoMessageActive}
+            errorRequestMessage={authErrorRequestMessage}
+            isInfoMessageActive={isAuthInfoMessageActive}
             hideErrorMessages={hideErrorMessages}
           />} />
           <Route path="/signin" element={<Login
             onLogin={onLogin}
-            errorRequestMessage={errorRequestMessage}
-            isInfoMessageActive={isInfoMessageActive}
+            errorRequestMessage={authErrorRequestMessage}
+            isInfoMessageActive={isAuthInfoMessageActive}
             hideErrorMessages={hideErrorMessages}
           />} />
           <Route path="/404" element={<NotFoundPage />} />
