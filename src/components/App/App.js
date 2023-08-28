@@ -191,7 +191,7 @@ function App() {
         const {
           ...newMovieCard
         } = newCard;
-        newMovieCard.movieId = newMovieCard._id;
+        newMovieCard.movieId = newCard._id;
         newMovieCard.id = newCard.movieId;
         setSavedMoviesCards([...savedMoviesCards, newMovieCard]);
         setLikedMovieLocalStorage(newCard.movieId);
@@ -465,7 +465,9 @@ function App() {
     }
     handleTokenCheck();
     hideErrorMessages();
-    getSavedMoviesCards();
+    if (localStorage.getItem('isAuthorized') === 'true') {
+      getSavedMoviesCards();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -27,14 +27,13 @@ export function useLocalStorage() {
   }
 
   const setLikedMovieLocalStorage = (cardId) => {
-    const movieId = String(cardId);
     if (localStorage.getItem('likedMovies')) {
       const liked = JSON.parse(localStorage.getItem('likedMovies'));
-      liked.push(movieId);
+      liked.push(cardId);
       localStorage.setItem('likedMovies', JSON.stringify(liked));
     } else {
       const liked = [];
-      liked.push(movieId);
+      liked.push(cardId);
       localStorage.setItem('likedMovies', JSON.stringify(liked));
     }
   }
@@ -54,7 +53,7 @@ export function useLocalStorage() {
     if (savedMovies.length) {
       let liked = [];
       savedMovies.forEach((movie) => {
-        liked.push(movie.movieId);
+        liked.push(typeof movie.movieId === 'number' ? movie.movieId : movie.id);
       });
       localStorage.setItem('likedMovies', JSON.stringify(liked));
     } else {
