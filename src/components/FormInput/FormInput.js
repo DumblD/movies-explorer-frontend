@@ -24,6 +24,7 @@ function FormInput({
   isNoSpanErrors,
   labelClassName,
   readOnly,
+  onClick,
 }) {
 
   function handleCheckValidity(ev) {
@@ -48,6 +49,7 @@ function FormInput({
         title={name === "registerPassword" ? '' : title ? `${title}` : ''}
         ref={typeof inputRef === "undefined" ? null : inputRef ? inputRef : null}
         readOnly={typeof readOnly === "undefined" ? false : readOnly}
+        onClick={typeof onClick === "undefined" ? null : onClick}
       />
       {isNoSpanErrors ? '' : <span className={`${sectionClassName}__input-span-error ${name}-error`}>{name === "registerPassword" && errorMessageText ? title : name === "registerName" && errorMessageText ? title : name.toLowerCase().includes('email') && errorMessageText ? title : errorMessageText}</span>}
     </>

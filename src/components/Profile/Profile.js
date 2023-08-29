@@ -127,7 +127,6 @@ function Profile({
     }
     if (values.profileName !== profileName ||
       values.profileEmail !== profileEmail) {
-      setIsProfileChanged(true);
       setIsSubmitActive(true);
     } else {
       setIsSubmitActive(false);
@@ -136,9 +135,16 @@ function Profile({
   }, [values.profileName, values.profileEmail]);
 
   useEffect(() => {
-    isInputErrorsNotEmpty(errors) ? setIsSubmitActive(false) : setIsSubmitActive(true);
+    if (isInputErrorsNotEmpty(errors)) {
+      setIsSubmitActive(false);
+    } else {
+      if (values.profileName !== profileName ||
+        values.profileEmail !== profileEmail) {
+        setIsSubmitActive(true);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.profileName, values.profileEmail, errors]);
+  }, [errors]);
 
   useEffect(() => {
     if (isUpdateUserSuccess && infoRequestMessage) {
@@ -162,6 +168,18 @@ function Profile({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorRequestMessage, infoRequestMessage]);
+
+  function handleClick() {
+    if (nameInputRef.current.focus) {
+      if (!isProfileChanged) {
+        setIsProfileChanged(true);
+      }
+    } else if (emailInputRef.current.focus) {
+      if (!isProfileChanged) {
+        setIsProfileChanged(true);
+      }
+    }
+  }
 
   function onUpdateUser() {
     return onUpdateUserinfo({
@@ -237,6 +255,7 @@ function Profile({
                   isNoSpanErrors={true}
                   readOnlyInputClassName={readOnlyInputClassName}
                   readOnly={isReadOnly}
+                  onClick={handleClick}
                 />
               ))
             }
