@@ -2,7 +2,8 @@
 @import url(./vendor/fonts/inter.css);
 
 @import url(./blocks/page/page.css);
-@import url(./blocks/page/__info-tool-tip/page__info-tool-tip.css);
+@import url(./blocks/page/__info-tool-tip/_type/page__info-tool-tip_type_saved-movies.css);
+@import url(./blocks/page/__info-tool-tip/_active/page__info-tool-tip_active.css);
 @import url(./blocks/page/__info-tool-tip-text/page__info-tool-tip-text.css);
 @import url(./blocks/page/__container/page__container.css);
 
@@ -98,6 +99,7 @@
 @import url(./blocks/profile/__label/profile__label.css);
 @import url(./blocks/profile/__input/profile__input.css);
 @import url(./blocks/profile/__input/_type/profile__input_type_error.css);
+@import url(./blocks/profile/__input/_type/profile__input_type_disabled.css);
 @import url(./blocks/profile/__input-span-error/profile__input-span-error.css);
 @import url(./blocks/profile/__edit-button/profile__edit-button.css);
 @import url(./blocks/profile/__save-button/profile__save-button.css);
@@ -122,6 +124,7 @@
 @import url(./blocks/info-tool-tip/_disabled/info-tool-tip__disabled.css);
 
 @import url(./blocks/movies-search/movies-search.css);
+@import url(./blocks/movies-search/_type/movies-search_type_saved-movies.css);
 @import url(./blocks/movies-search/__short-films/movies-search__short-films.css);
 @import url(./blocks/movies-search/__filter-checkbox-label/movies-search__filter-checkbox-label.css);
 @import url(./blocks/movies-search/__filter-checkbox-tumb-button/movies-search__filter-checkbox-tumb-button.css);
@@ -147,6 +150,7 @@
 @import url(./blocks/login-register/__title/login-register__title.css);
 @import url(./blocks/login-register/__input/login-register__input.css);
 @import url(./blocks/login-register/__input/_type/login-register__input_type_error.css);
+@import url(./blocks/login-register/__input/_type/login-register__input_type_disabled.css);
 @import url(./blocks/login-register/__input-span-error/login-register__input-span-error.css);
 @import url(./blocks/login-register/__button/login-register__button.css);
 @import url(./blocks/login-register/__button/_disabled/login-register__button_disabled.css);

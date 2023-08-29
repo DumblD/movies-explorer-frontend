@@ -6,11 +6,14 @@ import LoginRegisterPage from './../LoginRegisterPage/LoginRegisterPage';
 
 function Login({
   onLogin,
+  isSubmitLoading,
+  isReadOnly,
   errorRequestMessage,
   isInfoMessageActive,
   hideErrorMessages,
 }) {
   const infoToolTipStyles = "login-register__info-tool-tip login-register__info-tool-tip_type_login";
+  const readOnlyInputClassName = "login-register__input_type_disabled";
   const inputLabels = [
     {
       name: "E-mail",
@@ -24,13 +27,13 @@ function Login({
   const inputElements = [
     {
       id: 1,
-      type: "text",
+      type: "email",
       name: "loginEmail",
       className: "login-register__input login-register__input_el_login-email",
       required: true,
       placeholder: "",
       // eslint-disable-next-line no-useless-escape
-      pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}[a-z]{2,4}$",
+      pattern: "[^@]+@[^\.]+\\.[^\.]+[a-zA-Z]{1,4}",
       title: "email@example.ru",
     },
     {
@@ -84,6 +87,10 @@ function Login({
   }
 
   useEffect(() => {
+    const isAuthorized = localStorage.getItem('isAuthorized');
+    if (isAuthorized) {
+      navigate('/', { replace: true });
+    }
     hideErrorMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -102,6 +109,7 @@ function Login({
       isInfoMessageActive={isInfoMessageActive}
       hideErrorMessages={hideErrorMessages}
       infoToolTipStyles={infoToolTipStyles}
+      isSubmitLoading={isSubmitLoading}
     >
       {
         inputElements.map((input, index) => (
@@ -116,7 +124,9 @@ function Login({
             inputElement={input}
             isInputValid={isInputValid[input.name]}
             errorMessageText={errors[input.name]}
-            onChange={handleChange} />
+            onChange={handleChange}
+            readOnlyInputClassName={readOnlyInputClassName}
+            readOnly={isReadOnly} />
         ))
       }
     </LoginRegisterPage>

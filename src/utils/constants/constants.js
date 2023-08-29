@@ -3,6 +3,7 @@ export const tabletWidthMediaQuery = window.matchMedia('(min-width: 620px) and (
 export const desktopWidthMediaQuery = window.matchMedia('(min-width: 1280px)');
 export const errorGetMoviesRequestMessageText = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз';
 export const errorNotFoundMessageText = 'Ничего не найдено';
+export const errorEmptyMessageText = 'Нужно ввести ключевое слово';
 export const errorNotFoundOrEmpty = 'Пока нет сохраненных фильмов или во время запроса произошла ошибка.';
 export const errorSearchTextInValidMessage = 'Корректное название фильма может содержать кириллицу или латинские символы, или цифры, пробелы, а также следующие спец. символы: %.,?!:()-';
 export const errorUpdateInfoRequestMessageText = 'При обновлении данных аккаунта возникла ошибка'
@@ -11,8 +12,13 @@ export const errorRegisterInfoRequestMessageText = 'При регистраци�
 export const infoUpdateInfoRequestMessageText = 'Данные успешно обновлены'
 export const checkSearchMoviesTextValidity = (searchText) => {
   // eslint-disable-next-line no-useless-escape
-  const symbolsRegex = /^(?=[a-zа-яё0-9%\.,?!:\(\) \-]*$)(?!.*[<>'"/;`~@#$^*_+=\[\]{}|\\])/i;
-  return symbolsRegex.test(searchText);
+  const symbolsInvalidSearchTextRegex = /^(?=[a-zа-яё0-9%\.,?!:\(\) \-]*$)(?!.*[<>'"/;`~@#$^*_+=\[\]{}|\\])/i;
+  return symbolsInvalidSearchTextRegex.test(searchText);
+}
+export const checkSearchMoviesTextIsEmpty = (searchText) => {
+  // eslint-disable-next-line no-useless-escape
+  const symbolsEmptySearchTextRegex = /^$/;
+  return symbolsEmptySearchTextRegex.test(searchText);
 }
 export const defaultCardsNumRenderForMovies = 5;
 export const defaultNumOfExtraCards = 0;
@@ -34,6 +40,12 @@ export const isSearchTextValid = (searchText) => {
   const searchMovieText = searchText.trim().toLowerCase();
   const isSearchMovieTextValid = checkSearchMoviesTextValidity(searchMovieText);
   return isSearchMovieTextValid ? true : false;
+}
+
+export const isSearchTextEmpty = (searchText) => {
+  const searchMovieText = searchText.trim().toLowerCase();
+  const isSearchMovieTextIsEmpty = checkSearchMoviesTextIsEmpty(searchMovieText);
+  return isSearchMovieTextIsEmpty ? true : false;
 }
 
 export const sortMovieDataAddLike = (movie, ownId) => {
@@ -78,10 +90,18 @@ export const minToHourMin = (min) => {
   return res;
 }
 
+export const isInputErrorsNotEmpty = (errors) => {
+  const errorsValues = Object.values(errors);
+  const isNotEmpty = errorsValues.some((el) => {
+    return el !== "";
+  });
+  return isNotEmpty;
+}
+
 export const filterByText = (moviesList, searchText) => {
   const textFilteredMoviesList = moviesList.map((cardElement) => {
     const isInclude = searchFilterParams.some((param) => {
-      return cardElement[param].toLowerCase().includes(searchText);
+      return cardElement[param].toLowerCase().includes(searchText.toLowerCase());
     });
     return isInclude ? cardElement : null;
   }).filter((el) => {

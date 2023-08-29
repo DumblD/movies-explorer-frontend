@@ -5,6 +5,7 @@ function FormInput({
   name,
   sectionClassName,
   className,
+  readOnlyInputClassName,
   required,
   minLength,
   maxLength,
@@ -22,12 +23,13 @@ function FormInput({
   inputRef,
   isNoSpanErrors,
   labelClassName,
+  readOnly,
 }) {
 
   function handleCheckValidity(ev) {
     onChange(ev, inputElement);
   }
-
+  const readOnlyInputClass = typeof isInputValid === "undefined" ? '' : readOnly ? readOnlyInputClassName : '';
   return (
     <>
       <label className={labelClassName} htmlFor={labelForAttribute}>{labelName}</label>
@@ -35,7 +37,7 @@ function FormInput({
         id={inputId}
         type={type}
         name={name}
-        className={typeof isInputValid === "undefined" ? `${className}` : isInputValid ? `${className}` : `${className} ${className}_type_error`}
+        className={typeof isInputValid === "undefined" ? `${className} ${readOnlyInputClass}` : isInputValid ? `${className} ${readOnlyInputClass}` : `${className} ${readOnlyInputClass} ${className}_type_error`}
         required={required}
         minLength={minLength}
         maxLength={maxLength}
@@ -45,6 +47,7 @@ function FormInput({
         pattern={pattern ? `${pattern}` : undefined}
         title={name === "registerPassword" ? '' : title ? `${title}` : ''}
         ref={typeof inputRef === "undefined" ? null : inputRef ? inputRef : null}
+        readOnly={typeof readOnly === "undefined" ? false : readOnly}
       />
       {isNoSpanErrors ? '' : <span className={`${sectionClassName}__input-span-error ${name}-error`}>{name === "registerPassword" && errorMessageText ? title : name === "registerName" && errorMessageText ? title : name.toLowerCase().includes('email') && errorMessageText ? title : errorMessageText}</span>}
     </>

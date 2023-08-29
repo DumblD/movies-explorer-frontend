@@ -8,7 +8,7 @@ import {
   isSearchTextValid,
   errorSearchTextInValidMessage,
   filterMovies,
- } from '../../utils/constants/constants';
+} from '../../utils/constants/constants';
 
 function SavedMovies({
   savedMoviesCards,
@@ -31,11 +31,14 @@ function SavedMovies({
   const isMoviesPage = false;
   const additionalMoviesCardsStyles = 'movies-cards_padding_changed';
   const additionalFooterStyles = 'footer_padding_changed';
-  const infoToolTipStyle = "page__info-tool-tip";
+  const infoToolTipStyle = `page__info-tool-tip page__info-tool-tip_type_saved-movies ${isInfoMessage ? 'page__info-tool-tip_active' : ''}`;
   const infoToolTipTextStyle = errorMessageText.includes('нет сохраненных фильмов') ? 'page__info-tool-tip-text info-tool-tip__text_color_black' : 'page__info-tool-tip-text';
   const cardClassName = "movies-card";
+  const searchFormStyle = "movies-search_type_saved-movies";
+  const isMoviePage = false;
 
   function handleSearch(isShort) {
+    hideErrorMessages();
     if (!isSearchTextValid(findSavedMovieText)) {
       getErrorRequestMessage(errorSearchTextInValidMessage);
     } else {
@@ -102,14 +105,19 @@ function SavedMovies({
           isShortMovies={isShortMovies}
           setIsShortMovies={setIsShortMovies}
           onSearch={handleSearch}
+          searchFormStyle={searchFormStyle}
+          isMoviePage={isMoviePage}
+          hideErrorMessages={hideErrorMessages}
+          getErrorRequestMessage={getErrorRequestMessage}
+          findSavedMovieText={findSavedMovieText}
         />
-        {isInfoMessage &&
-          <InfoToolTip
-            additionalInfoClassStyles={infoToolTipStyle}
-            additionalInfotextStyles={infoToolTipTextStyle}
-            infoMessage={errorMessageText}
-          />}
-        {!isInfoMessage && <MoviesCardList isPreloaderActive={isPreloaderActive} cards={filteredSavedMovies} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} cardClassName={cardClassName} additionalStyles={additionalMoviesCardsStyles} />}
+        <InfoToolTip
+          additionalInfoClassStyles={infoToolTipStyle}
+          additionalInfotextStyles={infoToolTipTextStyle}
+          infoMessage={errorMessageText}
+          isActive={isInfoMessage}
+        />
+        <MoviesCardList isPreloaderActive={isPreloaderActive} cards={filteredSavedMovies} onCardDelete={handleConfirmDelCardClick} isMoviesPage={isMoviesPage} cardClassName={cardClassName} additionalStyles={additionalMoviesCardsStyles} />
       </main>
       <Footer additionalFooterStyles={additionalFooterStyles} />
     </div>

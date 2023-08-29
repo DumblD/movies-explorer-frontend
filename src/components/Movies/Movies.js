@@ -5,6 +5,7 @@ import MoviesCardList from './../MoviesCardList/MoviesCardList';
 import LoadMoreButton from './../LoadMoreButton/LoadMoreButton';
 import Footer from './../Footer/Footer';
 import InfoToolTip from './../../components/InfoToolTip/InfoToolTip';
+import SavedMovies from '../SavedMovies/SavedMovies';
 
 function Movies({
   localStorageData,
@@ -26,6 +27,7 @@ function Movies({
   textFilteredMovies,
   isPreloaderActive,
   findMovieText,
+  findSavedMovieText,
   setFilteredMovies,
   setFindMovieText,
   isShortMovies,
@@ -34,6 +36,7 @@ function Movies({
   handleCardLike,
   isInfoMessage,
   errorMessageText,
+  getErrorRequestMessage,
   hideErrorMessages,
   isLoadMore,
   onLoadMore,
@@ -54,6 +57,10 @@ function Movies({
     filterMoviesByShort(moviesCardsNumToRender, isShortMovies, setFilteredMovies);
   }
 
+  function handleScreenWidth() {
+    setScreenWidth(window.innerWidth);
+  }
+
   useEffect(() => {
     return () => {
       toggleIsOpenPage();
@@ -66,11 +73,21 @@ function Movies({
     toggleIsOpenPage();
     hideErrorMessages();
     getLocalStorageForMovies();
+    const searchText = localStorage.getItem('lastSearchMovies');
+    const isShort = JSON.parse(localStorage.getItem('isShortMovies'));
+    if (searchText) {
+      setFindMovieText(searchText);
+      saveCurrentSearchTextValue();
+      setIsShortMovies(isShort);
+      onSearch();
+    }
+    window.addEventListener('resize', handleScreenWidth);
+    return () => window.removeEventListener('resize', handleScreenWidth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (localStorageData.lastSearchMovies) {
+    if (localStorage.getItem('lastSearchMovies')) {
       onSearch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,16 +103,16 @@ function Movies({
   }, [localStorageData, isFetching]);
 
   useEffect(() => {
-    const searchText = localStorage.getItem('lastSearchMovies');
-    const isShort = JSON.parse(localStorage.getItem('isShortMovies'));
-    if (searchText) {
-      setFindMovieText(searchText);
-      saveCurrentSearchTextValue();
-      setIsShortMovies(isShort);
-      onSearch();
+    checkWidth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screenWidth]);
+
+  useEffect(() => {
+    if (!findMovieText && !isFetching) {
+      hideErrorMessages();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [SavedMovies]);
 
   useEffect(() => {
     if (findMovieText && !isFetching) {
@@ -106,6 +123,7 @@ function Movies({
 
   useEffect(() => {
     if (findMovieText && moviesCards.length) {
+      hideErrorMessages();
       onSearch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,21 +146,13 @@ function Movies({
   }, [textFilteredMovies, filteredMovies, moviesCards]); // moviesCards было
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
-      setScreenWidth(window.innerWidth);
-    });
-    checkWidth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [screenWidth]);
-
-  useEffect(() => {
     filterMoviesByShort(moviesCardsNumToRender, isShortMovies, setFilteredMovies);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moviesCardsNumToRender]);
 
   useEffect(() => {
     checkWidth();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moviesCardsNumToRender]);
 
   useEffect(() => {
@@ -156,7 +166,7 @@ function Movies({
 
   useEffect(() => {
     setIsSearchTextSame(previousFindMovieText === findMovieText);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [findMovieText]);
 
   useEffect(() => {
@@ -165,8 +175,8 @@ function Movies({
     } else if (!isSearchTextSame && findMovieText) {
       toggleShort();
     }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isShortMovies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isShortMovies]);
 
   return (
     <div className="page__container">
@@ -178,6 +188,10 @@ function Movies({
           isShortMovies={isShortMovies}
           setIsShortMovies={setIsShortMovies}
           onSearch={onSearch}
+          isMoviePage={isMoviesPage}
+          hideErrorMessages={hideErrorMessages}
+          getErrorRequestMessage={getErrorRequestMessage}
+          findSavedMovieText={findSavedMovieText}
         />
         {isInfoMessage &&
           <InfoToolTip

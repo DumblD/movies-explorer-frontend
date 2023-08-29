@@ -16,6 +16,7 @@ function LoginRegisterPage({
   isInfoMessageActive,
   hideErrorMessages,
   infoToolTipStyles,
+  isSubmitLoading,
 }) {
 
   const [infoToolTipMessage, setInfoToolTipMessage] = useState('');
@@ -55,7 +56,7 @@ function LoginRegisterPage({
               additionalInfoClassStyles={infoToolTipStyle}
               additionalInfotextStyles={infoToolTipTextStyle}
             />
-            <button aria-label={`${formButtonText}`} type="submit" disabled={!isSubmitButtonActive} className={`login-register__button ${isSubmitButtonActive ? '' : 'login-register__button_disabled'}`}>{formButtonText}</button>
+            <button aria-label={`${formButtonText}`} type="submit" disabled={!isSubmitButtonActive} className={`login-register__button ${isSubmitButtonActive ? '' : 'login-register__button_disabled'}`}>{isSubmitLoading ? `${formButtonText}…` : formButtonText}</button>
           </form>
         </section>
       </main>

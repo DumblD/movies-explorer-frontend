@@ -6,6 +6,8 @@ import LoginRegisterPage from './../LoginRegisterPage/LoginRegisterPage';
 
 function Register({
   onRegister,
+  isSubmitLoading,
+  isReadOnly,
   errorRequestMessage,
   isInfoMessageActive,
   hideErrorMessages,
@@ -35,7 +37,7 @@ function Register({
       minLength: "2",
       maxLength: "30",
       // eslint-disable-next-line no-useless-escape
-      pattern: '^[а-яА-ЯёЁa-zA-Z0-9\\-]+$',
+      pattern: '^[а-яА-ЯёЁa-zA-Z\\- ]+$',
       title: "Используйте только латиницу, кириллицу, пробелы или дефисы"
     },
     {
@@ -46,7 +48,7 @@ function Register({
       required: true,
       placeholder: "",
       // eslint-disable-next-line no-useless-escape
-      pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}[a-z]{2,4}$",
+      pattern: "[^@]+@[^\.]+\\.[^\.]+[a-zA-Z]{1,4}",
       title: "email@example.ru",
     },
     {
@@ -116,6 +118,10 @@ function Register({
   }
 
   useEffect(() => {
+    const isAuthorized = localStorage.getItem('isAuthorized');
+    if (isAuthorized) {
+      navigate('/', { replace: true });
+    }
     hideErrorMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -134,6 +140,7 @@ function Register({
       isInfoMessageActive={isInfoMessageActive}
       hideErrorMessages={hideErrorMessages}
       infoToolTipStyles={infoToolTipStyles}
+      isSubmitLoading={isSubmitLoading}
     >
       {
         inputElements.map((input, index) => (
@@ -148,7 +155,8 @@ function Register({
             inputElement={input}
             isInputValid={isInputValid[input.name]}
             errorMessageText={errors[input.name]}
-            onChange={handleChange} />
+            onChange={handleChange}
+            readOnly={isReadOnly} />
         ))
       }
     </LoginRegisterPage>

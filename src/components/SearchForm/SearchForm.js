@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import FilterCheckbox from './../../components/FilterCheckbox/FilterCheckbox';
+import { isSearchTextEmpty, errorEmptyMessageText } from '../../utils/constants/constants';
 
 import './SearchForm.css';
 
@@ -9,6 +10,11 @@ function SearchForm({
   isShortMovies,
   setIsShortMovies,
   onSearch,
+  searchFormStyle,
+  isMoviePage,
+  hideErrorMessages,
+  getErrorRequestMessage,
+  findSavedMovieText,
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const searchFormInput = useRef(null);
@@ -17,6 +23,7 @@ function SearchForm({
   const filterInputClassName = `movies-search__filter-checkbox-tumb-button ${!isShortMovies ? 'movies-search__filter-checkbox-tumb-button_disabled' : ''}`;
   const filterLabelTextClassName = 'movies-search__filter-checkbox-label-text';
   const filterLabelName = 'Короткометражки';
+  const searchFormStyles = typeof searchFormStyle === "undefined" ? 'movies-search' : searchFormStyle;
 
   function handleChange(ev) {
     setFindMovieText(ev.target.value);
@@ -24,10 +31,18 @@ function SearchForm({
 
   function handleFocus(ev) {
     setIsFocused(true);
+    if (!isMoviePage) {
+      if (isSearchTextEmpty(findSavedMovieText)) {
+        getErrorRequestMessage(errorEmptyMessageText);
+      }
+    }
   }
 
   function handleBlur(ev) {
     setIsFocused(false);
+    if (!isMoviePage) {
+      hideErrorMessages();
+    }
   }
 
   function toggleIsShort() {
@@ -40,7 +55,7 @@ function SearchForm({
   }
 
   return (
-    <section className='movies-search'>
+    <section className={`${searchFormStyles}`}>
       <form onSubmit={handleSearch} name='searchForm' className='movies-search__search-form search-form' noValidate>
         <input
           type="text"
