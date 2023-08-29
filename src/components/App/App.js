@@ -97,12 +97,6 @@ function App() {
   } = useLocalStorage();
   const navigate = useNavigate();
 
-  function isAuthorizedBadRequest(err) {
-    if (err.includes('401')) {
-      onLogout();
-    }
-  }
-
   function handleRequest(request) {
     setIsFetching(true);
     togglePreloader(true);
@@ -134,7 +128,6 @@ function App() {
         .catch((err) => {
           getErrorMoviesRequestMessage(errorNotFoundOrEmpty);
           console.log(err);
-          isAuthorizedBadRequest(err);
         })
     }
     handleRequest(makeRequest);
@@ -150,7 +143,6 @@ function App() {
       .catch((err) => {
         getErrorSavedMoviesRequestMessage(errorGetMoviesRequestMessageText);
         console.log(err);
-        isAuthorizedBadRequest(err);
       })
       .finally(() => {
         setIsFetching(false);
@@ -201,7 +193,6 @@ function App() {
       .catch((err) => {
         alert(`${err}
 При получении данных пользователя возникла ошибка.`);
-        isAuthorizedBadRequest(err);
       })
       .finally(() => {
         setIsFetching(false);
@@ -264,7 +255,6 @@ function App() {
         toggleIsUpdateUser(false);
         console.log(err);
         getInfoRequestMessage(errorUpdateInfoRequestMessageText);
-        isAuthorizedBadRequest(err);
       })
   }
 
