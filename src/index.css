@@ -2,6 +2,7 @@
 @import url(./vendor/fonts/inter.css);
 
 @import url(./blocks/page/page.css);
+@import url(./blocks/page/__info-tool-tip/page__info-tool-tip.css);
 @import url(./blocks/page/__info-tool-tip/_type/page__info-tool-tip_type_saved-movies.css);
 @import url(./blocks/page/__info-tool-tip/_active/page__info-tool-tip_active.css);
 @import url(./blocks/page/__info-tool-tip-text/page__info-tool-tip-text.css);
