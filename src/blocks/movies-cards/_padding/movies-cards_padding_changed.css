@@ -1,0 +1,5 @@
+@media screen and (min-width: 1024px) {
+  .movies-cards_padding_changed {
+    padding-bottom: 107px;
+  }
+}

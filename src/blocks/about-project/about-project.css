@@ -1,0 +1,33 @@
+.about-project {
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto;
+  font-family: 'Inter', 'Arial', sans-serif;
+  padding: 110px 0 110px;
+}
+
+@media screen and (min-width: 460px) and (max-width: 1280px) {
+  .about-project {
+    width: calc(100vw - 50px*2);
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .about-project {
+    width: calc(100vw - 18px*2);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about-project {
+    padding: 92px 0 90px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .about-project {
+    padding: 72px 0 70px;
+  }
+}

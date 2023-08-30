@@ -1,0 +1,15 @@
+.mobile-menu__link {
+  text-decoration: none;
+  color: #000;
+  transition: opacity .4s;
+}
+
+.mobile-menu__link:hover {
+  opacity: .7;
+}
+
+.mobile-menu__link_active {
+  text-decoration: none;
+  color: #000;
+  transition: opacity .4s;
+}

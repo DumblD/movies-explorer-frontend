@@ -1,0 +1,13 @@
+.profile__footer {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 70px;
+  font-family: 'Inter', 'Arial', sans-serif;
+}
+
+@media screen and (max-width: 620px) {
+  .profile__footer {
+    padding-bottom: 40px;
+  }
+}

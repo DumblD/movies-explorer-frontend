@@ -1,0 +1,15 @@
+.navtab__menu-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-items: center;
+  column-gap: 40px;
+}
+
+@media screen and (max-width: 520px) {
+  .navtab__menu-links {
+    column-gap: 24px;
+  }
+}

@@ -1,0 +1,21 @@
+.page__info-tool-tip-text {
+  display: inline-block;
+  margin: 0;
+  font-weight: 400;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 16px;
+}
+
+@media screen and (min-width: 875px) and (max-width: 1920px) {
+  .page__info-tool-tip-text {
+    max-width: 690px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .page__info-tool-tip-text {
+    font-size: 11px;
+  }
+}

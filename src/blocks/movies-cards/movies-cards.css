@@ -1,0 +1,24 @@
+.movies-cards {
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+@media screen and (min-width: 748px) and (max-width: 1024px) {
+  .movies-cards {
+    padding-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 748px) {
+  .movies-cards {
+    padding-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .movies-cards {
+    padding-bottom: 25px;
+  }
+}

@@ -1,0 +1,13 @@
+.register-container__signup-text {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+@media screen and (max-width: 620px) {
+  .register-container__signup-text {
+    font-size: 12px;
+  }
+}

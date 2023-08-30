@@ -1,0 +1,10 @@
+.footer__yandex-practicum {
+  justify-self: flex-end;
+}
+
+@media screen and (max-width: 720px) {
+  .footer__yandex-practicum {
+    grid-row: 1/2;
+    justify-self: auto;
+  }
+}
