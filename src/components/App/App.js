@@ -97,6 +97,12 @@ function App() {
   } = useLocalStorage();
   const navigate = useNavigate();
 
+  function isAuthorizeBadRequest(err) {
+    if (err.includes('401')) {
+      onLogout();
+    }
+  }
+
   function handleRequest(request) {
     setIsFetching(true);
     togglePreloader(true);
@@ -128,6 +134,7 @@ function App() {
         .catch((err) => {
           getErrorMoviesRequestMessage(errorNotFoundOrEmpty);
           console.log(err);
+          isAuthorizeBadRequest(err);
         })
     }
     handleRequest(makeRequest);
@@ -143,6 +150,7 @@ function App() {
       .catch((err) => {
         getErrorSavedMoviesRequestMessage(errorGetMoviesRequestMessageText);
         console.log(err);
+        isAuthorizeBadRequest(err);
       })
       .finally(() => {
         setIsFetching(false);
@@ -193,6 +201,7 @@ function App() {
       .catch((err) => {
         alert(`${err}
 При получении данных пользователя возникла ошибка.`);
+        isAuthorizeBadRequest(err);
       })
       .finally(() => {
         setIsFetching(false);
@@ -255,6 +264,7 @@ function App() {
         toggleIsUpdateUser(false);
         console.log(err);
         getInfoRequestMessage(errorUpdateInfoRequestMessageText);
+        isAuthorizeBadRequest(err);
       })
   }
 
@@ -508,9 +518,13 @@ function App() {
 
   useEffect(() => {
     const isAuthorized = localStorage.getItem('isAuthorized') === 'true';
-    if (!isFetching && !savedMoviesCards.length && isAuthorized) {
+    if (!savedMoviesCards.length && isAuthorized) {
       getSavedMoviesCards();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (!isFetching) {
       setIsReadOnly(false);
     }
