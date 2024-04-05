@@ -1,0 +1,8 @@
+.login-register__label {
+  color: #a0a0a0;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 400;
+  align-self: flex-start;
+  padding-bottom: 5px;
+}

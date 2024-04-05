@@ -1,0 +1,17 @@
+.login-register__title {
+  max-width: 396px;
+  width: 100%;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 24px;
+  color: #000;
+  margin: 0;
+  padding-bottom: 40px;
+}
+
+@media screen and (max-width: 620px) {
+  .login-register__title {
+    text-align: center;
+    padding-bottom: 80px;
+  }
+}

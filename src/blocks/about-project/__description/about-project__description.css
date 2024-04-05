@@ -1,0 +1,33 @@
+.about-project__description {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(319px, 550px));
+  justify-content: space-between;
+  column-gap: 40px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  padding: 73px 0 110px;
+}
+
+@media screen and (min-width: 620px) and (max-width: 768px) {
+  .about-project__description {
+    column-gap: 30px;
+    grid-template-columns: repeat(2, minmax(245px, 319px));
+    padding: 70px 0 100px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .about-project__description {
+    justify-content: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content;
+    row-gap: 56px;
+    padding: 63px 0 61px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .about-project__description {
+    grid-template-columns: 284px;
+  }
+}

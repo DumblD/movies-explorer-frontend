@@ -1,0 +1,33 @@
+.portfolio {
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
+  font-family: 'Inter', 'Arial', sans-serif;
+  display: grid;
+  grid-template-rows: auto;
+  padding-bottom: 105px;
+}
+
+@media screen and (min-width: 460px) and (max-width: 1280px) {
+  .portfolio {
+    width: calc(100vw - 50px*2);
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .portfolio {
+    width: calc(100vw - 18px*2);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .portfolio {
+    padding-bottom: 75px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .portfolio {
+    padding-bottom: 48px;
+  }
+}

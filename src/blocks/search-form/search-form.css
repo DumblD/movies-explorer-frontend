@@ -1,0 +1,15 @@
+.search-form {
+  max-width: 1140px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  grid-template-rows: auto;
+  justify-items: self-end;
+  padding-bottom: 13px;
+}
+
+@media screen and (max-width: 620px) {
+  .search-form {
+    padding-bottom: 8px;
+  }
+}

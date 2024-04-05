@@ -1,0 +1,19 @@
+.navtab__menu-item {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: opacity .4s;
+}
+
+.navtab__menu-item:hover {
+  opacity: .7;
+}
+
+@media screen and (max-width: 520px) {
+  .navtab__menu-item {
+    font-size: 11px;
+  }
+}

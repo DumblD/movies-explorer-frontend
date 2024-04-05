@@ -1,0 +1,21 @@
+.about-project__duration {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 228px 1fr;
+  grid-template-rows: 36px auto;
+  font-family: 'Inter', 'Arial', sans-serif;
+  align-items: center;
+  align-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .about-project__duration {
+    grid-template-columns: 140px 1fr;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__duration {
+    grid-template-columns: 100px 1fr;
+  }
+}

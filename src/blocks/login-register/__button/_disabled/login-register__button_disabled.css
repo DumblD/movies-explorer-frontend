@@ -1,0 +1,10 @@
+.login-register__button_disabled {
+  cursor: default;
+  pointer-events: none;
+  background-color: #f8f8f8;
+  color: #c2c2c2;
+}
+
+.login-register__button_disabled:hover {
+  opacity: 1;
+}

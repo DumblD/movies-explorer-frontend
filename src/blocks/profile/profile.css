@@ -1,0 +1,6 @@
+.profile {
+  display: grid;
+  grid-template-rows: max-content;
+  justify-items: center;
+  font-family: 'Inter', 'Arial', sans-serif;
+}

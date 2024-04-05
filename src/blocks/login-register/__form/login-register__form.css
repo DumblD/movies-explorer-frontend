@@ -1,0 +1,14 @@
+.login-register__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 396px;
+  align-items: center;
+  font-family: inherit;
+}
+
+@media screen and (max-width: 620px) {
+  .login-register__form {
+    max-width: 260px;
+  }
+}

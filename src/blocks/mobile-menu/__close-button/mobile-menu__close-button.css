@@ -1,0 +1,28 @@
+.mobile-menu__close-button {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  background-image: url(./../../../images/header-mobile-menu-close-icon.svg);
+  background-size: 30px 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: opacity .4s;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 22.44px;
+  right: 22.44px;
+}
+
+.mobile-menu__close-button:hover {
+  opacity: .8;
+}
+
+@media screen and (max-width: 620px) {
+  .mobile-menu__close-button {
+    top: 13.44px;
+    right: 13.44px;
+  }
+}
