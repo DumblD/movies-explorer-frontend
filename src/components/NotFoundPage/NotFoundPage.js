@@ -1,13 +1,13 @@
 import React from 'react';
 import './NotFoundPage.css';
 import { useNavigate } from 'react-router-dom';
+import { previewPage } from '../../utils/constants/constants';
 
 function NotFoundPage() {
-
   const navigate = useNavigate();
 
   function handlePreview() {
-    navigate('/', { replace: true });
+    navigate(previewPage, { replace: true });
   }
 
   return (

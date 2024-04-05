@@ -12,6 +12,7 @@ function MoviesCardList({
   additionalStyles,
 }) {
 
+  const cardMovieClassName = typeof cardClassName === "undefined" ? '' : cardClassName;
   const extraStyles = typeof additionalStyles === "undefined" ? false : additionalStyles;
 
   return (
@@ -19,7 +20,7 @@ function MoviesCardList({
       {isPreloaderActive && <Preloader />}
       <ul className={`movies-cards__list ${isPreloaderActive ? 'movies-cards__list_invisible' : ''}`}>
         {cards.map((cardElement) => (
-          <MoviesCard key={cardElement._id} card={cardElement} cardClassName={cardClassName} onCardLike={onCardLike} onCardDelete={onCardDelete} isMoviesPage={isMoviesPage} />
+          <MoviesCard key={cardElement.id || cardElement.movieId} card={cardElement} cardClassName={cardMovieClassName} onCardLike={onCardLike} onCardDelete={onCardDelete} isMoviesPage={isMoviesPage} />
         ))}
       </ul>
     </section>

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormAndValidation } from './../../utils/customHooks/useFormAndValidation';
 import FormInput from './../FormInput/FormInput';
 import LoginRegisterPage from './../LoginRegisterPage/LoginRegisterPage';
 
-function Register() {
-
+function Register({
+  onRegister,
+  isSubmitLoading,
+  isReadOnly,
+  errorRequestMessage,
+  isInfoMessageActive,
+  hideErrorMessages,
+}) {
+  const infoToolTipStyles = "login-register__info-tool-tip login-register__info-tool-tip_type_register";
   const inputLabels = [
     {
       name: "Имя",
@@ -17,8 +24,7 @@ function Register() {
       name: "Пароль",
     },
   ]
-  // resetForm will be used later
-  // eslint-disable-next-line no-unused-vars
+
   const { values, handleChange, errors, isInputValid, resetForm, isSubmitButtonActive, getInputNames } = useFormAndValidation();
   const inputElements = [
     {
@@ -30,6 +36,9 @@ function Register() {
       placeholder: "",
       minLength: "2",
       maxLength: "30",
+      // eslint-disable-next-line no-useless-escape
+      pattern: '^[а-яА-ЯёЁa-zA-Z\\- ]+$',
+      title: "Используйте только латиницу, кириллицу, пробелы или дефисы"
     },
     {
       id: 2,
@@ -37,7 +46,10 @@ function Register() {
       name: "registerEmail",
       className: "login-register__input login-register__input_el_register-email",
       required: true,
-      placeholder: ""
+      placeholder: "",
+      // eslint-disable-next-line no-useless-escape
+      pattern: "[^@]+@[^\.]+\\.[^\.]+[a-zA-Z]{1,4}",
+      title: "email@example.ru",
     },
     {
       id: 3,
@@ -51,6 +63,9 @@ function Register() {
     }
   ];
   const nameInputs = getInputNames(inputElements);
+  const clearInputs = () => {
+    resetForm();
+  }
   const navigate = useNavigate();
   const sectionClassName = "login-register";
   const formName = 'register';
@@ -59,34 +74,57 @@ function Register() {
   const formButtonText = 'Зарегистрироваться';
   const loginRegisterButtonText = "Войти";
   const registerContainerSignupText = 'Уже зарегистрированы?';
+  const registerData = {
+    name: null,
+    email: null,
+    password: null
+  }
   const loginData = {
-    password: null,
-    email: null
+    email: null,
+    password: null
   }
 
   // функция, формирующая данные для последующего обращения с ними на сервер
-  function gatherLoginData() {
-    for (const key in loginData) {
+  function gatherRegisterData() {
+    for (const key in registerData) {
       nameInputs.forEach((el) => {
         if (el.toLowerCase().includes(key.toString())) {
-          loginData[key] = values[el];
+          registerData[key] = values[el];
         }
       })
+    }
+    return registerData;
+  }
+
+  function gatherLoginData() {
+    for (const key in registerData) {
+      if (key !== 'name') {
+        loginData[key] = registerData[key];
+      }
     }
     return loginData;
   }
 
   function handleSubmit(ev) {
     ev.preventDefault();
-    // loginData will be used later
-    // eslint-disable-next-line no-unused-vars
+    hideErrorMessages();
+    const registerData = gatherRegisterData();
     const loginData = gatherLoginData();
-    // ...
+    onRegister(registerData, loginData, clearInputs);
   }
 
   function handleSignIn() {
     navigate('/signin', { replace: true });
   }
+
+  useEffect(() => {
+    const isAuthorized = localStorage.getItem('isAuthorized');
+    if (isAuthorized) {
+      navigate('/', { replace: true });
+    }
+    hideErrorMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <LoginRegisterPage
@@ -98,6 +136,11 @@ function Register() {
       registerContainerSignupText={registerContainerSignupText}
       onRegisterContainerSubmit={handleSignIn}
       loginRegisterButtonText={loginRegisterButtonText}
+      errorRequestMessage={errorRequestMessage}
+      isInfoMessageActive={isInfoMessageActive}
+      hideErrorMessages={hideErrorMessages}
+      infoToolTipStyles={infoToolTipStyles}
+      isSubmitLoading={isSubmitLoading}
     >
       {
         inputElements.map((input, index) => (
@@ -112,7 +155,8 @@ function Register() {
             inputElement={input}
             isInputValid={isInputValid[input.name]}
             errorMessageText={errors[input.name]}
-            onChange={handleChange} />
+            onChange={handleChange}
+            readOnly={isReadOnly} />
         ))
       }
     </LoginRegisterPage>

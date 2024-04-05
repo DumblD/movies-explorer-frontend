@@ -10,21 +10,8 @@
   font-weight: 400;
   font-size: 13px;
   text-align: center;
-  margin-top: 190px;
 }
 
 .profile__edit-button:hover {
   opacity: .7;
-}
-
-@media screen and (min-width: 620px) and (max-width: 1024px) {
-  .profile__edit-button {
-    margin-top: 180px;
-  }
-}
-
-@media screen and (max-width: 620px) {
-  .profile__edit-button {
-    margin-top: 349px;
-  }
 }

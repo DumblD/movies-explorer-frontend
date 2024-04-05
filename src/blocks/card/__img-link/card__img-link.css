@@ -1,0 +1,4 @@
+.card__img-link {
+  grid-column: 1/3;
+  cursor: pointer;
+}

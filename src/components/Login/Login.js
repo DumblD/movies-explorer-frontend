@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormAndValidation } from './../../utils/customHooks/useFormAndValidation';
 import FormInput from './../FormInput/FormInput';
 import LoginRegisterPage from './../LoginRegisterPage/LoginRegisterPage';
 
-function Login() {
-
+function Login({
+  onLogin,
+  isSubmitLoading,
+  isReadOnly,
+  errorRequestMessage,
+  isInfoMessageActive,
+  hideErrorMessages,
+}) {
+  const infoToolTipStyles = "login-register__info-tool-tip login-register__info-tool-tip_type_login";
+  const readOnlyInputClassName = "login-register__input_type_disabled";
   const inputLabels = [
     {
       name: "E-mail",
@@ -15,8 +23,6 @@ function Login() {
     },
   ]
 
-  // resetForm will be used later
-  // eslint-disable-next-line no-unused-vars
   const { values, handleChange, errors, isInputValid, resetForm, isSubmitButtonActive, getInputNames } = useFormAndValidation();
   const inputElements = [
     {
@@ -25,7 +31,10 @@ function Login() {
       name: "loginEmail",
       className: "login-register__input login-register__input_el_login-email",
       required: true,
-      placeholder: ""
+      placeholder: "",
+      // eslint-disable-next-line no-useless-escape
+      pattern: "[^@]+@[^\.]+\\.[^\.]+[a-zA-Z]{1,4}",
+      title: "email@example.ru",
     },
     {
       id: 2,
@@ -39,6 +48,9 @@ function Login() {
   ];
   const nameInputs = getInputNames(inputElements);
   const navigate = useNavigate();
+  const clearInputs = () => {
+    resetForm();
+  }
   const sectionClassName = "login-register";
   const formName = 'login';
   const formTitle = 'Рады видеть!';
@@ -65,15 +77,23 @@ function Login() {
 
   function handleSubmit(ev) {
     ev.preventDefault();
-    // loginData will be used later
-    // eslint-disable-next-line no-unused-vars
+    hideErrorMessages();
     const loginData = gatherLoginData();
-    // ...
+    onLogin(loginData, clearInputs);
   }
 
   function handleSignUp() {
     navigate('/signup', { replace: true });
   }
+
+  useEffect(() => {
+    const isAuthorized = localStorage.getItem('isAuthorized');
+    if (isAuthorized) {
+      navigate('/', { replace: true });
+    }
+    hideErrorMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <LoginRegisterPage
@@ -85,6 +105,11 @@ function Login() {
       registerContainerSignupText={registerContainerSignupText}
       onRegisterContainerSubmit={handleSignUp}
       loginRegisterButtonText={loginRegisterButtonText}
+      errorRequestMessage={errorRequestMessage}
+      isInfoMessageActive={isInfoMessageActive}
+      hideErrorMessages={hideErrorMessages}
+      infoToolTipStyles={infoToolTipStyles}
+      isSubmitLoading={isSubmitLoading}
     >
       {
         inputElements.map((input, index) => (
@@ -99,7 +124,9 @@ function Login() {
             inputElement={input}
             isInputValid={isInputValid[input.name]}
             errorMessageText={errors[input.name]}
-            onChange={handleChange} />
+            onChange={handleChange}
+            readOnlyInputClassName={readOnlyInputClassName}
+            readOnly={isReadOnly} />
         ))
       }
     </LoginRegisterPage>

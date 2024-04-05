@@ -1,27 +1,44 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useFormAndValidation } from './../../utils/customHooks/useFormAndValidation';
 import Header from './../../components/Header/Header';
 import FormInput from './../FormInput/FormInput';
+import InfoToolTip from './../../components/InfoToolTip/InfoToolTip';
+import { useContext } from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { isInputErrorsNotEmpty } from '../../utils/constants/constants';
 
 function Profile({
+  isSubmitLoading,
+  isFetching,
+  isReadOnly,
+  handleSubmitRequest,
+  getUserInfo,
+  isUpdateUserSuccess,
+  onUpdateUserinfo,
   onLogout,
+  errorRequestMessage,
+  infoRequestMessage,
+  isInfoMessageActive,
+  hideErrorMessages,
+  resetSearchMoviesResults,
 }) {
-  const navigate = useNavigate();
+  const infoToolTipStyle = "profile__info-tool-tip";
+  const infoToolTipTextStyle = "profile__info-tool-tip-text";
+  const submitProfileButtonText = "Сохранить";
+  const [infoToolTipMessage, setInfoToolTipMessage] = useState('');
+  const [isInfoToolTipTextColorGreen, setIsInfoToolTipTextColorGreen] = useState(false);
+  const currentUserInfo = useContext(CurrentUserContext);
   const [currentUser, setCurrentUser] = useState({
-    profileName: 'Виталий',
-    profileEmail: 'pochta@yandex.ru',
+    profileName: '',
+    profileEmail: '',
   });
-  const [isEditing, setIsEditing] = useState('nameField');
   const [profileName, setProfileName] = useState('');
   const [profileEmail, setProfileEmail] = useState('');
   const [inputErrorMessageText, setInputErrorMessageText] = useState('');
 
   const [isProfileChanged, setIsProfileChanged] = useState(false);
-  // resetForm will be used later
-  // eslint-disable-next-line no-unused-vars
-  const { values, handleChange, errors, isInputValid, setValues, resetForm, isSubmitButtonActive, setIsSubmitButtonActive, getInputNames } = useFormAndValidation();
-
+  const [isSubmitActive, setIsSubmitActive] = useState(false);
+  const { values, handleChange, errors, isInputValid, setValues, getInputNames } = useFormAndValidation();
   const inputLabels = [
     {
       name: "Имя",
@@ -38,7 +55,11 @@ function Profile({
       name: "profileName",
       className: "profile__input profile__input_el_profileName",
       required: true,
-      placeholder: ""
+      placeholder: "",
+      minLength: "2",
+      maxLength: "30",
+      pattern: '^[а-яА-ЯёЁa-zA-Z\\- ]+$',
+      title: "Используйте только латиницу, кириллицу, пробелы или дефисы",
     },
     {
       id: 2,
@@ -46,12 +67,16 @@ function Profile({
       name: "profileEmail",
       className: "profile__input profile__input_el_profileEmail",
       required: true,
-      placeholder: ""
+      placeholder: "",
+      // eslint-disable-next-line no-useless-escape
+      pattern: "[^@]+@[^\.]+\\.[^\.]+[a-zA-Z]{1,4}",
+      title: "email@example.ru",
     },
   ];
 
   const sectionClassName = "profile";
   const labelClassName = "profile__label";
+  const readOnlyInputClassName = "profile__input_type_disabled";
 
   const nameInputRef = useRef(null);
   const emailInputRef = useRef(null);
@@ -66,9 +91,17 @@ function Profile({
   }
 
   useEffect(() => {
-    setIsSubmitButtonActive(true);
+    hideErrorMessages();
+    getUserInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!isFetching) {
+      setCurrentUser({ ...currentUser, profileName: currentUserInfo.name, profileEmail: currentUserInfo.email });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserInfo, isFetching]);
 
   useEffect(() => {
     const inputError = getInputError();
@@ -79,44 +112,106 @@ function Profile({
   useEffect(() => {
     setProfileName(currentUser.profileName);
     setProfileEmail(currentUser.profileEmail);
-    setValuesToInputs();
     setIsProfileChanged(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileName, profileEmail, currentUser]);
+  }, [currentUser]);
 
   useEffect(() => {
+    setValuesToInputs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileName, profileEmail]);
+
+  useEffect(() => {
+    if (infoToolTipMessage) {
+      hideErrorMessages();
+    }
     if (values.profileName !== profileName ||
       values.profileEmail !== profileEmail) {
-      setIsProfileChanged(true);
+      setIsSubmitActive(true);
     } else {
-      setIsProfileChanged(false);
+      setIsSubmitActive(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.profileName, values.profileEmail]);
 
+  useEffect(() => {
+    if (isInputErrorsNotEmpty(errors)) {
+      setIsSubmitActive(false);
+    } else {
+      if (values.profileName !== profileName ||
+        values.profileEmail !== profileEmail) {
+        setIsSubmitActive(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
+
+  useEffect(() => {
+    if (isUpdateUserSuccess && infoRequestMessage) {
+      setCurrentUser({ ...currentUser, profileName: values.profileName, profileEmail: values.profileEmail });
+      setProfileName(values.profileName);
+      setProfileEmail(values.profileEmail);
+    } else if (!isUpdateUserSuccess && errorRequestMessage) {
+      setValuesToInputs();
+      setIsProfileChanged(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpdateUserSuccess, errorRequestMessage, infoRequestMessage]);
+
+  useEffect(() => {
+    if (errorRequestMessage) {
+      setInfoToolTipMessage(errorRequestMessage);
+      setIsInfoToolTipTextColorGreen(false);
+    } else if (infoRequestMessage) {
+      setInfoToolTipMessage(infoRequestMessage);
+      setIsInfoToolTipTextColorGreen(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorRequestMessage, infoRequestMessage]);
+
+  function handleClick() {
+    if (nameInputRef.current.focus) {
+      if (!isProfileChanged) {
+        setIsProfileChanged(true);
+      }
+    } else if (emailInputRef.current.focus) {
+      if (!isProfileChanged) {
+        setIsProfileChanged(true);
+      }
+    }
+  }
+
+  function onUpdateUser() {
+    return onUpdateUserinfo({
+      name: values.profileName,
+      email: values.profileEmail
+    });
+  }
+
   function onSaveSubmit(ev) {
     ev.preventDefault();
-    setCurrentUser({ ...currentUser, profileName: values.profileName, profileEmail: values.profileEmail })
-    setProfileName(values.profileName);
-    setProfileEmail(values.profileEmail);
+    hideErrorMessages();
+    handleSubmitRequest(onUpdateUser);
   }
 
   function onEdit(ev) {
     ev.preventDefault();
-    if (isEditing === 'nameField') {
-      nameInputRef.current.focus();
-      setIsEditing('emailField');
-    }
-    if (isEditing === 'emailField') {
-      emailInputRef.current.focus();
-      setIsEditing('nameField');
+    hideErrorMessages();
+    nameInputRef.current.focus();
+    setIsProfileChanged(true);
+    if (values.profileName !== profileName ||
+      values.profileEmail !== profileEmail) {
+      setIsSubmitActive(true);
+    } else {
+      setIsSubmitActive(false);
     }
   }
 
   function handleLogout(ev) {
     ev.preventDefault();
+    resetSearchMoviesResults();
+    localStorage.clear();
     onLogout();
-    navigate('/', { replace: true });
   }
 
   function getInputError() {
@@ -158,12 +253,22 @@ function Profile({
                   inputRef={inputRefs[input.name]}
                   labelClassName={labelClassName}
                   isNoSpanErrors={true}
+                  readOnlyInputClassName={readOnlyInputClassName}
+                  readOnly={isReadOnly}
+                  onClick={handleClick}
                 />
               ))
             }
             <span className="profile__input-span-error">{inputErrorMessageText}</span>
+            <InfoToolTip
+              isActive={isInfoMessageActive}
+              infoMessage={infoToolTipMessage}
+              additionalInfoClassStyles={infoToolTipStyle}
+              additionalInfotextStyles={infoToolTipTextStyle}
+              isTextColorGreen={isInfoToolTipTextColorGreen}
+            />
             {!isProfileChanged && <button aria-label="редактировать" type="button" onClick={onEdit} className="profile__edit-button">Редактировать</button>}
-            {isProfileChanged && <button aria-label="сохранить" type="submit" disabled={!isSubmitButtonActive} className={`profile__save-button ${isSubmitButtonActive ? '' : 'profile__save-button_disabled'}`}>Сохранить</button>}
+            {isProfileChanged && <button aria-label="сохранить" type="submit" disabled={!isSubmitActive} className={`profile__save-button ${isSubmitActive ? '' : 'profile__save-button_disabled'}`}>{isSubmitLoading ? `${submitProfileButtonText}…` : submitProfileButtonText}</button>}
           </form>
         </section>
       </main>

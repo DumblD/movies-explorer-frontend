@@ -2,12 +2,12 @@
   margin: 0 auto;
   max-width: 1140px;
   width: 100%;
-  padding: 71px 0 10px;
+  padding-bottom: 10px;
 }
 
 @media screen and (min-width: 748px) and (max-width: 1024px) {
   .movies-cards {
-    padding: 69px 0 30px;
+    padding-bottom: 30px;
   }
 }
 
@@ -19,6 +19,6 @@
 
 @media screen and (max-width: 520px) {
   .movies-cards {
-    padding: 40px 0 25px;
+    padding-bottom: 25px;
   }
 }
