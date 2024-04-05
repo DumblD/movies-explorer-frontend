@@ -1,6 +1,6 @@
 {
   "name": "movies-explorer-frontend",
-  "homepage": "https://movies-search.nomoredomains.xyz",
+  "homepage": "https://movies-explorer.xyz",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
