@@ -63,7 +63,7 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  baseUrl: 'https://api.movies-search.nomoredomains.xyz',
+  baseUrl: 'https://api.movies-explorer.xyz',
   headers: {
     'Content-Type': 'application/json'
   }
