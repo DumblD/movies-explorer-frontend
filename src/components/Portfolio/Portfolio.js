@@ -18,8 +18,13 @@ function Portfolio() {
           itemClassName={"portfolio__item-adaptive-site"}
         />
         <PortfolioItem
+          link={"https://mesto-project.xyz/"}
+          linkName={"Одностраничное приложение Mesto"}
+          itemClassName={"portfolio__item-single-page-application"}
+        />
+        <PortfolioItem
           link={"https://movies-explorer.xyz/"}
-          linkName={"Одностраничное приложение"}
+          linkName={"Одностраничное приложение Movies explorer"}
           itemClassName={"portfolio__item-single-page-application"}
         />
       </ul>
