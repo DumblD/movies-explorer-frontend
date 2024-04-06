@@ -19,12 +19,12 @@ function Portfolio() {
         />
         <PortfolioItem
           link={"https://mesto-project.xyz/"}
-          linkName={"Одностраничное приложение Mesto"}
+          linkName={"SPA Mesto"}
           itemClassName={"portfolio__item-single-page-application"}
         />
         <PortfolioItem
           link={"https://movies-explorer.xyz/"}
-          linkName={"Одностраничное приложение Movies explorer"}
+          linkName={"SPA Movies explorer"}
           itemClassName={"portfolio__item-single-page-application"}
         />
       </ul>
