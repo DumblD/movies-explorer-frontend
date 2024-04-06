@@ -1,0 +1,14 @@
+.about-me__github-link {
+  margin: 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  align-self: flex-end;
+  cursor: pointer;
+  transition: opacity .4s;
+  text-decoration: none;
+}
+
+.about-me__github-link:hover {
+  opacity: .7;
+}
