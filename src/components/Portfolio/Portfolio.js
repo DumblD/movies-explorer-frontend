@@ -23,7 +23,7 @@ function Portfolio() {
           itemClassName={"portfolio__item-single-page-application"}
         />
         <PortfolioItem
-          link={"https://movies-explorer.xyz/signin"}
+          link={"https://movies-explorer.xyz/signin/"}
           linkName={"SPA Movies explorer"}
           itemClassName={"portfolio__item-single-page-application"}
         />
