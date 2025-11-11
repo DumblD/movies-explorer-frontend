@@ -10,9 +10,8 @@ function AboutMe() {
       <div className="about-me__content">
         <div className="about-me__info">
           <h3 className="about-me__name">Артем</h3>
-          <h4 className="about-me__major-in">Фронтенд-разработчик</h4>
-          <p className="about-me__description">Кодить нравится. Люблю котиков. Ищу стажировку / 
-          работу в сфере web-разработки.</p>
+          <h4 className="about-me__major-in">Веб-разработчик</h4>
+          <p className="about-me__description">Кодить нравится. Ищу стажировку / работу в сфере веб-разработки.</p>
           <a href="https://github.com/DumblD" className="about-me__github-link" target="_blank" rel="noreferrer">Github</a>
         </div>
         <div className="about-me__photo">
