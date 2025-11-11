@@ -8,7 +8,7 @@ function Portfolio() {
       <h2 className="portfolio__title">Портфолио</h2>
       <ul className="portfolio__list">
         <PortfolioItem
-          link={"https://how-to-learn.byethost16.com/"}
+          link={"https://how-to-learn.free.nf/"}
           linkName={"Статичный сайт"}
           itemClassName={"portfolio__item-static-site"}
         />
@@ -18,7 +18,7 @@ function Portfolio() {
           itemClassName={"portfolio__item-adaptive-site"}
         />
         <PortfolioItem
-          link={"https://mesto-project.xyz/"}
+          link={"https://mestoproject.ru/"}
           linkName={"SPA Mesto"}
           itemClassName={"portfolio__item-single-page-application"}
         />
